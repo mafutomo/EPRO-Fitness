@@ -4,16 +4,19 @@ var data = d3.csv("non_hormonal_bc.csv", function(err, data){
   if (err) {
     return console.log(err);
   }
-  console.log(data[5].day);
   generate(data);
+  console.log(data);
+  console.log(data.length);
 })
+
+var n = 2, // The number of series.
+    m = 28; // The number of values per series.
 
 function generate(data){
   var chart_width     =   800;
   var chart_height    =   400;
   var padding         =   50;
   var barPadding = 2;
-  console.log(data[2].day);
 
   // Create SVG Element
   var svg  =  d3.select( '#chart' )
@@ -22,9 +25,14 @@ function generate(data){
       .attr( 'height', chart_height );
 
   // Create Scales
-  var x_scale = d3.scaleLinear()
-      .domain([0, 28])
-      .range([ padding, chart_width - padding ]);
+  var x_scale = d3.scaleBand()
+    .domain(d3.range(data.length))
+    .rangeRound([padding, chart_width-padding])
+    .paddingInner(0.05)
+
+  // var x_scale = d3.scaleLinear()
+  //     .domain([0, 28])
+  //     .range([ padding, chart_width - padding ])
 
   var y_scaleLeft = d3.scaleLinear()
       .domain([ 0, 400])
@@ -49,6 +57,7 @@ function generate(data){
   //create axis
   var xAxis = d3.axisBottom()
     .scale(x_scale)
+    .ticks(28)
 
   var yAxisLeft = d3.axisLeft()
     .scale(y_scaleLeft)
@@ -82,16 +91,22 @@ function generate(data){
     .data(data)
     .enter()
     .append("rect")
-    .attr('x', function(d, i){
-    return i * (chart_width/data.length) + padding;
-  })
+    .attr( 'x', function( d, i ){
+        return x_scale(i);
+    })
+  //   .attr('x', function(d, i){
+  //   return i * ((chart_width - padding*2)/data.length) + padding;
+  // })
   .attr('y', function(d){
     return chart_height - d.estrogen - padding;
   })
-  .attr("width", chart_width/data.length - barPadding)
+  // .attr("width", 5)
+  .attr( 'width', x_scale.bandwidth() )
+  // .attr("width", (chart_width - padding )/data.length - barPadding)
   .attr("height", function(d){
     return d.estrogen;
   })
+  .attr("fill", "#7ED26D")
 }
 
 
