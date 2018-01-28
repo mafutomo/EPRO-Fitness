@@ -1,35 +1,46 @@
-import React from 'react';
+import React, {Component} from 'react';
 import AppBar from 'material-ui/AppBar';
-// import LeftNav from 'material-ui/left-nav';
 import Drawer from 'material-ui/Drawer';
 import MenuItem from 'material-ui/MenuItem';
 import FlatButton from 'material-ui/FlatButton';
 import RaisedButton from 'material-ui/RaisedButton';
 
-const Navbar = ({open, handleToggle}) => {
+class Navbar extends Component {
 
-  return (
-    <div>
+  constructor(props) {
+    super(props);
+    this.state = {
+      open: false
+    }
+  }
 
-    <AppBar
-   title="Title"
-   iconClassNameRight="muidocs-icon-navigation-expand-more"
-    />
+  handleToggle = () => this.setState({open: !this.state.open});
 
-       <FlatButton
-          label="Toggle Drawer"
-         onClick={this.handleToggle}
-        />
+  handleClose = () => this.setState({open: false});
 
-       <Drawer open={this.state.open}>
-         <MenuItem>Home</MenuItem>
-         <MenuItem>Account</MenuItem>
-         <MenuItem>User Base</MenuItem>
-         <MenuItem>Logout</MenuItem>
-       </Drawer>
+  render() {
+    return (
+          <div>
 
-    </div>
-  )
+              <AppBar
+                  onClick={this.handleToggle}
+                  iconClassNameRight="muidocs-icon-navigation-expand-more"
+              />
+
+              <Drawer
+                  docked={false}
+                  width={200}
+                  open={this.state.open}
+                  onRequestChange={(open) => this.setState({open})}>
+
+                <MenuItem>Home</MenuItem>
+                <MenuItem>Account</MenuItem>
+                <MenuItem>User Base</MenuItem>
+                <MenuItem>Logout</MenuItem>
+              </Drawer>
+        </div>
+      )
+  }
 }
 
 

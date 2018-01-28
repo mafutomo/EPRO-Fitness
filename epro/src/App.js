@@ -8,7 +8,6 @@ import Main from './components/main.js'
 import Navbar from './components/navbar.js'
 import Userbase from './components/userbase.js'
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
-
 import {
   BrowserRouter as Router,
   Route,
@@ -18,15 +17,8 @@ import {
 class App extends Component {
 
   constructor(props) {
-    super(props);
-    this.state = {
-      open: false
-    }
+    super(props)
   }
-
-  handleToggle = () => {
-    this.setState({open: !this.state.open})
-  };
 
   render() {
     return (
@@ -34,9 +26,7 @@ class App extends Component {
 
         <MuiThemeProvider>
 
-        <Navbar
-          open = {this.state.open}
-          handleToggle = {this.handleToggle}/>
+        <Navbar/>
         <Account/>
         <Hormones/>
         <Login/>
@@ -44,7 +34,6 @@ class App extends Component {
         <Userbase/>
 
         </MuiThemeProvider>
-
 
       </div>
     );
