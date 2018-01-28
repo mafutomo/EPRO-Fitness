@@ -3,6 +3,7 @@ import TextField from 'material-ui/TextField';
 import Slider from 'material-ui/Slider';
 import DatePicker from 'material-ui/DatePicker';
 import Checkbox from 'material-ui/Checkbox';
+import RaisedButton from 'material-ui/RaisedButton';
 import {
   Table,
   TableBody,
@@ -17,6 +18,10 @@ const styles = {
     width: 200,
   },
 };
+
+const style = {
+  margin: 12,
+  };
 
 class Account extends Component {
 
@@ -88,25 +93,28 @@ class Account extends Component {
         </TableHeader>
         <TableBody>
           <TableRow>
-            <TableRowColumn>Non Hormonal</TableRowColumn>
-            <TableRowColumn style={{whiteSpace: 'normal', wordWrap: 'break-word'}}>None, Condoms, Paraguard/CopperIUD</TableRowColumn>
+            <TableRowColumn style={{whiteSpace: 'normal', wordWrap: 'break-word', width:'40%'}}>Non Hormonal</TableRowColumn>
+            <TableRowColumn style={{whiteSpace: 'normal', wordWrap: 'break-word', width:'60%'}}>None, Condoms, Paraguard/CopperIUD</TableRowColumn>
           </TableRow>
           <TableRow>
-            <TableRowColumn>Triphasic</TableRowColumn>
-            <TableRowColumn style={{whiteSpace: 'normal', wordWrap: 'break-word'}}>Combination Birth Contol Pill - Varied Amount
-, Ortho Tricyclen</TableRowColumn>
+            <TableRowColumn style={{whiteSpace: 'normal', wordWrap: 'break-word', width:'40%'}}>Triphasic</TableRowColumn>
+            <TableRowColumn style={{whiteSpace: 'normal', wordWrap: 'break-word', width:'60%'}}>Combination Birth Contol Pill - Varied Amount
+            , Ortho Tricyclen</TableRowColumn>
           </TableRow>
           <TableRow>
-            <TableRowColumn>Monophasic</TableRowColumn>
-            <TableRowColumn style={{whiteSpace: 'normal', wordWrap: 'break-word'}}>Combination Birth Contol Pill - Same Amount
-, Levora </TableRowColumn>
+            <TableRowColumn style={{whiteSpace: 'normal', wordWrap: 'break-word', width:'40%'}}>Monophasic</TableRowColumn>
+            <TableRowColumn style={{whiteSpace: 'normal', wordWrap: 'break-word', width:'60%'}}>Combination Birth Contol Pill - Same Amount
+            , Levora </TableRowColumn>
           </TableRow>
           <TableRow>
-            <TableRowColumn>Progestins</TableRowColumn>
-            <TableRowColumn style={{whiteSpace: 'normal', wordWrap: 'break-word'}}>Mirena IUD, Skyla, Mini Pill, Depo Shot, The Ring</TableRowColumn>
+            <TableRowColumn style={{whiteSpace: 'normal', wordWrap: 'break-word', width:'40%'}}>Progestins</TableRowColumn>
+            <TableRowColumn style={{whiteSpace: 'normal', wordWrap: 'break-word', width:'60%'}}>Mirena IUD, Skyla, Mini Pill, Depo Shot, The Ring</TableRowColumn>
           </TableRow>
         </TableBody>
       </Table>
+
+      <RaisedButton label="Cancel" secondary={true} style={style} />
+      <RaisedButton label="Submit" primary={true} style={style} />
 
         </div>
       )
