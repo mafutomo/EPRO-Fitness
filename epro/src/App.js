@@ -17,14 +17,16 @@ import {
 
 class App extends Component {
 
-  // constructor(props){
-    // super(props){
-    //   this.state = {
-    //
-    //   }
-    //
-    //   }
-    // }
+  constructor(props) {
+    super(props);
+    this.state = {
+      open: false
+    }
+  }
+
+  handleToggle = () => {
+    this.setState({open: !this.state.open})
+  };
 
   render() {
     return (
@@ -32,7 +34,9 @@ class App extends Component {
 
         <MuiThemeProvider>
 
-        <Navbar/>
+        <Navbar
+          open = {this.state.open}
+          handleToggle = {this.handleToggle}/>
         <Account/>
         <Hormones/>
         <Login/>
@@ -41,7 +45,7 @@ class App extends Component {
 
         </MuiThemeProvider>
 
-      
+
       </div>
     );
   }
