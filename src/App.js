@@ -11,7 +11,8 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import {
   BrowserRouter as Router,
   Route,
-  Link
+  Link,
+  Switch,
 } from 'react-router-dom'
 
 class App extends Component {
@@ -20,22 +21,46 @@ class App extends Component {
     super(props)
   }
 
+
   render() {
     return (
-      <div className="App">
+      <Router>
+        <div className="App">
 
-        <MuiThemeProvider>
+          <MuiThemeProvider>
 
-        <Navbar/>
-        <Account/>
-        <Hormones/>
-        <Login/>
-        <Main/>
-        <Userbase/>
+          <Navbar/>
 
-        </MuiThemeProvider>
+          <Switch>
+            <Route
+              exact path="/"
+              render= {() => (
+                <div>
+                  <Hormones/>
+                </div>
+                )
+              }/>
+            <Route
+              exact path="/login"
+              render= {() => (
+                <div>
+                  <Login/>
+                </div>
+                )
+              }/>
+              
+          </Switch>
 
-      </div>
+          {/* <Account/>
+          <Hormones/>
+          <Login/>
+          <Main/>
+          <Userbase/> */}
+
+          </MuiThemeProvider>
+
+        </div>
+      </Router>
     );
   }
 }
