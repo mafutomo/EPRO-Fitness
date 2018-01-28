@@ -5,13 +5,14 @@
   margin: 25px auto;
 }
 
-body {
+/*body {
   font: 10px sans-serif;
-}
-.y.axisRight text {
+}*/
+.axisRight text {
+  font-size: 24px;
     fill: orange;
 }
-.y.axisLeft text {
+.axisLeft text {
     fill: steelblue;
 }
 .axis path,
@@ -26,6 +27,6 @@ body {
 .bar2 {
   fill: orange;
 }
-.x.axis path {
+.x-axis path {
   display: none;
 }

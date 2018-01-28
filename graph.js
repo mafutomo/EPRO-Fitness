@@ -44,30 +44,35 @@ var svg = d3.select("#chart").append("svg")
    y1.domain([0, d3.max(data, function(d) { return d.progesterone; })]);
 
   svg.append("g")
-      .attr("class", "x axis")
+      .classed("x-axis", true)
       .attr("transform", "translate(0," + height + ")")
       .call(xAxis);
-  svg.append("g")
-	  .attr("class", "y axis axisLeft")
-	  .attr("transform", "translate(0,0)")
-	  .call(yAxisLeft)
-	  .append("text")
-	  .attr("y", 6)
-	  .attr("dy", "-2em")
-	  .style("text-anchor", "end")
-	  .style("text-anchor", "end")
-	  .text("Estrogen(pg/ml)");
 
   svg.append("g")
-	  .attr("class", "y axis axisRight")
+    .classed("axisLeft", true)
+	  .attr("transform", "translate(0,0)")
+	  .call(yAxisLeft)
+	  // .append("text")
+	  // .attr("y", 6)
+	  // .attr("dy", "-2em")
+	  // .style("text-anchor", "end")
+	  // .style("text-anchor", "end")
+	  // .text("Estrogen(pg/ml)");
+
+  svg.append("g")
+    .classed("axisRight", true)
 	  .attr("transform", "translate(" + (width) + ",0)")
 	  .call(yAxisRight)
-	  .append("text")
-	  .attr("y", 6)
-	  .attr("dy", "-2em")
-	  .attr("dx", "2em")
-	  .style("text-anchor", "end")
-	  .text("Progesterone(ng/ml)");
+	  // .append("text")
+	  // .attr("y", 6)
+	  // .attr("dy", "-2em")
+	  // .attr("dx", "2em")
+	  // .style("text-anchor", "end")
+	  // .text("Progesterone(ng/ml)");
+
+  svg.selectAll(".axisRight")
+    .append("text")
+    .text("Progesterone(ng/ml)");
 
   var bars = svg.selectAll(".bar").data(data).enter();
   bars.append("rect")
@@ -76,7 +81,7 @@ var svg = d3.select("#chart").append("svg")
       .attr("width", x.bandwidth()/2)
       .attr("y", function(d) { return y0(d.estrogen); })
 	    .attr("height", function(d,i,j) { return height - y0(d.estrogen); })
-      .attr("fill", "#6BBAA7");
+      .attr("fill", "#a15d54");
   bars.append("rect")
       .attr("class", "bar2")
       .attr("x", function(d) { return x(d.day) + x.bandwidth()/2; })
@@ -84,5 +89,5 @@ var svg = d3.select("#chart").append("svg")
       .attr("y", function(d) { return y1(d.progesterone); })
       .attr("height", function(d,i,j) { return height - y1(d.progesterone);
    })
-      .attr("fill", "#FBA100");;
+      .attr("fill", "#6b476c");;
  })
