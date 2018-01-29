@@ -76,8 +76,8 @@ var svg = d3.select("#chart").append("svg")
     .attr("x", 0)
     .attr("y", 0)
     .style("text-anchor", "middle")
-    .attr("transform", "translate(" + width/2 + ", 50)")
-    .text("Your Cycle");
+    .attr("transform", "translate(" + width/2 + ", 60)")
+    .text("Day ___");
 
   var bars = svg.selectAll(".bar").data(data).enter();
   bars.append("rect")
@@ -102,9 +102,9 @@ var svg = d3.select("#chart").append("svg")
     .attr("height", 100)
     .attr("width", 500)
 
-  var states = ['Beginning of Cycle', 'Today', 'End of Cycle'],
-    segmentWidth = 100,
-    currentState = 'Beginning of Cycle';
+  var states = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20', '21', '22', '23', '24', '25', '26', '27', '28'],
+    segmentWidth = 800 - margin.left - margin.right,
+    currentState = '21';
 
   var colorScale = d3.scaleOrdinal()
     .domain(states)
@@ -132,10 +132,10 @@ var svg = d3.select("#chart").append("svg")
 
 	progress.transition()
 		.duration(1000)
-		.attr('width', function(){
-			var index = states.indexOf(currentState);
-			return (index + 1) * segmentWidth;
-		});
+    .attr('width', function(){
+      var index = states.indexOf(currentState);
+      return segmentWidth * ((index + 1)/states.length);
+    })
 
 	function moveProgressBar(state){
 		progress.transition()

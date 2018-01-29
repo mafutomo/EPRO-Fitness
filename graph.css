@@ -28,7 +28,7 @@ body {
 
 .x-axis{
   fill: #484043;
-  font-size: 12px;
+  /*font-size: 12px;*/
 }
 .axis path,
 .axis line {
@@ -44,4 +44,8 @@ body {
 }
 .x-axis path {
   display: none;
+}
+
+.x-axis text {
+  font-size: 14px;
 }
