@@ -12,6 +12,10 @@ class Login extends Component {
     super(props);
   }
 
+  loginUser = async (email, password) => {
+    const response = await fetch ()
+  }
+
   render() {
     return (
       <div>
