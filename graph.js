@@ -96,17 +96,57 @@ var svg = d3.select("#chart").append("svg")
    })
       .attr("fill", "#52BFAB");;
 
-  // var circle = svg.selectAll(".circle")
-  //     .data(data)
-  //     .enter();
+//progess bar
+  svg.select("#chart")
+    .append('svg')
+    .attr("height", 100)
+    .attr("width", 500)
 
-  svg.selectAll("circle")
-      .classed("circle", true)
-      .append("circle")
-      .attr("cx", 100)
-      .attr("width", x.bandwidth())
-      .attr("cy", 100)
-      .attr("height", 10)
-      .attr("fill", "#000")
-      .attr("r", 10)
+  var states = ['Beginning of Cycle', 'Today', 'End of Cycle'],
+    segmentWidth = 100,
+    currentState = 'Beginning of Cycle';
+
+  var colorScale = d3.scaleOrdinal()
+    .domain(states)
+    .range((['yellow', 'orange', 'green']))
+
+  svg.append('rect')
+		.attr('class', 'bg-rect')
+		.attr('rx', 10)
+		.attr('ry', 10)
+		.attr('fill', 'gray')
+		.attr('height', 15)
+		.attr('width', width)
+		.attr('x', 0)
+    .attr('y', 262);
+
+	var progress = svg.append('rect')
+					.attr('class', 'progress-rect')
+					.attr('fill', "#fba100")
+					.attr('height', 15)
+					.attr('width', width)
+					.attr('rx', 10)
+					.attr('ry', 10)
+					.attr('x', 0)
+          .attr('y', 262);
+
+	progress.transition()
+		.duration(1000)
+		.attr('width', function(){
+			var index = states.indexOf(currentState);
+			return (index + 1) * segmentWidth;
+		});
+
+	function moveProgressBar(state){
+		progress.transition()
+			.duration(1000)
+			.attr('fill', function(){
+				return colorScale(state);
+			})
+			.attr('width', function(){
+				var index = states.indexOf(state);
+				return (index + 1) * segmentWidth;
+			});
+   }
+
  })
