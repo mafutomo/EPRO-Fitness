@@ -29,11 +29,16 @@ class Account extends Component {
     this.state = {
       secondSlider: 21,
       checked: false,
+      thirdSlider: 12,
     }
   }
 
   handleSecondSlider = (event, value) => {
       this.setState({secondSlider: value});
+    };
+
+  handleThirdSlider = (event, value) => {
+      this.setState({thirdSlider: value});
     };
 
   updateCheck() {
@@ -81,10 +86,20 @@ class Account extends Component {
           onChange={this.handleSecondSlider}
         />
         <DatePicker hintText="Day of Last Period" />
-        <TextField
-         floatingLabelText="Date of Birth"
-         hintText="01/01/1991"
-        /><br />
+        <br />
+
+        <p>
+          <span>{'Age: '}</span>
+          <span>{`${this.state.thirdSlider}`}</span>
+        </p>
+        <Slider
+          min={12}
+          max={99}
+          step={1}
+          style={{margin:35}}
+          value={this.state.thirdSlider}
+          onChange={this.handleThirdSlider}
+        />
         <br />
 
             <Table>
