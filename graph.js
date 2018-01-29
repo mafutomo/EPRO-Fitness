@@ -1,7 +1,17 @@
+
 var margin = {top: 80, right: 80, bottom: 80, left: 80},
     width = 800 - margin.left - margin.right,
     height = 400 - margin.top - margin.bottom;
 
+//find today's date
+var today = moment().format('MMMM Do YYYY');
+console.log(today);
+
+//find how many days have elapsed since last period
+var daysAgo = moment("20180109", "YYYYMMDD").fromNow();
+console.log(daysAgo);
+
+//create scales
 var x = d3.scaleBand()
     .range([0, width], .1);
 
@@ -101,6 +111,11 @@ var svg = d3.select("#chart").append("svg")
     .append('svg')
     .attr("height", 100)
     .attr("width", 500)
+
+  // var userCycle = randomNumber;
+  //
+  // var states = userCycle.map
+
 
   var states = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20', '21', '22', '23', '24', '25', '26', '27', '28'],
     segmentWidth = 800 - margin.left - margin.right,
