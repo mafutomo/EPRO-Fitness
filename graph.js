@@ -6,10 +6,8 @@ var x = d3.scaleBand()
     .range([0, width], .1);
 
 var y0 = d3.scaleLinear()
-  .domain([300, 1100])
   .range([height, 0]),
 y1 = d3.scaleLinear()
-  .domain([20, 80])
   .range([height, 0]);
 
 var xAxis = d3.axisBottom()
@@ -30,7 +28,6 @@ var svg = d3.select("#chart").append("svg")
     .attr("width", width + margin.left + margin.right)
     .attr("height", height + margin.top + margin.bottom)
     .append("g")
-    .attr("class", "graph")
     .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
  var data = d3.csv("non_hormonal_bc.csv", function(err, data){
@@ -51,28 +48,36 @@ var svg = d3.select("#chart").append("svg")
   svg.append("g")
     .classed("axisLeft", true)
 	  .attr("transform", "translate(0,0)")
-	  .call(yAxisLeft)
-	  // .append("text")
-	  // .attr("y", 6)
-	  // .attr("dy", "-2em")
-	  // .style("text-anchor", "end")
-	  // .style("text-anchor", "end")
-	  // .text("Estrogen(pg/ml)");
+	  .call(yAxisLeft);
 
   svg.append("g")
     .classed("axisRight", true)
 	  .attr("transform", "translate(" + (width) + ",0)")
-	  .call(yAxisRight)
-	  // .append("text")
-	  // .attr("y", 6)
-	  // .attr("dy", "-2em")
-	  // .attr("dx", "2em")
-	  // .style("text-anchor", "end")
-	  // .text("Progesterone(ng/ml)");
+	  .call(yAxisRight);
 
-  svg.selectAll(".axisRight")
+  svg.select(".axisRight")
     .append("text")
+    .attr("x", 0)
+    .attr("y", 0)
+    .style("text-anchor", "middle")
+    .attr("transform", "translate(50," + height/2 + ") rotate(90)")
     .text("Progesterone(ng/ml)");
+
+  svg.select(".axisLeft")
+    .append("text")
+    .attr("x", 0)
+    .attr("y", 0)
+    .style("text-anchor", "middle")
+    .attr("transform", "translate(-50," + height/2 + ") rotate(-90)")
+    .text("Estrogen(pg/ml)");
+
+  svg.select(".x-axis")
+    .append("text")
+    .attr("x", 0)
+    .attr("y", 0)
+    .style("text-anchor", "middle")
+    .attr("transform", "translate(" + width/2 + ", 50)")
+    .text("Your Cycle");
 
   var bars = svg.selectAll(".bar").data(data).enter();
   bars.append("rect")
@@ -81,7 +86,7 @@ var svg = d3.select("#chart").append("svg")
       .attr("width", x.bandwidth()/2)
       .attr("y", function(d) { return y0(d.estrogen); })
 	    .attr("height", function(d,i,j) { return height - y0(d.estrogen); })
-      .attr("fill", "#a15d54");
+      .attr("fill", "#484043");
   bars.append("rect")
       .attr("class", "bar2")
       .attr("x", function(d) { return x(d.day) + x.bandwidth()/2; })
@@ -89,5 +94,19 @@ var svg = d3.select("#chart").append("svg")
       .attr("y", function(d) { return y1(d.progesterone); })
       .attr("height", function(d,i,j) { return height - y1(d.progesterone);
    })
-      .attr("fill", "#6b476c");;
+      .attr("fill", "#52BFAB");;
+
+  // var circle = svg.selectAll(".circle")
+  //     .data(data)
+  //     .enter();
+
+  svg.selectAll("circle")
+      .classed("circle", true)
+      .append("circle")
+      .attr("cx", 100)
+      .attr("width", x.bandwidth())
+      .attr("cy", 100)
+      .attr("height", 10)
+      .attr("fill", "#000")
+      .attr("r", 10)
  })

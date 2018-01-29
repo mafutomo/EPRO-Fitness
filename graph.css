@@ -5,15 +5,21 @@
   margin: 25px auto;
 }
 
-/*body {
+body {
   font: 10px sans-serif;
-}*/
+}
 .axisRight text {
-  font-size: 24px;
-    fill: orange;
+    fill: #52BFAB;
+    font-size: 14px;
 }
 .axisLeft text {
-    fill: steelblue;
+    fill: #484043;
+    font-size: 14px;
+}
+
+.x-axis{
+  fill: #484043;
+  font-size: 12px;
 }
 .axis path,
 .axis line {
@@ -22,10 +28,10 @@
   shape-rendering: crispEdges;
 }
 .bar1 {
-  fill: steelblue;
+  /*fill: steelblue;*/
 }
 .bar2 {
-  fill: orange;
+  /*fill: orange;*/
 }
 .x-axis path {
   display: none;
