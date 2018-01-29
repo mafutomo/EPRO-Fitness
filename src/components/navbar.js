@@ -54,7 +54,6 @@ class Navbar extends Component {
                 <MenuItem style={{fontFamily: 'Julius Sans One'}}>User Base</MenuItem>
                 </Link>
 
-
                 <Link to={`/login`}>
                 <MenuItem style={{fontFamily: 'Julius Sans One'}}>Logout</MenuItem>
                 </Link>
