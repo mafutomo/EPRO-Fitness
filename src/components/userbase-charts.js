@@ -444,8 +444,8 @@ document.addEventListener("DOMContentLoaded", function() {
     return chart;
   }
 
-  drawUsersByAge();
-  drawContraceptionMethodsByFrequency();
-  drawContraceptionByAge();
+  // drawUsersByAge();
+  // drawContraceptionMethodsByFrequency();
+  // drawContraceptionByAge();
 
 })
