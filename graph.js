@@ -96,7 +96,15 @@ var svg = d3.select("#chart").append("svg")
       .attr("width", x.bandwidth()/2)
       .attr("y", function(d) { return y0(d.estrogen); })
 	    .attr("height", function(d,i,j) { return height - y0(d.estrogen); })
-      .attr("fill", "#484043");
+      .attr("fill", "#484043")
+      .on("mouseover", function() { tooltip.style("display", null); })
+    .on("mouseout", function() { tooltip.style("display", "none"); })
+    .on("mousemove", function(d) {
+      var xPosition = d3.mouse(this)[0] - 15;
+      var yPosition = d3.mouse(this)[1] - 25;
+      tooltip.attr("transform", "translate(" + xPosition + "," + yPosition + ")");
+      tooltip.select("text").text('estrogen');
+    });
   bars.append("rect")
       .attr("class", "bar2")
       .attr("x", function(d) { return x(d.day) + x.bandwidth()/2; })
@@ -104,7 +112,15 @@ var svg = d3.select("#chart").append("svg")
       .attr("y", function(d) { return y1(d.progesterone); })
       .attr("height", function(d,i,j) { return height - y1(d.progesterone);
    })
-      .attr("fill", "#52BFAB");;
+      .attr("fill", "#52BFAB")
+      .on("mouseover", function() { tooltip.style("display", null); })
+      .on("mouseout", function() { tooltip.style("display", "none"); })
+      .on("mousemove", function(d) {
+        var xPosition = d3.mouse(this)[0] - 15;
+        var yPosition = d3.mouse(this)[1] - 25;
+        tooltip.attr("transform", "translate(" + xPosition + "," + yPosition + ")");
+        tooltip.select("text").text('progesterone');
+      });
 
 //progess bar
   svg.select("#chart")
@@ -165,3 +181,21 @@ var svg = d3.select("#chart").append("svg")
    }
 
  })
+
+ // Prep the tooltip bits, initial display is hidden
+ var tooltip = svg.append("g")
+   .attr("class", "tooltip")
+   .style("display", "none");
+
+ tooltip.append("rect")
+   .attr("width", 30)
+   .attr("height", 20)
+   .attr("fill", "white")
+   .style("opacity", 0.5);
+
+ tooltip.append("text")
+   .attr("x", 15)
+   .attr("dy", "1.2em")
+   .style("text-anchor", "middle")
+   .attr("font-size", "12px")
+   .attr("font-weight", "bold");
