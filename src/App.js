@@ -4,7 +4,6 @@ import './App.css';
 import Account from './components/account.js'
 import Hormones from './components/hormones.js'
 import Login from './components/login.js'
-import Main from './components/main.js'
 import Navbar from './components/navbar.js'
 import Userbase from './components/userbase.js'
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
@@ -48,14 +47,35 @@ class App extends Component {
                 </div>
                 )
               }/>
-              
-          </Switch>
 
-          {/* <Account/>
-          <Hormones/>
-          <Login/>
-          <Main/>
-          <Userbase/> */}
+            <Route
+            exact path="/account"
+            render= {() => (
+              <div>
+                <Account/>
+              </div>
+            )}
+            />
+
+            <Route
+            exact path="/hormones"
+            render= {() => (
+              <div>
+                <Hormones/>
+              </div>
+            )}
+            />
+
+            <Route
+            exact path="/userbase"
+            render= {() => (
+              <div>
+                <Userbase/>
+              </div>
+            )}
+            />
+
+          </Switch>
 
           </MuiThemeProvider>
 

@@ -2,7 +2,6 @@ import React, {Component} from 'react';
 import TextField from 'material-ui/TextField';
 import Slider from 'material-ui/Slider';
 import DatePicker from 'material-ui/DatePicker';
-import Checkbox from 'material-ui/Checkbox';
 import RaisedButton from 'material-ui/RaisedButton';
 import {
   Table,
@@ -47,7 +46,10 @@ class Account extends Component {
 
   render() {
       return (
+
         <div style={styles.block}>
+
+          <p className="title-app">Account</p>
 
         <TextField
          floatingLabelText="First Name"
@@ -83,6 +85,7 @@ class Account extends Component {
          floatingLabelText="Date of Birth"
          hintText="01/01/1991"
         /><br />
+        <br />
 
             <Table>
         <TableHeader>
@@ -113,8 +116,8 @@ class Account extends Component {
         </TableBody>
       </Table>
 
-      <RaisedButton label="Cancel" secondary={true} style={style} />
-      <RaisedButton label="Submit" primary={true} style={style} />
+      <RaisedButton label="Cancel" backgroundColor='#FF3E00' labelColor='white' style={style} />
+      <RaisedButton label="Submit" backgroundColor='#52BFAB' labelColor='white' style={style} />
 
         </div>
       )

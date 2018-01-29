@@ -23,22 +23,32 @@ class Hormones extends Component {
   render() {
     return (
       <div>
-      <Tabs>
-        <Tab label="Exercise" >
-          <div>
-            <h2 style={styles.headline}>Exercise Recommendations</h2>
 
-            <p>
+      <br />
+      <br />
+      <p>Insert Chart Here</p>
+      <br />
+      <br />
+      <br />
+
+
+      <Tabs>
+        <Tab label="Exercise" style={{fontFamily: 'Julius Sans One', backgroundColor:'#52BFAB'}}>
+          <div>
+
+            <h2 style={{fontFamily: 'Julius Sans One'}}>Exercise Recommendations</h2>
+
+            <p style={{fontFamily: 'Alegreya Sans'}}>
               You should be running a lot.
             </p>
 
           </div>
         </Tab>
 
-        <Tab label="Nutrition" >
+        <Tab label="Nutrition" style={{fontFamily: 'Julius Sans One', backgroundColor:'#52BFAB'}}>
           <div>
-            <h2 style={styles.headline}>Nutrition Recommendations</h2>
-            <p>
+            <h2 style={{fontFamily: 'Julius Sans One'}}>Nutrition Recommendations</h2>
+            <p style={{fontFamily: 'Alegreya Sans'}}>
               You should eat chocolate every day of this week
             </p>
           </div>

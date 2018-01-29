@@ -15,7 +15,9 @@ class Login extends Component {
   render() {
     return (
       <div>
-        Login Component
+        <p className="title-app">E/Pro</p>
+        <br />
+
         <TextField
         hintText="example@email.com"
         floatingLabelText="Email Login"
@@ -26,9 +28,12 @@ class Login extends Component {
           floatingLabelText="Password"
           type="password"
         /><br />
+         <br />
+          <br />
 
-         <RaisedButton label="Register" primary={true} style={style} />
-         <RaisedButton label="Login" primary={true} style={style} />
+         <RaisedButton label="Register" backgroundColor='#52BFAB' labelColor='white'  style={style}/>
+
+         <RaisedButton label="Login" backgroundColor='#52BFAB' labelColor='white' style={style}/>
 
       </div>
     )
