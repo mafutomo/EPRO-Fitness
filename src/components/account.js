@@ -128,9 +128,15 @@ class Account extends Component {
     })
   }
   booleanChange = (e) => {
-    this.setState({
-      [e.target.value]: true
-    })
+    this.setState(
+        {
+        monophasic: false,
+        triphasic: false,
+        nonhormonal: false,
+        progestin: false,
+        [e.target.value]: true
+      }
+    )
   }
 
   handleDate = (event, date) => {
@@ -151,9 +157,7 @@ class Account extends Component {
     return (
 
       <div style={styles.block}>
-
       <p className="title-app">Account</p>
-
       <form onSubmit={(e)=>{this.createUser(e, this.state)}}>
 
       <TextField
@@ -216,22 +220,22 @@ class Account extends Component {
 
         <RadioButton
           value="nonhormonal"
-          label="Non-Hormonal"
+          label="Non-Hormonal : None, Condoms, Paraguard/Copper IUD"
           style={radioStyles.radioButton}
         />
         <RadioButton
           value="triphasic"
-          label="Triphasic"
+          label="Triphasic : Combination Birth Control Pill - Varied Amount, Ortho Tricyclen"
           style={radioStyles.radioButton}
         />
         <RadioButton
           value="monophasic"
-          label="Monophasic"
+          label="Monophasic : Combination Birth Control Pill - Same Amount, Levora"
           style={radioStyles.radioButton}
         />
         <RadioButton
           value="progestin"
-          label="Progestin"
+          label="Progestin : Mirena IUD, Skyla, Mini Pill, Depo Shot, The Ring"
           style={radioStyles.radioButton}
         />
         </RadioButtonGroup>
