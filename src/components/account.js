@@ -81,6 +81,10 @@ class Account extends Component {
   //for age dropdown
   handleAgeChange = (event, index, age) => this.setState({age});
 
+  toggleSelect = () => {
+
+  }
+
   createUser = async (e, {fname, lname, email, password, cycleLength, dayOfLastPeriod, age, nonhormonal, triphasic, monophasic, progestin}) => {
     e.preventDefault()
     const response = await fetch ('https://epro-api.herokuapp.com/users/register', {
@@ -129,6 +133,11 @@ class Account extends Component {
     })
   }
 
+  handleDate = (event, date) => {
+  let newDate = date.toString()
+  this.setState({dayOfLastPeriod: newDate})
+  }
+
   render() {
 
     const { loggedIn } = this.state
@@ -169,6 +178,10 @@ class Account extends Component {
        floatingLabelText="Re-type Password" name="retypePassword" value={this.state.retypePassword} onChange={this.handleChange}
       /><br />
       <br />
+
+    <div>
+      <DatePicker hintText="First Day of Last Period" name="dayOfLastPeriod" onChange={this.handleDate}/>
+    </div>
 
       <p>
         <span>{'Your Cycle Length: '}</span>
