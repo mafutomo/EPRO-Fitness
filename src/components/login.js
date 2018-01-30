@@ -2,8 +2,11 @@ import React, {Component} from 'react';
 import TextField from 'material-ui/TextField';
 import RaisedButton from 'material-ui/RaisedButton';
 import {
-  Link
+  Link,
+  Redirect
 } from 'react-router-dom'
+
+import Hormones from './hormones'
 
 const style = {
   margin: 12,
@@ -17,7 +20,8 @@ class Login extends Component {
       email: '',
       password: '',
       token: '',
-      message: ''
+      message: '',
+      loggedIn: false
     }
   }
 
@@ -38,7 +42,8 @@ class Login extends Component {
     if (logged.auth_token) {
       this.setState({
         token: logged.auth_token,
-        message: logged.message
+        message: logged.message,
+        loggedIn: true
       })
       localStorage.setItem('token', logged.auth_token)
     } else {
@@ -55,6 +60,16 @@ class Login extends Component {
   }
 
   render() {
+
+    const {loggedIn} = this.state
+    if (loggedIn) {
+      return (
+        <Redirect to='/hormones' render={()=> (
+          <Hormones/>
+        )}/>
+      )
+    }
+
     return (
       <div>
         <p className="title-app">E/Pro</p>
