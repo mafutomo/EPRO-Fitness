@@ -1,5 +1,6 @@
 import * as moment from 'moment';
 import * as d3 from 'd3';
+import $ from "jquery";
 
 document.addEventListener("DOMContentLoaded", function() {
 
@@ -47,14 +48,16 @@ var svg = d3.select("#chart").append("svg")
 
 
 //fetch data
+function getUserData(){
+  fetch('https://epro-api.herokuapp.com/users/all')
+    .then(response => response.json())
+    .then(json => console.log(json))
+  // $.getJSON('https://jsonplaceholder.typicode.com/posts/1'), function(result) {
+  //   console.log(result);
+  // }
+}
 
-// fetch('https://jsonplaceholder.typicode.com/posts/1')
-//   .then(response => response.json())
-//   .then(json => console.log(json))
-
-  d3.json('https://jsonplaceholder.typicode.com/posts/1', function(data) {
-      console.log(data);
-  });
+getUserData();
 
 var data = [
   {'id': 2, "day": 1, "estrogen": 50, "progesterone": 0},
