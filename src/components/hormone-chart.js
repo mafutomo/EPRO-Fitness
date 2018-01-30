@@ -3,10 +3,6 @@ import * as d3 from 'd3';
 
 document.addEventListener("DOMContentLoaded", function() {
 
-// var margin = {top: 80, right: 80, bottom: 80, left: 80},
-//     width = 800 - margin.left - margin.right,
-//     height = 400 - margin.top - margin.bottom;
-
 var initialWidth = window.innerWidth;
 var initialHeight = window.innerWidth < 600 ? initialWidth * 0.7 : initialWidth * 0.4;
 
