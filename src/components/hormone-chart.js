@@ -46,206 +46,201 @@ var svg = d3.select("#chart").append("svg")
     .append("g")
     .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-
 //fetch data
-function getUserData(){
-  fetch('https://epro-api.herokuapp.com/users/all')
-    .then(response => response.json())
-    .then(json => console.log(json))
-  // $.getJSON('https://jsonplaceholder.typicode.com/posts/1'), function(result) {
-  //   console.log(result);
-  // }
-}
+// const getContraceptiveData = async() => {
+//   const response = await fetch('https://epro-api.herokuapp.com/hormones/non_hormonal', {
+//     method: 'GET',
+//     headers: {
+//       'Content-Type': 'application/json',
+//       'Accept': 'application/json'
+//     },
+//     mode: "cors"
+//   })
+//   const data = await response.json();
+//   console.log(data);
 
-getUserData();
-
-var data = [
-  {'id': 2, "day": 1, "estrogen": 50, "progesterone": 0},
-  {'id': 2, "day": 2, "estrogen": 100, "progesterone": 7},
-  {'id': 2, "day": 3, "estrogen": 150, "progesterone": 9},
-  {'id': 2, "day": 4, "estrogen": 400, "progesterone": 11},
-]
-
-
-   x.domain(data.map(function(d) { return d.day; }));
-   y0.domain([0, d3.max(data, function(d) { return d.estrogen; })]);
-   y1.domain([0, d3.max(data, function(d) { return d.progesterone; })]);
+  x.domain(data.map(function(d) { return d.day; }));
+  y0.domain([0, d3.max(data, function(d) { return d.estrogen; })]);
+  y1.domain([0, d3.max(data, function(d) { return d.progesterone; })]);
 
   svg.append("g")
-      .classed("x-axis", true)
-      .attr("transform", "translate(0," + height + ")")
-      .call(xAxis);
+  .classed("x-axis", true)
+  .attr("transform", "translate(0," + height + ")")
+  .call(xAxis);
 
   svg.append("g")
-    .classed("axisLeft", true)
-	  .attr("transform", "translate(0,0)")
-	  .call(yAxisLeft);
+  .classed("axisLeft", true)
+  .attr("transform", "translate(0,0)")
+  .call(yAxisLeft);
 
   svg.append("g")
-    .classed("axisRight", true)
-	  .attr("transform", "translate(" + (width) + ",0)")
-	  .call(yAxisRight);
+  .classed("axisRight", true)
+  .attr("transform", "translate(" + (width) + ",0)")
+  .call(yAxisRight);
 
   svg.select(".axisRight")
-    .append("text")
-    .attr("x", 0)
-    .attr("y", 0)
-    .style("text-anchor", "middle")
-    .attr("transform", "translate(50," + height/2 + ") rotate(90)")
-    .text("Progesterone(ng/ml)");
+  .append("text")
+  .attr("x", 0)
+  .attr("y", 0)
+  .style("text-anchor", "middle")
+  .attr("transform", "translate(50," + height/2 + ") rotate(90)")
+  .text("Progesterone(ng/ml)");
 
   svg.select(".axisLeft")
-    .append("text")
-    .attr("x", 0)
-    .attr("y", 0)
-    .style("text-anchor", "middle")
-    .attr("transform", "translate(-50," + height/2 + ") rotate(-90)")
-    .text("Estrogen(pg/ml)");
+  .append("text")
+  .attr("x", 0)
+  .attr("y", 0)
+  .style("text-anchor", "middle")
+  .attr("transform", "translate(-50," + height/2 + ") rotate(-90)")
+  .text("Estrogen(pg/ml)");
 
   svg.select(".x-axis")
-    .append("text")
-    .attr("x", 0)
-    .attr("y", 0)
-    .style("text-anchor", "middle")
-    .attr("transform", "translate(" + width/2 + ", 60)")
-    .text("Day ___");
+  .append("text")
+  .attr("x", 0)
+  .attr("y", 0)
+  .style("text-anchor", "middle")
+  .attr("transform", "translate(" + width/2 + ", 60)")
+  .text("Day ___");
 
   var bars = svg.selectAll(".bar").data(data).enter();
   bars.append("rect")
-      .attr("class", "bar1")
-      .attr("x", function(d) { return x(d.day); })
-      .attr("width", x.bandwidth()/2)
-      .attr("y", function(d) { return y0(d.estrogen); })
-	    .attr("height", function(d,i,j) { return height - y0(d.estrogen); })
-      .attr("fill", "#484043")
-      .on("mouseover", function(d, i) {
-        tooltip.style("display", "inline");
-        d3.select(this)
-          .attr("fill", "#775b66");
-      })
-      .on("mouseout", function(d, i) {
-         tooltip.style("display", "none");
-         d3.select(this).attr("fill", "#484043")
-       })
-      .on("mousemove", function(d) {
-      var xPosition = d3.mouse(this)[0] - 15;
-      var yPosition = d3.mouse(this)[1] - 25;
-      tooltip.attr("transform", "translate(" + xPosition + "," + yPosition + ")");
-      tooltip.select("text").text(d.estrogen + ' pg/ml');
-    })
+  .attr("class", "bar1")
+  .attr("x", function(d) { return x(d.day); })
+  .attr("width", x.bandwidth()/2)
+  .attr("y", function(d) { return y0(d.estrogen); })
+  .attr("height", function(d,i,j) { return height - y0(d.estrogen); })
+  .attr("fill", "#484043")
+  .on("mouseover", function(d, i) {
+    tooltip.style("display", "inline");
+    d3.select(this)
+    .attr("fill", "#775b66");
+  })
+  .on("mouseout", function(d, i) {
+    tooltip.style("display", "none");
+    d3.select(this).attr("fill", "#484043")
+  })
+  .on("mousemove", function(d) {
+    var xPosition = d3.mouse(this)[0] - 15;
+    var yPosition = d3.mouse(this)[1] - 25;
+    tooltip.attr("transform", "translate(" + xPosition + "," + yPosition + ")");
+    tooltip.select("text").text(d.estrogen + ' pg/ml');
+  })
   bars.append("rect")
-      .attr("class", "bar2")
-      .attr("x", function(d) { return x(d.day) + x.bandwidth()/2; })
-      .attr("width", x.bandwidth() / 2)
-      .attr("y", function(d) { return y1(d.progesterone); })
-      .attr("height", function(d,i,j) { return height - y1(d.progesterone);
-   })
-      .attr("fill", "#52BFAB")
-      .on("mouseover", function(d, i) {
-        tooltip.style("display", "inline");
-        d3.select(this)
-          .attr("fill", "#52bfaa80");
-      })
-      .on("mouseout", function(d, i) {
-         tooltip.style("display", "none");
-         d3.select(this).attr("fill", "#52BFAB")
-       })
-      .on("mousemove", function(d) {
-        var xPosition = d3.mouse(this)[0] - 15;
-        var yPosition = d3.mouse(this)[1] - 25;
-        tooltip.attr("transform", "translate(" + xPosition + "," + yPosition + ")");
-        tooltip.select("text").html(d.progesterone + "<br/>" + "ng/ml");
-      });
+  .attr("class", "bar2")
+  .attr("x", function(d) { return x(d.day) + x.bandwidth()/2; })
+  .attr("width", x.bandwidth() / 2)
+  .attr("y", function(d) { return y1(d.progesterone); })
+  .attr("height", function(d,i,j) { return height - y1(d.progesterone);
+  })
+  .attr("fill", "#52BFAB")
+  .on("mouseover", function(d, i) {
+    tooltip.style("display", "inline");
+    d3.select(this)
+    .attr("fill", "#52bfaa80");
+  })
+  .on("mouseout", function(d, i) {
+    tooltip.style("display", "none");
+    d3.select(this).attr("fill", "#52BFAB")
+  })
+  .on("mousemove", function(d) {
+    var xPosition = d3.mouse(this)[0] - 15;
+    var yPosition = d3.mouse(this)[1] - 25;
+    tooltip.attr("transform", "translate(" + xPosition + "," + yPosition + ")");
+    tooltip.select("text").html(d.progesterone + "<br/>" + "ng/ml");
+  });
 
-//progess bar based on user inputted days since last period
+  //progess bar based on user inputted days since last period
   svg.select("#chart")
-    .append('svg')
-    .attr("height", 100)
-    .attr("width", width)
+  .append('svg')
+  .attr("height", 100)
+  .attr("width", width)
 
-//find today's date
+  //find today's date
   var today = moment().format('MMMM Do YYYY');
   var usersLastDay = "20180109";
   console.log(today);
-//users cycle length
+  //users cycle length
   var cycleLength = 28;
   var cycleLengthArr = [];
   for (let i = 1; i <= cycleLength; i++) {
     cycleLengthArr.push(i)
   }
 
-//find how many days have elapsed since last period
+  //find how many days have elapsed since last period
   var daysAgo = moment(usersLastDay, "YYYYMMDD").fromNow();
   var daysAgoNum = Number(daysAgo.match(/\d+/g));
   var currentCycleDay = daysAgoNum%cycleLength;
 
-//use users cycle length to determine length of progess bar
+  //use users cycle length to determine length of progess bar
   var states = cycleLengthArr,
-    segmentWidth = width,
-    currentState = daysAgoNum;
+  segmentWidth = width,
+  currentState = daysAgoNum;
 
   var colorScale = d3.scaleOrdinal()
-    .domain(states)
-    .range((['yellow', 'orange', 'green']))
+  .domain(states)
+  .range((['yellow', 'orange', 'green']))
 
   svg.append('rect')
-		.attr('class', 'bg-rect')
-		.attr('rx', 10)
-		.attr('ry', 10)
-		.attr('fill', 'gray')
-		.attr('height', 15)
-		.attr('width', width)
-		.attr('x', 0)
-    .attr('y', height + 25);
+  .attr('class', 'bg-rect')
+  .attr('rx', 10)
+  .attr('ry', 10)
+  .attr('fill', 'gray')
+  .attr('height', 15)
+  .attr('width', width)
+  .attr('x', 0)
+  .attr('y', height + 25);
 
-	var progress = svg.append('rect')
-					.attr('class', 'progress-rect')
-					.attr('fill', "#fba100")
-					.attr('height', 15)
-					.attr('width', width)
-					.attr('rx', 10)
-					.attr('ry', 10)
-					.attr('x', 0)
-          .attr('y', height + 25);
+  var progress = svg.append('rect')
+  .attr('class', 'progress-rect')
+  .attr('fill', "#fba100")
+  .attr('height', 15)
+  .attr('width', width)
+  .attr('rx', 10)
+  .attr('ry', 10)
+  .attr('x', 0)
+  .attr('y', height + 25);
 
-	progress.transition()
-		.duration(1000)
-    .attr('width', function(){
-      var index = states.indexOf(currentState);
-      return segmentWidth * ((index + 1)/states.length);
+  progress.transition()
+  .duration(1000)
+  .attr('width', function(){
+    var index = states.indexOf(currentState);
+    return segmentWidth * ((index + 1)/states.length);
+  })
+
+  function moveProgressBar(state){
+    progress.transition()
+    .duration(1000)
+    .attr('fill', function(){
+      return colorScale(state);
     })
+    .attr('width', function(){
+      var index = states.indexOf(state);
+      return (index + 1) * segmentWidth;
+    });
+  }
 
-	function moveProgressBar(state){
-		progress.transition()
-			.duration(1000)
-			.attr('fill', function(){
-				return colorScale(state);
-			})
-			.attr('width', function(){
-				var index = states.indexOf(state);
-				return (index + 1) * segmentWidth;
-			});
-   }
+  // Prep the tooltip bits, initial display is hidden
+  var tooltip = svg.append("g")
+  .attr("class", "tooltip")
+  .style("display", "none");
 
- // Prep the tooltip bits, initial display is hidden
- var tooltip = svg.append("g")
-   .attr("class", "tooltip")
-   .style("display", "none");
+  tooltip.append("rect")
+  .attr("width", 80)
+  .attr("height", 28)
+  .attr("fill", "white")
+  .style("opacity", 0.5)
+  .style("text-align", "center");
 
- tooltip.append("rect")
-   .attr("width", 80)
-   .attr("height", 28)
-   .attr("fill", "white")
-   .style("opacity", 0.5)
-   .style("text-align", "center");
+  tooltip.append("text")
+  .attr("x", 40)
+  .attr("dy", "1.2em")
+  .style("text-anchor", "middle")
+  .attr("font-size", "12px")
+  .attr("font-weight", "bold")
+  .style("text-align", "center");
+}
 
- tooltip.append("text")
-   .attr("x", 40)
-   .attr("dy", "1.2em")
-   .style("text-anchor", "middle")
-   .attr("font-size", "12px")
-   .attr("font-weight", "bold")
-   .style("text-align", "center");
+getContraceptiveData()
 
    window.addEventListener('resize', function(){window.location.reload(true);});
 })
