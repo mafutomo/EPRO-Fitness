@@ -8,12 +8,12 @@ document.addEventListener("DOMContentLoaded", function() {
 //     height = 400 - margin.top - margin.bottom;
 
 var initialWidth = window.innerWidth;
-var initialHeight = initialWidth * 0.4;
+var initialHeight = window.innerWidth < 600 ? initialWidth * 0.7 : initialWidth * 0.4;
 
 var margin = {
   top: 40,
   right: 80,
-  bottom: 50,
+  bottom: 80,
   left: 80
 }
 
@@ -63,12 +63,7 @@ var data = [
   {'id': 2, "day": 3, "estrogen": 150, "progesterone": 9},
   {'id': 2, "day": 4, "estrogen": 400, "progesterone": 11},
 ]
- // var data = d3.csv("non_hormonal_bc.csv", function(err, data){
- //   data.forEach(function(d) {
- //    d.day = +d.day;
- //    d.estrogen = +d.estrogen;
- //    d.progesterone = +d.progesterone;
- //  })
+
    x.domain(data.map(function(d) { return d.day; }));
    y0.domain([0, d3.max(data, function(d) { return d.estrogen; })]);
    y1.domain([0, d3.max(data, function(d) { return d.progesterone; })]);
@@ -160,60 +155,60 @@ var data = [
       });
 
 //progess bar
-  // svg.select("#chart")
-  //   .append('svg')
-  //   .attr("height", 100)
-  //   .attr("width", 500)
-  //
-  //
-  // var states = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20', '21', '22', '23', '24', '25', '26', '27', '28'],
-  //   segmentWidth = 800 - margin.left - margin.right,
-  //   currentState = '22';
-  //
-  // var colorScale = d3.scaleOrdinal()
-  //   .domain(states)
-  //   .range((['yellow', 'orange', 'green']))
-  //
-  // svg.append('rect')
-	// 	.attr('class', 'bg-rect')
-	// 	.attr('rx', 10)
-	// 	.attr('ry', 10)
-	// 	.attr('fill', 'gray')
-	// 	.attr('height', 15)
-	// 	.attr('width', width)
-	// 	.attr('x', 0)
-  //   .attr('y', 265);
-  //
-	// var progress = svg.append('rect')
-	// 				.attr('class', 'progress-rect')
-	// 				.attr('fill', "#fba100")
-	// 				.attr('height', 15)
-	// 				.attr('width', width)
-	// 				.attr('rx', 10)
-	// 				.attr('ry', 10)
-	// 				.attr('x', 0)
-  //         .attr('y', 265);
-  //
-	// progress.transition()
-	// 	.duration(1000)
-  //   .attr('width', function(){
-  //     var index = states.indexOf(currentState);
-  //     return segmentWidth * ((index + 1)/states.length);
-  //   })
-  //
-	// function moveProgressBar(state){
-	// 	progress.transition()
-	// 		.duration(1000)
-	// 		.attr('fill', function(){
-	// 			return colorScale(state);
-	// 		})
-	// 		.attr('width', function(){
-	// 			var index = states.indexOf(state);
-	// 			return (index + 1) * segmentWidth;
-	// 		});
-  //  }
+  svg.select("#chart")
+    .append('svg')
+    .attr("height", 100)
+    .attr("width", width)
 
- // })
+
+  var states = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20', '21', '22', '23', '24', '25', '26', '27', '28'],
+    segmentWidth = width,
+    currentState = '22';
+
+  var colorScale = d3.scaleOrdinal()
+    .domain(states)
+    .range((['yellow', 'orange', 'green']))
+
+  svg.append('rect')
+		.attr('class', 'bg-rect')
+		.attr('rx', 10)
+		.attr('ry', 10)
+		.attr('fill', 'gray')
+		.attr('height', 15)
+		.attr('width', width)
+		.attr('x', 0)
+    .attr('y', height + 25);
+
+	var progress = svg.append('rect')
+					.attr('class', 'progress-rect')
+					.attr('fill', "#fba100")
+					.attr('height', 15)
+					.attr('width', width)
+					.attr('rx', 10)
+					.attr('ry', 10)
+					.attr('x', 0)
+          .attr('y', height + 25);
+
+	progress.transition()
+		.duration(1000)
+    .attr('width', function(){
+      var index = states.indexOf(currentState);
+      return segmentWidth * ((index + 1)/states.length);
+    })
+
+	function moveProgressBar(state){
+		progress.transition()
+			.duration(1000)
+			.attr('fill', function(){
+				return colorScale(state);
+			})
+			.attr('width', function(){
+				var index = states.indexOf(state);
+				return (index + 1) * segmentWidth;
+			});
+   }
+
+
 
  // Prep the tooltip bits, initial display is hidden
  var tooltip = svg.append("g")
