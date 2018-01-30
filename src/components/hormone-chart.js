@@ -16,14 +16,6 @@ var margin = {
 var width = initialWidth - margin.left - margin.right;
 var height = initialHeight - margin.top - margin.bottom;
 
-//find today's date
-var today = moment().format('MMMM Do YYYY');
-console.log(today);
-
-//find how many days have elapsed since last period
-var daysAgo = moment("20180109", "YYYYMMDD").fromNow();
-console.log(daysAgo);
-
 //create scales
 var x = d3.scaleBand()
     .range([0, width], .1);
@@ -52,6 +44,12 @@ var svg = d3.select("#chart").append("svg")
     .attr("height", height + margin.top + margin.bottom)
     .append("g")
     .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+
+//fetch data
+fetch('https://jsonplaceholder.typicode.com/posts/1')
+  .then(response => response.json())
+  .then(json => console.log(json))
 
 var data = [
   {'id': 2, "day": 1, "estrogen": 50, "progesterone": 0},
@@ -150,16 +148,35 @@ var data = [
         tooltip.select("text").html(d.progesterone + "<br/>" + "ng/ml");
       });
 
-//progess bar
+//progess bar based on user inputted days since last period
   svg.select("#chart")
     .append('svg')
     .attr("height", 100)
     .attr("width", width)
 
+//find today's date
+  var today = moment().format('MMMM Do YYYY');
+  var usersLastDay = "20180109";
+  console.log(today);
+//users cycle length
+  var userInput = 28;
+  var cycleLength = [];
+  for (let i = 1; i <= userInput; i++) {
+    cycleLength.push(i)
+  }
 
-  var states = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20', '21', '22', '23', '24', '25', '26', '27', '28'],
+//find how many days have elapsed since last period
+  var daysAgo = moment(usersLastDay, "YYYYMMDD").fromNow();
+  var daysAgoNum = Number(daysAgo.match(/\d+/g));
+  if (daysAgoNum === 29) {
+    daysAgoNum === 0;
+  }
+  console.log(daysAgoNum);
+
+//use users cycle length to determine length of progess bar
+  var states = cycleLength,
     segmentWidth = width,
-    currentState = '22';
+    currentState = daysAgoNum;
 
   var colorScale = d3.scaleOrdinal()
     .domain(states)
@@ -203,8 +220,6 @@ var data = [
 				return (index + 1) * segmentWidth;
 			});
    }
-
-
 
  // Prep the tooltip bits, initial display is hidden
  var tooltip = svg.append("g")
