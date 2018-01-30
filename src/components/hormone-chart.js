@@ -47,9 +47,14 @@ var svg = d3.select("#chart").append("svg")
 
 
 //fetch data
-fetch('https://jsonplaceholder.typicode.com/posts/1')
-  .then(response => response.json())
-  .then(json => console.log(json))
+
+// fetch('https://jsonplaceholder.typicode.com/posts/1')
+//   .then(response => response.json())
+//   .then(json => console.log(json))
+
+  d3.json('https://jsonplaceholder.typicode.com/posts/1', function(data) {
+      console.log(data);
+  });
 
 var data = [
   {'id': 2, "day": 1, "estrogen": 50, "progesterone": 0},
@@ -57,6 +62,7 @@ var data = [
   {'id': 2, "day": 3, "estrogen": 150, "progesterone": 9},
   {'id': 2, "day": 4, "estrogen": 400, "progesterone": 11},
 ]
+
 
    x.domain(data.map(function(d) { return d.day; }));
    y0.domain([0, d3.max(data, function(d) { return d.estrogen; })]);
@@ -159,22 +165,19 @@ var data = [
   var usersLastDay = "20180109";
   console.log(today);
 //users cycle length
-  var userInput = 28;
-  var cycleLength = [];
-  for (let i = 1; i <= userInput; i++) {
-    cycleLength.push(i)
+  var cycleLength = 28;
+  var cycleLengthArr = [];
+  for (let i = 1; i <= cycleLength; i++) {
+    cycleLengthArr.push(i)
   }
 
 //find how many days have elapsed since last period
   var daysAgo = moment(usersLastDay, "YYYYMMDD").fromNow();
   var daysAgoNum = Number(daysAgo.match(/\d+/g));
-  if (daysAgoNum === 29) {
-    daysAgoNum === 0;
-  }
-  console.log(daysAgoNum);
+  var currentCycleDay = daysAgoNum%cycleLength;
 
 //use users cycle length to determine length of progess bar
-  var states = cycleLength,
+  var states = cycleLengthArr,
     segmentWidth = width,
     currentState = daysAgoNum;
 
