@@ -132,7 +132,6 @@ class Account extends Component {
   render() {
 
     const { loggedIn } = this.state
-
     if (loggedIn) {
       return (
         <Redirect to={Hormones}/>
@@ -191,7 +190,7 @@ class Account extends Component {
 
       <br />
       <br />
-      
+
       <p>
         <span>{'Your Birth Control Method:'}</span>
       </p>
