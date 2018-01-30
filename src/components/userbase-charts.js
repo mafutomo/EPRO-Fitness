@@ -3,15 +3,17 @@ import * as d3 from 'd3';
 document.addEventListener("DOMContentLoaded", function() {
 
   function drawUsersByAge() {
-    var svg = d3.select("#svg1"),
-      margin = {
+    var yuckyWidth = 800;    //  this is a hack because I can't query for width yet
+    var yuckyHeight = 450;   //  this is a hack because I can't query for height yet
+    var svg = d3.select("#svg1");
+    var  margin = {
         top: 40,
         right: 20,
         bottom: 50,
         left: 40
-      },
-      width = +svg.attr("width") - margin.left - margin.right,
-      height = +svg.attr("height") - margin.top - margin.bottom;
+      };
+    var  width = yuckyWidth - margin.left - margin.right,
+      height = yuckyHeight - margin.top - margin.bottom;
 
     var x = d3.scaleBand().rangeRound([0, width]).padding(0.1),
       y = d3.scaleLinear().rangeRound([height, 0]);
@@ -39,13 +41,6 @@ document.addEventListener("DOMContentLoaded", function() {
           "frequency": 445
       }
     ];
-
-    // d3.tsv("./ageData.tsv", function(d) {
-    //   d.frequency = +d.frequency;
-    //   return d;
-    // }, function(error, data) {
-    //   if (error)
-    //     throw error;
 
       x.domain(data.map(function(d) {
         return d.age;
@@ -82,8 +77,8 @@ document.addEventListener("DOMContentLoaded", function() {
 
   function drawContraceptionMethodsByFrequency() {
     var donut = donutChart()
-        .width(960)
-        .height(500)
+        .width(800)
+        .height(450)
         .cornerRadius(3) // sets how rounded the corners are on each slice
         .padAngle(0.015) // effectively dictates the gap between slices
         .variable('Users')
@@ -110,8 +105,8 @@ document.addEventListener("DOMContentLoaded", function() {
         bottom: 50,
         left: 40
       },
-      width = +svg.attr("width") - margin.left - margin.right - 60,
-      height = +svg.attr("height") - margin.top - margin.bottom,
+      width = 800 - margin.left - margin.right - 60,
+      height = 450 - margin.top - margin.bottom,
       g = svg.append("g").attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
     // Define the div for the tooltip
@@ -444,8 +439,8 @@ document.addEventListener("DOMContentLoaded", function() {
     return chart;
   }
 
-  // drawUsersByAge();
-  // drawContraceptionMethodsByFrequency();
-  // drawContraceptionByAge();
+  drawUsersByAge();
+  drawContraceptionMethodsByFrequency();
+  drawContraceptionByAge();
 
 })
