@@ -1,6 +1,8 @@
 import React, {Component} from 'react';
 import RaisedButton from 'material-ui/RaisedButton';
 import {Tabs, Tab} from 'material-ui/Tabs';
+import './hormone-chart.js';
+import './hormone.css';
 
 const styles = {
   margin: 16,
@@ -24,12 +26,7 @@ class Hormones extends Component {
     return (
       <div>
 
-      <br />
-      <br />
-      <p>Insert Chart Here</p>
-      <br />
-      <br />
-      <br />
+      <div id="chart"></div>
 
 
       <Tabs>
