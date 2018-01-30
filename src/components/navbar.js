@@ -17,8 +17,27 @@ class Navbar extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      open: false
+      open: false,
+      token: '',
+      message: ''
     }
+  }
+
+  logout = async () => {
+    const r = await fetch(`https://epro-api.herokuapp.com/auth/logout`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+        'Authorization': localStorage.getItem('token')
+      }
+    })
+    const logged = await r.json()
+    this.setState({
+      token: logged.auth_token,
+      message: logged.message
+    })
+    localStorage.removeItem('token')
   }
 
   handleToggle = () => this.setState({open: !this.state.open});
@@ -49,10 +68,10 @@ class Navbar extends Component {
                   onClick={this.handleClose}>Home</MenuItem>
                 </Link>
 
-                <Link to={`/account`} style={{textDecoration: 'none'}}>
+                {/* <Link to={`/account`} style={{textDecoration: 'none'}}>
                 <MenuItem style={{fontFamily: 'Julius Sans One'}}
                 onClick={this.handleClose}>Account</MenuItem>
-                </Link>
+                </Link> */}
 
                 <Link to={`/userbase`} style={{textDecoration: 'none'}}>
                 <MenuItem style={{fontFamily: 'Julius Sans One'}}
@@ -60,8 +79,7 @@ class Navbar extends Component {
                 </Link>
 
                 <Link to={`/login`} style={{textDecoration: 'none'}}>
-                <MenuItem style={{fontFamily: 'Julius Sans One'}}
-                onClick={this.handleClose}>Logout</MenuItem>
+                <MenuItem style={{fontFamily: 'Julius Sans One'}} onClick={()=>{this.logout()}}>Logout</MenuItem>
                 </Link>
 
               </Drawer>
