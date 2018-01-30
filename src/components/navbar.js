@@ -68,10 +68,10 @@ class Navbar extends Component {
                   onClick={this.handleClose}>Home</MenuItem>
                 </Link>
 
-                <Link to={`/account`} style={{textDecoration: 'none'}}>
+                {/* <Link to={`/account`} style={{textDecoration: 'none'}}>
                 <MenuItem style={{fontFamily: 'Julius Sans One'}}
                 onClick={this.handleClose}>Account</MenuItem>
-                </Link>
+                </Link> */}
 
                 <Link to={`/userbase`} style={{textDecoration: 'none'}}>
                 <MenuItem style={{fontFamily: 'Julius Sans One'}}

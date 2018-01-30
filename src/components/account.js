@@ -6,15 +6,13 @@ import RaisedButton from 'material-ui/RaisedButton';
 import {RadioButton, RadioButtonGroup} from 'material-ui/RadioButton';
 import DropDownMenu from 'material-ui/DropDownMenu';
 import MenuItem from 'material-ui/MenuItem';
-
 import {
-  Table,
-  TableBody,
-  TableHeader,
-  TableHeaderColumn,
-  TableRow,
-  TableRowColumn,
-} from 'material-ui/Table';
+  Link,
+  Redirect
+} from 'react-router-dom'
+
+import Login from './login'
+import Hormones from './hormones'
 
 const styles = {
   customWidth: {
@@ -50,8 +48,6 @@ class Account extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      secondSlider: 21,
-      thirdSlider: 12,
       checked: false,
       thirdSlider: 12,
       fname: "",
@@ -64,7 +60,11 @@ class Account extends Component {
       nonhormonal: false,
       triphasic: false,
       monophasic: false,
-      progestin: false
+      progestin: false,
+
+      token: '',
+      message: '',
+      loggedIn: false
     }
   }
 
@@ -75,7 +75,6 @@ class Account extends Component {
       };
     });
   }
-
   //for cycle length dropdown
   handleCycleChange = (event, index, cycleLength) => this.setState({cycleLength});
   //for age dropdown
@@ -103,7 +102,19 @@ class Account extends Component {
         'Accept': 'application/json'
       }
     })
-    console.log(response.json());
+    const logged = await response.json()
+    if (logged.auth_token) {
+      this.setState({
+        token: logged.auth_token,
+        message: logged.message,
+        loggedIn: true
+      })
+      localStorage.setItem('token', logged.auth_token)
+    } else {
+      this.setState({
+        message: logged.message
+      })
+    }
   }
 
   handleChange = (e, index) => {
@@ -111,7 +122,6 @@ class Account extends Component {
       [e.target.name]: e.target.value
     })
   }
-
   booleanChange = (e) => {
     this.setState({
       [e.target.value]: true
@@ -119,90 +129,95 @@ class Account extends Component {
   }
 
   render() {
+
+    const { loggedIn } = this.state
+
+    if (loggedIn) {
       return (
+        <Redirect to={Hormones}/>
+      )
+    }
 
-        <div style={styles.block}>
+    return (
 
-        <p className="title-app">Account</p>
+      <div style={styles.block}>
 
-        <form onSubmit={(e)=>{this.createUser(e, this.state)}}>
+      <p className="title-app">Account</p>
 
-        <TextField
-         floatingLabelText="First Name"
-         name="fname" value={this.state.fname} onChange={this.handleChange}
-         /><br />
-        <TextField
-         floatingLabelText="Last Name"
-         name="lname" value={this.state.lname} onChange={this.handleChange}
-        /><br />
-        <TextField
-         floatingLabelText="Email"
-         hintText="example@email.com"
-         name="email" value={this.state.email} onChange={this.handleChange}
-        /><br />
-        <TextField
-          type="password"
-         floatingLabelText="Password"
-         name="password" value={this.state.password} onChange={this.handleChange}
-        /><br />
-        <TextField
-          type="password"
-         floatingLabelText="Re-type Password"
-        /><br />
-        <br />
+      <form onSubmit={(e)=>{this.createUser(e, this.state)}}>
 
-        <p>
-          <span>{'Your Cycle Length: '}</span>
-        </p>
+      <TextField
+       floatingLabelText="First Name"
+       name="fname" value={this.state.fname} onChange={this.handleChange}
+       /><br />
+      <TextField
+       floatingLabelText="Last Name"
+       name="lname" value={this.state.lname} onChange={this.handleChange}
+      /><br />
+      <TextField
+       floatingLabelText="Email"
+       hintText="example@email.com"
+       name="email" value={this.state.email} onChange={this.handleChange}
+      /><br />
+      <TextField
+        type="password"
+       floatingLabelText="Password"
+       name="password" value={this.state.password} onChange={this.handleChange}
+      /><br />
+      <TextField
+        type="password"
+       floatingLabelText="Re-type Password"
+      /><br />
+      <br />
 
-        <DropDownMenu maxHeight={300} value={this.state.cycleLength} onChange={this.handleCycleChange}>
-         {items}
-         </DropDownMenu>
+      <p>
+        <span>{'Your Cycle Length: '}</span>
+      </p>
 
-        <br />
+      <DropDownMenu maxHeight={300} value={this.state.cycleLength} onChange={this.handleCycleChange}>
+       {items}
+       </DropDownMenu>
 
-        <p>
-          <span>{'Age:'}</span>
-        </p>
+      <br />
 
-        <DropDownMenu maxHeight={300} value={this.state.age} onChange={this.handleAgeChange}>
-         {itemsAge}
-         </DropDownMenu>
+      <p>
+        <span>{'Age:'}</span>
+      </p>
 
-        <br />
+      <DropDownMenu maxHeight={300} value={this.state.age} onChange={this.handleAgeChange}>
+       {itemsAge}
+       </DropDownMenu>
 
-        <RadioButtonGroup name="contraception"
-          style={radioStyles.block}
-          onChange = {this.booleanChange}>
-          <RadioButton
-            value="nonhormonal"
-            label="Non-Hormonal"
-            style={radioStyles.radioButton}
-          />
-          <RadioButton
-            value="triphasic"
-            label="Triphasic"
-            style={radioStyles.radioButton}
-          />
-          <RadioButton
-            value="monophasic"
-            label="Monophasic"
-            style={radioStyles.radioButton}
-          />
-          <RadioButton
-            value="progestin"
-            label="Progestin"
-            style={radioStyles.radioButton}
-          />
-       </RadioButtonGroup>
+      <br />
 
+      <RadioButtonGroup name="contraception"
+        style={radioStyles.block}
+        onChange = {this.booleanChange}>
+        <RadioButton
+          value="nonhormonal"
+          label="Non-Hormonal"
+          style={radioStyles.radioButton}
+        />
+        <RadioButton
+          value="triphasic"
+          label="Triphasic"
+          style={radioStyles.radioButton}
+        />
+        <RadioButton
+          value="monophasic"
+          label="Monophasic"
+          style={radioStyles.radioButton}
+        />
+        <RadioButton
+          value="progestin"
+          label="Progestin"
+          style={radioStyles.radioButton}
+        />
+        </RadioButtonGroup>
+        <RaisedButton label="Submit" backgroundColor='#52BFAB' labelColor='white' style={style} type='submit'/>
+        </form>
 
-      <RaisedButton label="Cancel" backgroundColor='#FF3E00' labelColor='white' style={style} />
-      <RaisedButton label="Submit" backgroundColor='#52BFAB' labelColor='white' style={style} type='submit'/>
-
-      </form>
-
-        </div>
+      </div>
       )
     }
   }

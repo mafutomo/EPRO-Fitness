@@ -1,6 +1,9 @@
 import React, {Component} from 'react';
 import TextField from 'material-ui/TextField';
 import RaisedButton from 'material-ui/RaisedButton';
+import {
+  Link
+} from 'react-router-dom'
 
 const style = {
   margin: 12,
@@ -78,8 +81,10 @@ class Login extends Component {
 
 
          <RaisedButton label="Login" backgroundColor='#52BFAB' labelColor='white' style={style} type="submit"/>
-       </form>
+         <Link to={`/account`}>
          <RaisedButton label="Register" backgroundColor='#52BFAB' labelColor='white'  style={style}/>
+       </Link>
+       </form>
       </div>
     )
   }
