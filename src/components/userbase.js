@@ -6,11 +6,9 @@ const Userbase = () => {
 
   return (
     <div id='userbase'>
-      <svg id="svg1" width="960" height="600"></svg>
-      <br/><br/>  <br/><br/>
-
-      <svg id="svg2" width="960" height="600"></svg>
-      <svg id="svg3" width="860" height="450"></svg>
+      <svg id="svg1"></svg>
+      <svg id="svg2"></svg>
+      <svg id="svg3"></svg>
     </div>
   )
 }
