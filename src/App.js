@@ -12,12 +12,39 @@ import {
   Route,
   Link,
   Switch,
+  Redirect
 } from 'react-router-dom'
 
 class App extends Component {
 
   constructor(props) {
     super(props)
+    this.state = {
+      'loggedIn': false
+    }
+  }
+
+  async componentDidMount() {
+    const logged = await this.getAuth()
+    if (logged === 'success') {
+      this.setState({
+        loggedIn: true
+      })
+    } else {
+      localStorage.removeItem('token')
+    }
+  }
+  async getAuth() {
+    const response = await fetch('https://epro-api.herokuapp.com/auth/status', {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+        'Authorization': localStorage.getItem('token')
+      }
+    })
+    const json = await response.json()
+    return json.status
   }
 
 
@@ -25,20 +52,22 @@ class App extends Component {
     return (
       <Router>
         <div className="App">
-
           <MuiThemeProvider>
-
-          <Navbar/>
-
-          <Switch>
+            <Switch>
             <Route
               exact path="/"
               render= {() => (
                 <div>
+                  <Navbar/>
                   <Hormones/>
                 </div>
                 )
               }/>
+            </Switch>
+          </MuiThemeProvider>
+
+          <MuiThemeProvider>
+            <Switch>
             <Route
               exact path="/login"
               render= {() => (
@@ -47,36 +76,49 @@ class App extends Component {
                 </div>
                 )
               }/>
+            </Switch>
+          </MuiThemeProvider>
 
-            <Route
-            exact path="/account"
-            render= {() => (
-              <div>
-                <Account/>
-              </div>
-            )}
+          <MuiThemeProvider>
+            <Switch>
+              <Route
+              exact path="/account"
+              render= {() => (
+                <div>
+                  <Account/>
+                </div>
+              )}
             />
+            </Switch>
+          </MuiThemeProvider>
 
+          <MuiThemeProvider>
+            <Switch>
             <Route
             exact path="/hormones"
             render= {() => (
               <div>
+                <Navbar/>
                 <Hormones/>
               </div>
             )}
             />
+          </Switch>
+          </MuiThemeProvider>
 
+          <MuiThemeProvider>
+            <Switch>
             <Route
             exact path="/userbase"
             render= {() => (
               <div>
+                <Navbar/>
                 <Userbase/>
               </div>
             )}
             />
 
           </Switch>
-
           </MuiThemeProvider>
 
         </div>

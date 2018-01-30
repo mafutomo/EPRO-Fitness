@@ -3,15 +3,18 @@ import * as d3 from 'd3';
 document.addEventListener("DOMContentLoaded", function() {
 
   function drawUsersByAge() {
-    var svg = d3.select("#svg1"),
-      margin = {
+    var initialWidth;
+    window.innerWidth > 600 ? initialWidth = 600 : initialWidth = window.innerWidth;
+    var initialHeight = initialWidth * 0.7;   // best relative size for chart
+    var svg = d3.select("#svg1");
+    var  margin = {
         top: 40,
         right: 20,
         bottom: 50,
         left: 40
-      },
-      width = +svg.attr("width") - margin.left - margin.right,
-      height = +svg.attr("height") - margin.top - margin.bottom;
+      };
+    var  width = initialWidth - margin.left - margin.right,
+      height = initialHeight - margin.top - margin.bottom;
 
     var x = d3.scaleBand().rangeRound([0, width]).padding(0.1),
       y = d3.scaleLinear().rangeRound([height, 0]);
@@ -39,13 +42,6 @@ document.addEventListener("DOMContentLoaded", function() {
           "frequency": 445
       }
     ];
-
-    // d3.tsv("./ageData.tsv", function(d) {
-    //   d.frequency = +d.frequency;
-    //   return d;
-    // }, function(error, data) {
-    //   if (error)
-    //     throw error;
 
       x.domain(data.map(function(d) {
         return d.age;
@@ -81,9 +77,12 @@ document.addEventListener("DOMContentLoaded", function() {
   }
 
   function drawContraceptionMethodsByFrequency() {
+    var initialWidth;
+    window.innerWidth > 800 ? initialWidth = 800 : initialWidth = window.innerWidth;
+    var initialHeight = initialWidth * 0.5;   // best relative size for chart
     var donut = donutChart()
-        .width(960)
-        .height(500)
+        .width(initialWidth)
+        .height(initialHeight)
         .cornerRadius(3) // sets how rounded the corners are on each slice
         .padAngle(0.015) // effectively dictates the gap between slices
         .variable('Users')
@@ -103,6 +102,9 @@ document.addEventListener("DOMContentLoaded", function() {
   }
 
   function drawContraceptionByAge() {
+    var initialWidth;
+    window.innerWidth > 600 ? initialWidth = 600 : initialWidth = window.innerWidth;
+    var initialHeight = initialWidth * 0.7;   // best relative size for chart
     var svg = d3.select("#svg3"),
       margin = {
         top: 20,
@@ -110,8 +112,8 @@ document.addEventListener("DOMContentLoaded", function() {
         bottom: 50,
         left: 40
       },
-      width = +svg.attr("width") - margin.left - margin.right - 60,
-      height = +svg.attr("height") - margin.top - margin.bottom,
+      width = initialWidth - margin.left - margin.right - 80,
+      height = initialHeight - margin.top - margin.bottom,
       g = svg.append("g").attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
     // Define the div for the tooltip
@@ -190,9 +192,15 @@ document.addEventListener("DOMContentLoaded", function() {
 
       g.append("g").attr("class", "axis").attr("transform", "translate(0," + height + ")").call(d3.axisBottom(x));
 
-      g.append("g").attr("class", "axis")
+      if (width > 700) {
+        g.append("g").attr("class", "axis")
         .call(d3.axisLeft(y)).append("text").attr("x", 2).attr("y", y(y.ticks().pop()) + 0.5)
         .attr("fill", "#000").attr("font-weight", "bold").attr("text-anchor", "start").text("Number Reported");
+      } else {
+        g.append("g").attr("class", "axis")
+        .call(d3.axisLeft(y)).append("text").attr("x", 2).attr("y", y(y.ticks().pop()) + 0.5)
+        .attr("fill", "#000").attr("font-weight", "bold").attr("text-anchor", "start");
+      }
 
       var legend = g.append("g").attr("font-family", "sans-serif").attr("font-size", 10).attr("text-anchor", "end").selectAll("g").data(keys.slice().reverse()).enter().append("g").attr("transform", function(d, i) {
         return "translate(0," + i * 20 + ")";
@@ -204,7 +212,7 @@ document.addEventListener("DOMContentLoaded", function() {
         return d;
       });
 
-      g.append("text").attr("x", (width / 2)).attr("y", 0 - (margin.top / 4)).attr("text-anchor", "middle").style("font-size", "18px").style("text-decoration", "underline").text("Reported Contraception Methods By Age");
+      g.append("text").attr("x", (width / 2)).attr("y", 0 - (margin.top / 4)).attr("text-anchor", "middle").style("font-size", "18px").style("text-decoration", "underline").text("Contraception By Age");
 
       // text label for the x axis
       g.append("text").attr("x", (width / 2)).attr("y", height+40)
@@ -241,7 +249,14 @@ document.addEventListener("DOMContentLoaded", function() {
 
         // ===========================================================================================
         // Set up constructors for making donut. See https://github.com/d3/d3-shape/blob/master/README.md
-        var radius = Math.min(width, height) / 2;
+        var radius;
+        if (width < 400) {
+          radius = Math.min(width, height) / 7;
+        } else if (width < 800) {
+          radius = Math.min(width, height) / 4;
+        } else {
+          radius = Math.min(width, height) / 2;
+        }
 
         // creates a new pie generator
         var pie = d3.pie().value(function(d) {
@@ -314,7 +329,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
         // ===========================================================================================
         // add tooltip to mouse events on slices and labels
-        d3.selectAll('.labelName text, .slices path').call(toolTip);
+        // d3.selectAll('.labelName text, .slices path').call(toolTip);
         // ===========================================================================================
 
         // ===========================================================================================
@@ -444,8 +459,14 @@ document.addEventListener("DOMContentLoaded", function() {
     return chart;
   }
 
-  // drawUsersByAge();
-  // drawContraceptionMethodsByFrequency();
-  // drawContraceptionByAge();
+  function drawCharts() {
+    drawUsersByAge();
+    drawContraceptionMethodsByFrequency();
+    drawContraceptionByAge();
+  }
+
+  window.addEventListener('resize', function(){window.location.reload(true);});
+
+  drawCharts();
 
 })
