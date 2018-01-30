@@ -97,14 +97,21 @@ var svg = d3.select("#chart").append("svg")
       .attr("y", function(d) { return y0(d.estrogen); })
 	    .attr("height", function(d,i,j) { return height - y0(d.estrogen); })
       .attr("fill", "#484043")
-      .on("mouseover", function() { tooltip.style("display", null); })
-    .on("mouseout", function() { tooltip.style("display", "none"); })
-    .on("mousemove", function(d) {
+      .on("mouseover", function(d, i) {
+        tooltip.style("display", "inline");
+        d3.select(this)
+          .attr("fill", "#775b66");
+      })
+      .on("mouseout", function(d, i) {
+         tooltip.style("display", "none");
+         d3.select(this).attr("fill", "#484043")
+       })
+      .on("mousemove", function(d) {
       var xPosition = d3.mouse(this)[0] - 15;
       var yPosition = d3.mouse(this)[1] - 25;
       tooltip.attr("transform", "translate(" + xPosition + "," + yPosition + ")");
-      tooltip.select("text").text('estrogen');
-    });
+      tooltip.select("text").text(d.estrogen + ' pg/ml');
+    })
   bars.append("rect")
       .attr("class", "bar2")
       .attr("x", function(d) { return x(d.day) + x.bandwidth()/2; })
@@ -113,13 +120,20 @@ var svg = d3.select("#chart").append("svg")
       .attr("height", function(d,i,j) { return height - y1(d.progesterone);
    })
       .attr("fill", "#52BFAB")
-      .on("mouseover", function() { tooltip.style("display", null); })
-      .on("mouseout", function() { tooltip.style("display", "none"); })
+      .on("mouseover", function(d, i) {
+        tooltip.style("display", "inline");
+        d3.select(this)
+          .attr("fill", "#52bfaa80");
+      })
+      .on("mouseout", function(d, i) {
+         tooltip.style("display", "none");
+         d3.select(this).attr("fill", "#52BFAB")
+       })
       .on("mousemove", function(d) {
         var xPosition = d3.mouse(this)[0] - 15;
         var yPosition = d3.mouse(this)[1] - 25;
         tooltip.attr("transform", "translate(" + xPosition + "," + yPosition + ")");
-        tooltip.select("text").text('progesterone');
+        tooltip.select("text").text(d.progesterone + " ng/ml");
       });
 
 //progess bar
@@ -127,10 +141,6 @@ var svg = d3.select("#chart").append("svg")
     .append('svg')
     .attr("height", 100)
     .attr("width", 500)
-
-  // var userCycle = randomNumber;
-  //
-  // var states = userCycle.map
 
 
   var states = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20', '21', '22', '23', '24', '25', '26', '27', '28'],
@@ -149,7 +159,7 @@ var svg = d3.select("#chart").append("svg")
 		.attr('height', 15)
 		.attr('width', width)
 		.attr('x', 0)
-    .attr('y', 262);
+    .attr('y', 265);
 
 	var progress = svg.append('rect')
 					.attr('class', 'progress-rect')
@@ -159,7 +169,7 @@ var svg = d3.select("#chart").append("svg")
 					.attr('rx', 10)
 					.attr('ry', 10)
 					.attr('x', 0)
-          .attr('y', 262);
+          .attr('y', 265);
 
 	progress.transition()
 		.duration(1000)

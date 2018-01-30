@@ -37,10 +37,12 @@ body {
   shape-rendering: crispEdges;
 }
 .bar1 {
-  /*fill: steelblue;*/
+  position: relative;
+  z-index: 0;
 }
 .bar2 {
-  /*fill: orange;*/
+  position: relative;
+  z-index: 0;
 }
 .x-axis path {
   display: none;
@@ -48,4 +50,17 @@ body {
 
 .x-axis text {
   font-size: 14px;
+}
+
+.tooltip {
+  position: absolute;
+  z-index: 1;
+  text-align: center;
+  width: 60px;
+  height: 12px;
+  padding: 8px;
+  margin-top: -20px;
+  font: 10px sans-serif;
+  background: yellow;
+  pointer-events: none;
 }
