@@ -78,7 +78,7 @@ class Navbar extends Component {
                 onClick={this.handleClose}>User Base</MenuItem>
                 </Link>
 
-                <Link to={`/login`}>
+                <Link to={`/login`} style={{textDecoration: 'none'}}>
                 <MenuItem style={{fontFamily: 'Julius Sans One'}} onClick={()=>{this.logout()}}>Logout</MenuItem>
                 </Link>
 
