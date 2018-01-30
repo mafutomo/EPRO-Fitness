@@ -6,6 +6,7 @@ import RaisedButton from 'material-ui/RaisedButton';
 import {RadioButton, RadioButtonGroup} from 'material-ui/RadioButton';
 import DropDownMenu from 'material-ui/DropDownMenu';
 import MenuItem from 'material-ui/MenuItem';
+import './account.css'
 import {
   Link,
   Redirect
@@ -61,7 +62,7 @@ class Account extends Component {
       triphasic: false,
       monophasic: false,
       progestin: false,
-
+      retypePassword:"",
       token: '',
       message: '',
       loggedIn: false
@@ -166,7 +167,7 @@ class Account extends Component {
       /><br />
       <TextField
         type="password"
-       floatingLabelText="Re-type Password"
+       floatingLabelText="Re-type Password" name="retypePassword" value={this.state.retypePassword} onChange={this.handleChange}
       /><br />
       <br />
 
@@ -189,10 +190,17 @@ class Account extends Component {
        </DropDownMenu>
 
       <br />
+      <br />
+      
+      <p>
+        <span>{'Your Birth Control Method:'}</span>
+      </p>
 
       <RadioButtonGroup name="contraception"
+        className = 'center'
         style={radioStyles.block}
         onChange = {this.booleanChange}>
+
         <RadioButton
           value="nonhormonal"
           label="Non-Hormonal"

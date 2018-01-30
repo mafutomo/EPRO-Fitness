@@ -52,17 +52,13 @@ class App extends Component {
     return (
       <Router>
         <div className="App">
-
-          <MuiThemeProvider>
-            <Navbar/>
-          </MuiThemeProvider>
-
           <MuiThemeProvider>
             <Switch>
             <Route
               exact path="/"
               render= {() => (
                 <div>
+                  <Navbar/>
                   <Hormones/>
                 </div>
                 )
@@ -102,6 +98,7 @@ class App extends Component {
             exact path="/hormones"
             render= {() => (
               <div>
+                <Navbar/>
                 <Hormones/>
               </div>
             )}
@@ -115,6 +112,7 @@ class App extends Component {
             exact path="/userbase"
             render= {() => (
               <div>
+                <Navbar/>
                 <Userbase/>
               </div>
             )}

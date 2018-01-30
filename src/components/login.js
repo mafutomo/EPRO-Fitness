@@ -81,6 +81,7 @@ class Login extends Component {
 
 
          <RaisedButton label="Login" backgroundColor='#52BFAB' labelColor='white' style={style} type="submit"/>
+
          <Link to={`/account`}>
          <RaisedButton label="Register" backgroundColor='#52BFAB' labelColor='white'  style={style}/>
        </Link>
