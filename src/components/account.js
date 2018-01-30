@@ -100,9 +100,7 @@ class Account extends Component {
       }),
       headers: {
         'Content-Type': 'application/json',
-        'Accept': 'application/json',
-        'Access-Control-Allow-Credentials': true,
-        'Access-Control-Allow-Origin': '*'
+        'Accept': 'application/json'
       }
     })
     console.log(response.json());
@@ -116,7 +114,7 @@ class Account extends Component {
 
   booleanChange = (e) => {
     this.setState({
-      [e.target.name]: true
+      [e.target.value]: true
     })
   }
 
@@ -143,10 +141,12 @@ class Account extends Component {
          name="email" value={this.state.email} onChange={this.handleChange}
         /><br />
         <TextField
+          type="password"
          floatingLabelText="Password"
          name="password" value={this.state.password} onChange={this.handleChange}
         /><br />
         <TextField
+          type="password"
          floatingLabelText="Re-type Password"
         /><br />
         <br />
@@ -171,30 +171,28 @@ class Account extends Component {
 
         <br />
 
-        <RadioButtonGroup name="contraception" style={radioStyles.block}>
+        <RadioButtonGroup name="contraception"
+          style={radioStyles.block}
+          onChange = {this.booleanChange}>
           <RadioButton
             value="nonhormonal"
-            label="NonHormonal"
+            label="Non-Hormonal"
             style={radioStyles.radioButton}
-            onChange = {this.booleanChange}
           />
           <RadioButton
             value="triphasic"
             label="Triphasic"
             style={radioStyles.radioButton}
-            onChange = {this.booleanChange}
           />
           <RadioButton
             value="monophasic"
             label="Monophasic"
             style={radioStyles.radioButton}
-            onChange = {this.booleanChange}
           />
           <RadioButton
             value="progestin"
             label="Progestin"
             style={radioStyles.radioButton}
-            onChange = {this.booleanChange}
           />
        </RadioButtonGroup>
 
