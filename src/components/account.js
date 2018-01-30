@@ -3,6 +3,10 @@ import TextField from 'material-ui/TextField';
 import Slider from 'material-ui/Slider';
 import DatePicker from 'material-ui/DatePicker';
 import RaisedButton from 'material-ui/RaisedButton';
+import {RadioButton, RadioButtonGroup} from 'material-ui/RadioButton';
+import DropDownMenu from 'material-ui/DropDownMenu';
+import MenuItem from 'material-ui/MenuItem';
+
 import {
   Table,
   TableBody,
@@ -18,9 +22,28 @@ const styles = {
   },
 };
 
+const radioStyles = {
+  block: {
+    maxWidth: 250,
+  },
+  radioButton: {
+    marginBottom: 16,
+  },
+}
+
 const style = {
   margin: 12,
-  };
+};
+
+const items = [];
+for (let i = 21; i < 36; i++ ) {
+  items.push(<MenuItem value={i} key={i} primaryText={`${i} days`} />);
+}
+
+const itemsAge = [];
+for (let i = 12; i < 99; i++ ) {
+  itemsAge.push(<MenuItem value={i} key={i} primaryText={`${i} years old`} />);
+}
 
 class Account extends Component {
 
@@ -28,18 +51,22 @@ class Account extends Component {
     super(props);
     this.state = {
       secondSlider: 21,
+      thirdSlider: 12,
       checked: false,
       thirdSlider: 12,
+      fname: "",
+      lname: "",
+      email: "",
+      password: "",
+      cycleLength: 21,
+      dayOfLastPeriod: "",
+      age: 12,
+      nonhormonal: false,
+      triphasic: false,
+      monophasic: false,
+      progestin: false
     }
   }
-
-  handleSecondSlider = (event, value) => {
-      this.setState({secondSlider: value});
-    };
-
-  handleThirdSlider = (event, value) => {
-      this.setState({thirdSlider: value});
-    };
 
   updateCheck() {
     this.setState((oldState) => {
@@ -49,90 +76,133 @@ class Account extends Component {
     });
   }
 
+  //for cycle length dropdown
+  handleCycleChange = (event, index, cycleLength) => this.setState({cycleLength});
+  //for age dropdown
+  handleAgeChange = (event, index, age) => this.setState({age});
+
+  createUser = async (e, {fname, lname, email, password, cycleLength, dayOfLastPeriod, age, nonhormonal, triphasic, monophasic, progestin}) => {
+    e.preventDefault()
+    const response = await fetch ('https://epro-api.herokuapp.com/users/register', {
+      method: 'POST',
+      body: JSON.stringify({
+        first_name: fname,
+        last_name: lname,
+        email: email,
+        password: password,
+        age: age,
+        first_day: dayOfLastPeriod,
+        cycle_length: cycleLength,
+        non_hormonal: nonhormonal,
+        triphasic: triphasic,
+        monophasic: monophasic,
+        progestin: progestin
+      }),
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+        'Access-Control-Allow-Credentials': true,
+        'Access-Control-Allow-Origin': '*'
+      }
+    })
+    console.log(response.json());
+  }
+
+  handleChange = (e, index) => {
+    this.setState({
+      [e.target.name]: e.target.value
+    })
+  }
+
+  booleanChange = (e) => {
+    this.setState({
+      [e.target.name]: true
+    })
+  }
+
   render() {
       return (
 
         <div style={styles.block}>
 
-          <p className="title-app">Account</p>
+        <p className="title-app">Account</p>
+
+        <form onSubmit={(e)=>{this.createUser(e, this.state)}}>
 
         <TextField
          floatingLabelText="First Name"
-        /><br />
+         name="fname" value={this.state.fname} onChange={this.handleChange}
+         /><br />
         <TextField
          floatingLabelText="Last Name"
+         name="lname" value={this.state.lname} onChange={this.handleChange}
         /><br />
         <TextField
          floatingLabelText="Email"
          hintText="example@email.com"
+         name="email" value={this.state.email} onChange={this.handleChange}
         /><br />
         <TextField
          floatingLabelText="Password"
+         name="password" value={this.state.password} onChange={this.handleChange}
         /><br />
         <TextField
          floatingLabelText="Re-type Password"
         /><br />
         <br />
+
         <p>
           <span>{'Your Cycle Length: '}</span>
-          <span>{`${this.state.secondSlider} Days`}</span>
         </p>
-        <Slider
-          min={21}
-          max={36}
-          step={1}
-          style={{margin:35}}
-          value={this.state.secondSlider}
-          onChange={this.handleSecondSlider}
-        />
-        <DatePicker hintText="Day of Last Period" />
+
+        <DropDownMenu maxHeight={300} value={this.state.cycleLength} onChange={this.handleCycleChange}>
+         {items}
+         </DropDownMenu>
+
         <br />
 
         <p>
-          <span>{'Age: '}</span>
-          <span>{`${this.state.thirdSlider}`}</span>
+          <span>{'Age:'}</span>
         </p>
-        <Slider
-          min={12}
-          max={99}
-          step={1}
-          style={{margin:35}}
-          value={this.state.thirdSlider}
-          onChange={this.handleThirdSlider}
-        />
+
+        <DropDownMenu maxHeight={300} value={this.state.age} onChange={this.handleAgeChange}>
+         {itemsAge}
+         </DropDownMenu>
+
         <br />
 
-            <Table>
-        <TableHeader>
-          <TableRow>
-            <TableHeaderColumn>Birth Control Method</TableHeaderColumn>
-            <TableHeaderColumn>Examples</TableHeaderColumn>
-          </TableRow>
-        </TableHeader>
-        <TableBody>
-          <TableRow>
-            <TableRowColumn style={{whiteSpace: 'normal', wordWrap: 'break-word', width:'40%'}}>Non Hormonal</TableRowColumn>
-            <TableRowColumn style={{whiteSpace: 'normal', wordWrap: 'break-word', width:'60%'}}>None, Condoms, Paraguard/CopperIUD</TableRowColumn>
-          </TableRow>
-          <TableRow>
-            <TableRowColumn style={{whiteSpace: 'normal', wordWrap: 'break-word', width:'40%'}}>Triphasic</TableRowColumn>
-            <TableRowColumn style={{whiteSpace: 'normal', wordWrap: 'break-word', width:'60%'}}>Combination Birth Contol Pill - Varied Amount
-            , Ortho Tricyclen</TableRowColumn>
-          </TableRow>
-          <TableRow>
-            <TableRowColumn style={{whiteSpace: 'normal', wordWrap: 'break-word', width:'40%'}}>Monophasic</TableRowColumn>
-            <TableRowColumn style={{whiteSpace: 'normal', wordWrap: 'break-word', width:'60%'}}>Combination Birth Contol Pill - Same Amount
-            , Levora </TableRowColumn>
-          </TableRow>
-          <TableRow>
-            <TableRowColumn style={{whiteSpace: 'normal', wordWrap: 'break-word', width:'40%'}}>Progestins</TableRowColumn>
-            <TableRowColumn style={{whiteSpace: 'normal', wordWrap: 'break-word', width:'60%'}}>Mirena IUD, Skyla, Mini Pill, Depo Shot, The Ring</TableRowColumn>
-          </TableRow>
-        </TableBody>
-      </Table>
+        <RadioButtonGroup name="contraception" style={radioStyles.block}>
+          <RadioButton
+            value="nonhormonal"
+            label="NonHormonal"
+            style={radioStyles.radioButton}
+            onChange = {this.booleanChange}
+          />
+          <RadioButton
+            value="triphasic"
+            label="Triphasic"
+            style={radioStyles.radioButton}
+            onChange = {this.booleanChange}
+          />
+          <RadioButton
+            value="monophasic"
+            label="Monophasic"
+            style={radioStyles.radioButton}
+            onChange = {this.booleanChange}
+          />
+          <RadioButton
+            value="progestin"
+            label="Progestin"
+            style={radioStyles.radioButton}
+            onChange = {this.booleanChange}
+          />
+       </RadioButtonGroup>
+
 
       <RaisedButton label="Cancel" backgroundColor='#FF3E00' labelColor='white' style={style} />
-      <RaisedButton label="Submit" backgroundColor='#52BFAB' labelColor='white' style={style} />
+      <RaisedButton label="Submit" backgroundColor='#52BFAB' labelColor='white' style={style} type='submit'/>
+
+      </form>
 
         </div>
       )
