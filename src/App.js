@@ -19,50 +19,46 @@ class App extends Component {
 
   constructor(props) {
     super(props)
-    // this.state = {
-    //   'loggedIn': false
-    // }
+    this.state = {
+      'loggedIn': false
+    }
   }
 
-  // async componentDidMount() {
-  //   const logged = await this.getAuth()
-  //   if (logged === 'success') {
-  //     this.setState({
-  //       loggedIn: true
-  //     })
-  //   } else {
-  //     localStorage.removeItem('token')
-  //   }
-  // }
-  // async getAuth() {
-  //   const response = await fetch('https://epro-api.herokuapp.com/auth/status', {
-  //     method: 'GET',
-  //     headers: {
-  //       'Content-Type': 'application/json',
-  //       'Accept': 'application/json',
-  //       'Authorization': localStorage.getItem('token')
-  //     }
-  //   })
-  //   const json = await response.json()
-  //   return json.status
-  // }
+  async componentDidMount() {
+    const logged = await this.getAuth()
+    if (logged === 'success') {
+      this.setState({
+        loggedIn: true
+      })
+    } else {
+      localStorage.removeItem('token')
+    }
+  }
+  async getAuth() {
+    const response = await fetch('https://epro-api.herokuapp.com/auth/status', {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+        'Authorization': localStorage.getItem('token')
+      }
+    })
+    const json = await response.json()
+    return json.status
+  }
 
 
   render() {
     return (
       <Router>
         <div className="App">
-
-          <MuiThemeProvider>
-            <Navbar/>
-          </MuiThemeProvider>
-
           <MuiThemeProvider>
             <Switch>
             <Route
               exact path="/"
               render= {() => (
                 <div>
+                  <Navbar/>
                   <Hormones/>
                 </div>
                 )
@@ -102,6 +98,7 @@ class App extends Component {
             exact path="/hormones"
             render= {() => (
               <div>
+                <Navbar/>
                 <Hormones/>
               </div>
             )}
@@ -115,6 +112,7 @@ class App extends Component {
             exact path="/userbase"
             render= {() => (
               <div>
+                <Navbar/>
                 <Userbase/>
               </div>
             )}
