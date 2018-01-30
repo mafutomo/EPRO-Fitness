@@ -143,7 +143,7 @@ class Account extends Component {
     const { loggedIn } = this.state
     if (loggedIn) {
       return (
-        <Redirect to={Hormones}/>
+        <Redirect to={'/hormones'}/>
       )
     }
 
