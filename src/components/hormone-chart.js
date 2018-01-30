@@ -4,6 +4,9 @@ import $ from "jquery";
 
 document.addEventListener("DOMContentLoaded", function() {
 
+function createChart(data){
+
+
 var initialWidth = window.innerWidth;
 var initialHeight = window.innerWidth < 600 ? initialWidth * 0.7 : initialWidth * 0.4;
 
@@ -240,7 +243,48 @@ var svg = d3.select("#chart").append("svg")
   .style("text-align", "center");
 }
 
-getContraceptiveData()
+// getContraceptiveData()
+// var data = [
+//    {'id': 2, "day": 1, "estrogen": 50, "progesterone": 0},
+//    {'id': 2, "day": 2, "estrogen": 100, "progesterone": 7},
+//    {'id': 2, "day": 3, "estrogen": 150, "progesterone": 9},
+//    {'id': 2, "day": 4, "estrogen": 400, "progesterone": 11},
+//  ]
+
+
+function getData() {
+   let user = {};
+   let rawContraceptiveData = [];
+
+   // get the users first
+   $.getJSON("https://epro-api.herokuapp.com/users/1", function(result){
+     console.log("user:");
+     console.log(result);
+     user = result.data;
+     $.getJSON("https://epro-api.herokuapp.com/hormones/non_hormonal", function(result){
+       console.log("triphasic:");
+       console.log(result);
+       rawContraceptiveData = result.data;
+
+       //prepare the data and draw the charts
+       let data = prepDataForChart(rawContraceptiveData);
+       console.log(data);
+       createChart(data);
+     })
+   });
+ }
+
+ function prepDataForChart(rawData) {
+    return rawData.map(ele => {
+      return {
+        "day": ele.day,
+        "estrogen": ele.est,
+        "progesterone": ele.prog
+      }
+    })
+   }
+
+getData();
 
    window.addEventListener('resize', function(){window.location.reload(true);});
 })
