@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import TextField from 'material-ui/TextField';
 import RaisedButton from 'material-ui/RaisedButton';
+import './login.css'
 import {
   Link
 } from 'react-router-dom'
@@ -59,7 +60,9 @@ class Login extends Component {
       <div>
         <p className="title-app">E/Pro</p>
         <br />
-        <form onSubmit={(e)=>{this.loginUser(e, this.state)}}>
+        <form
+        className = "form-center"
+        onSubmit={(e)=>{this.loginUser(e, this.state)}}>
         <TextField
         hintText="example@email.com"
         floatingLabelText="Email Login"
