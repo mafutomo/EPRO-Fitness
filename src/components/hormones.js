@@ -23,6 +23,7 @@ class Hormones extends Component {
 
 
   render() {
+
     return (
       <div>
 
@@ -64,6 +65,5 @@ class Hormones extends Component {
     )
   }
 }
-
 
 export default Hormones;
