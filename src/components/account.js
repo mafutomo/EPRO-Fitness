@@ -7,6 +7,7 @@ import {RadioButton, RadioButtonGroup} from 'material-ui/RadioButton';
 import DropDownMenu from 'material-ui/DropDownMenu';
 import MenuItem from 'material-ui/MenuItem';
 import './account.css'
+
 import {
   Link,
   Redirect
@@ -65,7 +66,8 @@ class Account extends Component {
       retypePassword:"",
       token: '',
       message: '',
-      loggedIn: false
+      loggedIn: false,
+      canSubmit: false,
     }
   }
 
@@ -144,6 +146,7 @@ class Account extends Component {
   this.setState({dayOfLastPeriod: newDate})
   }
 
+
   render() {
 
     const { loggedIn } = this.state
@@ -156,7 +159,8 @@ class Account extends Component {
     return (
 
       <div style={styles.block}>
-      <p className="title-app">Account</p>
+      <p className="account-title">Account</p>
+
       <form onSubmit={(e)=>{this.createUser(e, this.state)}}>
 
       <TextField
@@ -239,7 +243,9 @@ class Account extends Component {
         />
         </RadioButtonGroup>
         <RaisedButton label="Submit" backgroundColor='#52BFAB' labelColor='white' style={style} type='submit'/>
+
         </form>
+
 
       </div>
       )
