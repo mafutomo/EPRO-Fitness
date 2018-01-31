@@ -10,15 +10,11 @@ import {
 
 import Hormones from './hormones'
 
-const styles = {
-    floatingLabelFocusStyle: {
-        color: 'white'
-    }
-}
-
 const style = {
   margin: 12
-  };
+};
+
+
 
 
 class Login extends Component {
@@ -80,8 +76,8 @@ class Login extends Component {
     }
 
     return (
-      <div className = "backgroundImage">
-        <div>
+      <div className="backgroundImage">
+        <img src={require("./homepage.jpg")} className="bg" />
         <p className="title-app">E/Pro</p>
         <form onSubmit={(e)=>{this.loginUser(e, this.state)}}>
         <TextField
@@ -90,7 +86,6 @@ class Login extends Component {
         value={this.state.email}
         onChange={this.handleChange}
         name="email"
-        style={styles.floatingLabelFocusStyle}
         /><br />
 
         <TextField
@@ -109,12 +104,12 @@ class Login extends Component {
          <RaisedButton label="Login" backgroundColor='#52BFAB' labelColor='white' style={style} type="submit"/>
 
          <Link to={`/account`}>
-         <RaisedButton label="Register" backgroundColor='#52BFAB' labelColor='white'  style={style}/>
+         <RaisedButton label="Register" backgroundColor='#FF3E00' labelColor='white'  style={style}/>
        </Link>
 
 
        </form>
-       </div>
+
 
       </div>
     )
