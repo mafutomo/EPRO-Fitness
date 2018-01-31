@@ -54,7 +54,7 @@ div.tooltip {
     position: absolute;
     text-align: center;
     width: 60px;
-    height: 28px;
+    height: 14px;
     padding: 2px;
     font: 12px sans-serif;
     background: lightsteelblue;
@@ -66,7 +66,7 @@ div.tooltip {
 #userbase {
   text-align: center;
   margin: auto;
-}
+  font-family: 'AlegreyaSans';}
 
 #svg1 {
   width: 350px;
@@ -100,8 +100,7 @@ div.tooltip {
 }
 @media screen and (min-width: 800px) {
   #svg1 {
-    margin-left: 150px;
-    width: 800px;
+    width: 600px;
     height: 450px;
   }
   #svg2 {
@@ -109,7 +108,6 @@ div.tooltip {
     height: 400px;
   }
   #svg3 {
-    margin-left: 150px;
     width: 800px;
     height: 450px;
   }
