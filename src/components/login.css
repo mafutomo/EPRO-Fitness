@@ -1,0 +1,52 @@
+html, body, .root, #App {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    border: 0;
+}
+
+.title-app{
+  padding-top: 10%;
+  font-weight: 200;
+  letter-spacing: 2px;
+}
+
+/* .backgroundImage {
+  margin-top: -50px;
+  height: 950px;
+  background-image: url('./bg1blur.jpg');
+} */
+
+
+
+@media only screen
+  and (min-device-width: 320px)
+  and (max-device-width: 480px)
+  and (-webkit-min-device-pixel-ratio: 2)
+  and (orientation: portrait) {
+
+    html, body, .root, #App {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+        border: 0;
+    }
+
+    .form-center{
+      position: absolute;
+      margin: auto;
+    }
+
+    .title-app{
+      padding-top: 35%;
+      color: white;
+      font-weight: 200;
+      letter-spacing: 2px;
+    }
+
+    .backgroundImage {
+      margin-top: -50px;
+      height: 670px;
+      background-image: url('./workoutVertical.png');
+    }
+}

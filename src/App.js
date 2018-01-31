@@ -57,7 +57,7 @@ class App extends Component {
             <Route
               exact path="/"
               render= {() => (
-                <div>
+                <div className = "height-adjust">
                   <Navbar/>
                   <Hormones/>
                 </div>
