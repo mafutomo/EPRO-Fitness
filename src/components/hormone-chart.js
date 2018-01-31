@@ -21,7 +21,6 @@ function createChart(data, user){
 
   //find today's date
   var today = moment().format('MMMM Do YYYY');
-  console.log(today);
 
   //reformat users first date of last period
   var d = user.first_day;
@@ -264,14 +263,11 @@ function getData() {
           type: 'GET',
           dataType: 'json',
           success: function(result) {
-            console.log(result);
             userId = result.data.user_id
-            console.log(userId);
 
             // get the user info
              $.getJSON(`https://epro-api.herokuapp.com/users/${userId}`, function(result){
                user = result;
-               console.log(user);
 
                if (user.monophasic === true){
                  userContraceptive = "monophasic"
@@ -284,17 +280,13 @@ function getData() {
                } else {
                  userContraceptive = "non_hormonal"
                }
-               console.log(userContraceptive);
+
              //get the hormone data
              $.getJSON(`https://epro-api.herokuapp.com/hormones/${userContraceptive}`, function(result){
                rawContraceptiveData = result.data;
 
                //prepare the data and draw the charts
                let data = prepDataForChart(rawContraceptiveData, user);
-               console.log("data after changes: ");
-               console.log(data);
-               console.log("user after changes: ");
-               console.log(user);
                createChart(data, user);
              })
            });
@@ -307,8 +299,6 @@ function getData() {
     }
 
  function prepDataForChart(rawData, user) {
-   console.log('rawData');
-   console.log(rawData);
    var intData = rawData.map(ele => {
      return {
        "day": ele.day,
@@ -316,10 +306,6 @@ function getData() {
        "progesterone": (ele.prog/10)
      }
    })
-   console.log("user: ");
-   console.log(user);
-   console.log("intdata: ");
-   console.log(intData);
    if (user.triphasic || user.monophasic){
      return intData;
    } else if (user.progestin) {
@@ -346,9 +332,7 @@ function getData() {
             "estrogen": dupObj.est,
             "progesterone": dupObj.prog/10
           }
-          intData.splice(dupArr[i], 0, copyObj);
-          console.log("data in loop: ");
-          console.log(intData);
+          intData.splice(dupArr[i], 0, copyObj);  
         }
         for (let i = 0; i < intData.length; i++){
           intData[i].day = i + 1;
