@@ -19,6 +19,31 @@ function createChart(data, user){
   var width = initialWidth - margin.left - margin.right;
   var height = initialHeight - margin.top - margin.bottom;
 
+  //find today's date
+  var today = moment().format('MMMM Do YYYY');
+  console.log(today);
+
+  //reformat users first date of last period
+  var d = user.first_day;
+  var parts = d.split(' ');
+  var months = {Jan: "01",Feb: "02",Mar: "03",Apr: "04",May: "05",Jun: "06",Jul: "07",Aug: "08",Sep: "09",Oct: "10",Nov: "11",Dec: "12"};
+  var usersLastDay = parts[3]+"-"+months[parts[1]]+"-"+parts[2];
+  var actualLastDay = usersLastDay.replace(/-|\s/g,"");
+
+  //users cycle length
+  var cycleLength = user.cycle_length;
+  var cycleLengthArr = [];
+  for (let i = 1; i <= cycleLength; i++) {
+    cycleLengthArr.push(i)
+  }
+
+  //find how many days have elapsed since last period
+  var daysAgo = moment(actualLastDay, "YYYYMMDD").fromNow();
+  console.log(daysAgo);
+  var daysAgoNum = Number(daysAgo.match(/\d+/g));
+  var currentCycleDay = daysAgoNum%cycleLength;
+
+
 //create scales
   var x = d3.scaleBand()
       .range([0, width], .1);
@@ -102,7 +127,7 @@ function createChart(data, user){
     .attr("y", 0)
     .style("text-anchor", "middle")
     .attr("transform", "translate(" + width/2 + ", 60)")
-    .text("Day ___");
+    .text(`Day ${currentCycleDay}`);
 
   var bars = svg.selectAll(".bar")
     .data(data)
@@ -159,29 +184,6 @@ function createChart(data, user){
     .append('svg')
     .attr("height", 100)
     .attr("width", width)
-
-  //find today's date
-  var today = moment().format('MMMM Do YYYY');
-
-  //reformat users first date of last period
-  var d = user.first_day;
-  var parts = d.split(' ');
-  var months = {Jan: "01",Feb: "02",Mar: "03",Apr: "04",May: "05",Jun: "06",Jul: "07",Aug: "08",Sep: "09",Oct: "10",Nov: "11",Dec: "12"};
-  var usersLastDay = parts[3]+"-"+months[parts[1]]+"-"+parts[2];
-  var actualLastDay = usersLastDay.replace(/-|\s/g,"");
-
-  //users cycle length
-  var cycleLength = 28;
-  var cycleLengthArr = [];
-  for (let i = 1; i <= cycleLength; i++) {
-    cycleLengthArr.push(i)
-  }
-
-  //find how many days have elapsed since last period
-  var daysAgo = moment(actualLastDay, "YYYYMMDD").fromNow();
-  console.log(daysAgo);
-  var daysAgoNum = Number(daysAgo.match(/\d+/g));
-  var currentCycleDay = daysAgoNum%cycleLength;
 
   //use users cycle length to determine length of progess bar
   var states = cycleLengthArr,
@@ -256,7 +258,7 @@ function getData() {
    let user = {};
    let rawContraceptiveData = [];
    var userId;
-   var userContraceptive;
+   var userContraceptive = "non_hormonal";
 
     //get the user_id
     $.ajax({
@@ -267,19 +269,26 @@ function getData() {
             console.log(result);
             userId = result.data.user_id
             console.log(userId);
+
             // get the user info
              $.getJSON(`https://epro-api.herokuapp.com/users/${userId}`, function(result){
                user = result;
                console.log(user);
 
-               for (var key in user) {
-                 if (user[key] === true) {
-                   userContraceptive === key
-                 }
+               if (user.monophasic === true){
+                 userContraceptive = "monophasic"
+               } else if (user.non_hormonal === true){
+                 userContraceptive = "non_hormonal"
+               } else if (user.progestin === true){
+                 userContraceptive = "progestin"
+               } else if (user.triphasic === true){
+                 userContraceptive = "triphasic"
+               } else {
+                 userContraceptive = "non_hormonal"
                }
                console.log(userContraceptive);
              //get the hormone data
-             $.getJSON("https://epro-api.herokuapp.com/hormones/non_hormonal", function(result){
+             $.getJSON(`https://epro-api.herokuapp.com/hormones/${userContraceptive}`, function(result){
                rawContraceptiveData = result.data;
 
                //prepare the data and draw the charts
@@ -290,7 +299,7 @@ function getData() {
            });
           },
           error: function() {
-            alert('boo!');
+            console.log('boo!');
            },
           beforeSend: setHeader
         });
