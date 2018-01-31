@@ -19,6 +19,38 @@ function createChart(data, user){
   var width = initialWidth - margin.left - margin.right;
   var height = initialHeight - margin.top - margin.bottom;
 
+  //find today's date
+  var today = moment().format('MMMM Do YYYY');
+  console.log(today);
+
+  //reformat users first date of last period
+  var d = user.first_day;
+  var parts = d.split(' ');
+  var months = {Jan: "01",Feb: "02",Mar: "03",Apr: "04",May: "05",Jun: "06",Jul: "07",Aug: "08",Sep: "09",Oct: "10",Nov: "11",Dec: "12"};
+  var usersLastDay = parts[3]+"-"+months[parts[1]]+"-"+parts[2];
+  var actualLastDay = usersLastDay.replace(/-|\s/g,"");
+
+  //users cycle length
+  var cycleLength;
+
+  if (user.triphasic === true || user.monophasic === true) {
+    cycleLength = 28;
+  } else {
+    cycleLength = user.cycle_length;
+  }
+
+  var cycleLengthArr = [];
+  for (let i = 1; i <= cycleLength; i++) {
+    cycleLengthArr.push(i)
+  }
+
+  //find how many days have elapsed since last period
+  var daysAgo = moment(actualLastDay, "YYYYMMDD").fromNow();
+  console.log(daysAgo);
+  var daysAgoNum = Number(daysAgo.match(/\d+/g));
+  var currentCycleDay = daysAgoNum%cycleLength;
+
+
 //create scales
   var x = d3.scaleBand()
       .range([0, width], .1);
@@ -102,7 +134,7 @@ function createChart(data, user){
     .attr("y", 0)
     .style("text-anchor", "middle")
     .attr("transform", "translate(" + width/2 + ", 60)")
-    .text("Day ___");
+    .text(`Day ${currentCycleDay}`);
 
   var bars = svg.selectAll(".bar")
     .data(data)
@@ -255,6 +287,8 @@ function getData() {
    let user = {};
    let rawContraceptiveData = [];
    var userId;
+   var userContraceptive = "non_hormonal";
+
 
     //get the user_id
     $.ajax({
@@ -264,42 +298,108 @@ function getData() {
           success: function(result) {
             // console.log(result);
             userId = result.data.user_id
-            // console.log(userId);
+            console.log(userId);
+
             // get the user info
              $.getJSON(`https://epro-api.herokuapp.com/users/${userId}`, function(result){
                user = result;
-               // console.log(user);
+               console.log(user);
+
+               if (user.monophasic === true){
+                 userContraceptive = "monophasic"
+               } else if (user.non_hormonal === true){
+                 userContraceptive = "non_hormonal"
+               } else if (user.progestin === true){
+                 userContraceptive = "progestin"
+               } else if (user.triphasic === true){
+                 userContraceptive = "triphasic"
+               } else {
+                 userContraceptive = "non_hormonal"
+               }
+               console.log(userContraceptive);
              //get the hormone data
-             $.getJSON("https://epro-api.herokuapp.com/hormones/non_hormonal", function(result){
+             $.getJSON(`https://epro-api.herokuapp.com/hormones/${userContraceptive}`, function(result){
                rawContraceptiveData = result.data;
 
                //prepare the data and draw the charts
-               let data = prepDataForChart(rawContraceptiveData);
-               // console.log(data);
+               let data = prepDataForChart(rawContraceptiveData, user);
+               console.log("data after changes: ");
+               console.log(data);
+               console.log("user after changes: ");
+               console.log(user);
                createChart(data, user);
              })
            });
           },
           error: function() {
-            // alert('boo!');
-            console.log("boo")
+            console.log('boo!');
            },
           beforeSend: setHeader
         });
-    // $.getJSON('https://epro-api.herokuapp.com/auth/status', function(result){
-    //   console.log(result);
-    // })
- }
+    }
 
- function prepDataForChart(rawData) {
-    return rawData.map(ele => {
-      return {
-        "day": ele.day,
-        "estrogen": ele.est,
-        "progesterone": (ele.prog/10)
+ function prepDataForChart(rawData, user) {
+   console.log('rawData');
+   console.log(rawData);
+   var intData = rawData.map(ele => {
+     return {
+       "day": ele.day,
+       "estrogen": ele.est,
+       "progesterone": (ele.prog/10)
+     }
+   })
+   console.log("user: ");
+   console.log(user);
+   console.log("intdata: ");
+   console.log(intData);
+   if (user.triphasic || user.monophasic){
+     return intData;
+   } else if (user.progestin) {
+      let newData = [];
+      for(let i = 1; i < user.cycle_length+1; i++){
+        newData.push({
+          "day": i,
+          "estrogen": 0,
+          "progesterone": .8
+        })
       }
-    })
-   }
+      return newData;
+    }
+    else {
+      if (user.cycle_length === 28) {
+        return rawData;
+      } else if (user.cycle_length > 28) {
+        let dupArr = [26, 25, 23, 22, 21, 19, 15, 11];
+        let loop = user.cycle_length - 28;
+        for (let i = 0; i < loop; i++){
+          let dupObj = rawData[dupArr[i]];
+          let copyObj = {
+            "day": dupObj.day,
+            "estrogen": dupObj.est,
+            "progesterone": dupObj.prog/10
+          }
+          intData.splice(dupArr[i], 0, copyObj);
+          console.log("data in loop: ");
+          console.log(intData);
+        }
+        for (let i = 0; i < intData.length; i++){
+          intData[i].day = i + 1;
+        }
+        return intData;
+      } else {
+        let delArr = [27, 15, 8, 3, 21, 1, 6];
+        let loop = 28 - user.cycle_length;
+        for (let i = 0; i < loop; i++) {
+          intData.splice(delArr[i], 1)
+        }
+        for (let i = 0; i < intData.length; i++){
+          intData[i].day = i + 1;
+        }
+        return intData;
+      }
+    }
+  }
+
 
  function setHeader(xhr) {
     xhr.setRequestHeader('Authorization', localStorage.getItem('token'));
