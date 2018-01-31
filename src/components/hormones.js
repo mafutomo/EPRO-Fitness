@@ -15,14 +15,16 @@ const styles = {
   },
   paper: {
     height: 50,
-    width: 700,
+    maxWidth: 800,
     margin: 20,
     textAlign: 'center',
     display: 'inline-block',
     marginTop: 30,
     backgroundColor: '#ffdfaa',
     fontFamily: 'Julius Sans One',
-    paddingTop: 16,
+    paddingTop: 15,
+    paddingLeft: 20,
+    paddingRight: 20,
     color: 'black',
 
   }
