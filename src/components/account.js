@@ -55,28 +55,27 @@ class Account extends Component {
 
   constructor(props) {
     super(props);
-    this.state = {
-      checked: false,
-      thirdSlider: 12,
-      fname: "",
-      lname: "",
-      email: "",
-      password: "",
-      retypePassword:"",
-      cycleLength: 21,
-      dayOfLastPeriod: "",
-      age: 12,
-      nonhormonal: false,
-      triphasic: false,
-      monophasic: false,
-      progestin: false,
-      token: '',
-      message: '',
-      loggedIn: false,
-      canSubmit: false,
-      disabled: true,
-    }
-
+      this.state = {
+        checked: false,
+        thirdSlider: 12,
+        fname: "",
+        lname: "",
+        email: "",
+        password: "",
+        retypePassword:"",
+        cycleLength: 21,
+        dayOfLastPeriod: "",
+        age: 12,
+        nonhormonal: false,
+        triphasic: false,
+        monophasic: false,
+        progestin: false,
+        token: '',
+        message: '',
+        loggedIn: false,
+        canSubmit: false,
+        disabled: true,
+      }
      this.validatorListener = this.validatorListener.bind(this);
   }
 
@@ -153,14 +152,18 @@ class Account extends Component {
   }
 
   validatorListener(result) {
-    console.log(result)
-       this.setState({ disabled: !result });
+    console.log("RESULT ==", result)
+
+      if(result === true && this.state.email != "" && this.state.retypePassword != "" && this.state.fname != "" && this.state.lname != "" && this.state.dayOfLastPeriod != ""){
+          this.setState({ disabled: !result });
+      } else {
+          this.setState({ disabled: true });
+      }
    }
 
    componentWillMount() {
        // custom rule will have name 'isPasswordMatch'
        ValidatorForm.addValidationRule('isPasswordMatch', (value) => {
-         console.log(value)
            if (value !== this.state.password) {
                return false;
            }
@@ -169,7 +172,6 @@ class Account extends Component {
    }
 
   render() {
-
     const { loggedIn } = this.state
     if (loggedIn) {
       return (
@@ -195,7 +197,7 @@ class Account extends Component {
       <TextField
        floatingLabelText="Last Name"
        name="lname" value={this.state.lname} onChange={this.handleChange}
-       validatorListener={this.validatorListener}
+
       /><br />
 
       <TextValidator
@@ -211,8 +213,7 @@ class Account extends Component {
 
       <br />
 
-
-      <TextField
+      <TextValidator
         type="password"
        floatingLabelText="Password"
        name="password"
@@ -220,9 +221,10 @@ class Account extends Component {
        errorMessages={['this field is required']}
        value={this.state.password}
        onChange={this.handleChange}
+
       /><br />
 
-      <TextField
+      <TextValidator
       type="password"
        floatingLabelText="Re-type Password"
        name="retypePassword"
@@ -230,6 +232,7 @@ class Account extends Component {
        validators={['isPasswordMatch', 'required']}
        errorMessages={['password mismatch', 'this field is required']}
        onChange={this.handleChange}
+       validatorListener={this.validatorListener}
       />
 
       <br />
@@ -255,7 +258,7 @@ class Account extends Component {
 
       <DropDownMenu maxHeight={300} value={this.state.age} onChange={this.handleAgeChange}>
        {itemsAge}
-       </DropDownMenu>
+      </DropDownMenu>
 
       <br />
       <br />
@@ -290,7 +293,6 @@ class Account extends Component {
           style={radioStyles.radioButton}
         />
         </RadioButtonGroup>
-
 
         <RaisedButton label="Submit"
         backgroundColor='#52BFAB'
