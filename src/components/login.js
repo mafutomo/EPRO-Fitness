@@ -1,6 +1,8 @@
 import React, {Component} from 'react';
 import TextField from 'material-ui/TextField';
 import RaisedButton from 'material-ui/RaisedButton';
+import './login.css'
+
 import {
   Link,
   Redirect
@@ -8,9 +10,16 @@ import {
 
 import Hormones from './hormones'
 
+const styles = {
+    floatingLabelFocusStyle: {
+        color: 'white'
+    }
+}
+
 const style = {
-  margin: 12,
+  margin: 12
   };
+
 
 class Login extends Component {
 
@@ -71,9 +80,9 @@ class Login extends Component {
     }
 
     return (
-      <div>
+      <div className = "backgroundImage">
+        <div>
         <p className="title-app">E/Pro</p>
-        <br />
         <form onSubmit={(e)=>{this.loginUser(e, this.state)}}>
         <TextField
         hintText="example@email.com"
@@ -81,6 +90,7 @@ class Login extends Component {
         value={this.state.email}
         onChange={this.handleChange}
         name="email"
+        style={styles.floatingLabelFocusStyle}
         /><br />
 
         <TextField
@@ -91,8 +101,9 @@ class Login extends Component {
           onChange={this.handleChange}
           name="password"
         /><br />
-         <br />
-          <br />
+        <br />
+        <br />
+        <br />
 
 
          <RaisedButton label="Login" backgroundColor='#52BFAB' labelColor='white' style={style} type="submit"/>
@@ -100,7 +111,11 @@ class Login extends Component {
          <Link to={`/account`}>
          <RaisedButton label="Register" backgroundColor='#52BFAB' labelColor='white'  style={style}/>
        </Link>
+
+
        </form>
+       </div>
+
       </div>
     )
   }
