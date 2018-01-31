@@ -6,6 +6,11 @@ import RaisedButton from 'material-ui/RaisedButton';
 import {RadioButton, RadioButtonGroup} from 'material-ui/RadioButton';
 import DropDownMenu from 'material-ui/DropDownMenu';
 import MenuItem from 'material-ui/MenuItem';
+
+//validator
+import { ValidatorForm } from 'react-form-validator-core';
+import { TextValidator} from 'react-material-ui-form-validator';
+
 import './account.css'
 
 import {
@@ -45,6 +50,7 @@ for (let i = 12; i < 99; i++ ) {
   itemsAge.push(<MenuItem value={i} key={i} primaryText={`${i} years old`} />);
 }
 
+
 class Account extends Component {
 
   constructor(props) {
@@ -56,6 +62,7 @@ class Account extends Component {
       lname: "",
       email: "",
       password: "",
+      retypePassword:"",
       cycleLength: 21,
       dayOfLastPeriod: "",
       age: 12,
@@ -63,12 +70,14 @@ class Account extends Component {
       triphasic: false,
       monophasic: false,
       progestin: false,
-      retypePassword:"",
       token: '',
       message: '',
       loggedIn: false,
       canSubmit: false,
+      disabled: true,
     }
+
+     this.validatorListener = this.validatorListener.bind(this);
   }
 
   updateCheck() {
@@ -82,10 +91,6 @@ class Account extends Component {
   handleCycleChange = (event, index, cycleLength) => this.setState({cycleLength});
   //for age dropdown
   handleAgeChange = (event, index, age) => this.setState({age});
-
-  toggleSelect = () => {
-
-  }
 
   createUser = async (e, {fname, lname, email, password, cycleLength, dayOfLastPeriod, age, nonhormonal, triphasic, monophasic, progestin}) => {
     e.preventDefault()
@@ -129,6 +134,7 @@ class Account extends Component {
       [e.target.name]: e.target.value
     })
   }
+
   booleanChange = (e) => {
     this.setState(
         {
@@ -142,10 +148,25 @@ class Account extends Component {
   }
 
   handleDate = (event, date) => {
-  let newDate = date.toString()
-  this.setState({dayOfLastPeriod: newDate})
+    let newDate = date.toString()
+    this.setState({dayOfLastPeriod: newDate})
   }
 
+  validatorListener(result) {
+    console.log(result)
+       this.setState({ disabled: !result });
+   }
+
+   componentWillMount() {
+       // custom rule will have name 'isPasswordMatch'
+       ValidatorForm.addValidationRule('isPasswordMatch', (value) => {
+         console.log(value)
+           if (value !== this.state.password) {
+               return false;
+           }
+           return true;
+       });
+   }
 
   render() {
 
@@ -161,7 +182,11 @@ class Account extends Component {
       <div style={styles.block}>
       <p className="account-title">Account</p>
 
-      <form onSubmit={(e)=>{this.createUser(e, this.state)}}>
+      <ValidatorForm
+        ref="form"
+        onSubmit={(e)=>{this.createUser(e, this.state)}}
+        onError={errors => console.log(errors)}
+      >
 
       <TextField
        floatingLabelText="First Name"
@@ -170,21 +195,44 @@ class Account extends Component {
       <TextField
        floatingLabelText="Last Name"
        name="lname" value={this.state.lname} onChange={this.handleChange}
+       validatorListener={this.validatorListener}
       /><br />
-      <TextField
-       floatingLabelText="Email"
-       hintText="example@email.com"
-       name="email" value={this.state.email} onChange={this.handleChange}
-      /><br />
+
+      <TextValidator
+          floatingLabelText="Email"
+          hintText="example@email.com"
+          onChange={this.handleChange}
+          name="email"
+          value={this.state.email}
+          validators={['required', 'isEmail']}
+          errorMessages={['this field is required', 'email is not valid']}
+          validatorListener={this.validatorListener}
+      />
+
+      <br />
+
+
       <TextField
         type="password"
        floatingLabelText="Password"
-       name="password" value={this.state.password} onChange={this.handleChange}
+       name="password"
+       validators={['required']}
+       errorMessages={['this field is required']}
+       value={this.state.password}
+       onChange={this.handleChange}
       /><br />
+
       <TextField
-        type="password"
-       floatingLabelText="Re-type Password" name="retypePassword" value={this.state.retypePassword} onChange={this.handleChange}
-      /><br />
+      type="password"
+       floatingLabelText="Re-type Password"
+       name="retypePassword"
+       value={this.state.retypePassword}
+       validators={['isPasswordMatch', 'required']}
+       errorMessages={['password mismatch', 'this field is required']}
+       onChange={this.handleChange}
+      />
+
+      <br />
       <br />
 
     <div>
@@ -242,9 +290,16 @@ class Account extends Component {
           style={radioStyles.radioButton}
         />
         </RadioButtonGroup>
-        <RaisedButton label="Submit" backgroundColor='#52BFAB' labelColor='white' style={style} type='submit'/>
 
-        </form>
+
+        <RaisedButton label="Submit"
+        backgroundColor='#52BFAB'
+        labelColor='white'
+        style={style}
+        type='submit'
+        disabled={this.state.disabled}/>
+
+        </ValidatorForm>
 
 
       </div>
