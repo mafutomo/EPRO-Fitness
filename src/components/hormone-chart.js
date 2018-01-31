@@ -25,10 +25,10 @@ function createChart(data, user){
 
   //reformat users first date of last period
   var d = user.first_day;
-  var parts = d.split(' ');
-  var months = {Jan: "01",Feb: "02",Mar: "03",Apr: "04",May: "05",Jun: "06",Jul: "07",Aug: "08",Sep: "09",Oct: "10",Nov: "11",Dec: "12"};
-  var usersLastDay = parts[3]+"-"+months[parts[1]]+"-"+parts[2];
-  var actualLastDay = usersLastDay.replace(/-|\s/g,"");
+  // var parts = d.split(' ');
+  // var months = {Jan: "01",Feb: "02",Mar: "03",Apr: "04",May: "05",Jun: "06",Jul: "07",Aug: "08",Sep: "09",Oct: "10",Nov: "11",Dec: "12"};
+  // var usersLastDay = parts[3]+"-"+months[parts[1]]+"-"+parts[2];
+  // var actualLastDay = usersLastDay.replace(/-|\s/g,"");
 
   //users cycle length
   var cycleLength;
@@ -45,11 +45,13 @@ function createChart(data, user){
   }
 
   //find how many days have elapsed since last period
-  var daysAgo = moment(actualLastDay, "YYYYMMDD").fromNow();
-  console.log(daysAgo);
-  var daysAgoNum = Number(daysAgo.match(/\d+/g));
-  var currentCycleDay = daysAgoNum%cycleLength;
+  // var daysAgo = moment(actualLastDay, "YYYYMMDD").fromNow();
+  // console.log(daysAgo);
+  // var daysAgoNum = Number(daysAgo.match(/\d+/g));
+  // var currentCycleDay = daysAgoNum%cycleLength;
 
+  const daysAgo = Math.floor(( Date.parse(new Date()) - Date.parse(d)) / 86400000) % cycleLength;
+  var currentCycleDay = daysAgo%cycleLength;
 
 //create scales
   var x = d3.scaleBand()
@@ -121,7 +123,8 @@ function createChart(data, user){
     .attr("y", 0)
     .style("text-anchor", "middle")
     .attr("transform", "translate(" + width/2 + ", 60)")
-    .text(`Day ${currentCycleDay}`);
+    .text(`Day ${currentCycleDay}`)
+    .attr("id", "day-tag");
 
   var bars = svg.selectAll(".bar")
     .data(data)
@@ -182,7 +185,7 @@ function createChart(data, user){
   //use users cycle length to determine length of progess bar
   var states = cycleLengthArr,
   segmentWidth = width,
-  currentState = daysAgoNum;
+  currentState = daysAgo;
 
   var colorScale = d3.scaleOrdinal()
     .domain(states)
@@ -354,7 +357,7 @@ function getData() {
       } else {
         let delArr = [27, 15, 8, 3, 21, 1, 6];
         let loop = 28 - user.cycle_length;
-        for (let i = 0; i < loop; i++) {
+        for (let i = 0; i <= loop; i++) {
           intData.splice(delArr[i], 1)
         }
         for (let i = 0; i < intData.length; i++){

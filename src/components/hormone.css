@@ -42,9 +42,9 @@
   display: none;
 }
 
-/*#day-tag {
+#day-tag {
   fill: #484043;
-}*/
+}
 
 .tooltip {
   position: absolute;
