@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import RaisedButton from 'material-ui/RaisedButton';
 import {Tabs, Tab} from 'material-ui/Tabs';
+import Paper from 'material-ui/Paper';
 import './hormone-chart.js';
 import './hormone.css';
 
@@ -12,7 +13,22 @@ const styles = {
     marginBottom: 12,
     fontWeight: 400,
   },
+  paper: {
+    height: 50,
+    width: 700,
+    margin: 20,
+    textAlign: 'center',
+    display: 'inline-block',
+    marginTop: 30,
+    backgroundColor: '#ffdfaa',
+    fontFamily: 'Julius Sans One',
+    paddingTop: 16,
+    color: 'black',
+
+  }
 };
+
+let userName = "Stephanie" //USER'S NAME HERE
 
 class Hormones extends Component {
 
@@ -27,8 +43,12 @@ class Hormones extends Component {
     return (
       <div>
 
-      <div id="chart"></div>
+       <Paper style={styles.paper} zDepth={2}>
+        {`${userName}'s Current Fitness Phase: Performance`}
+       </Paper>
 
+
+      <div id="chart"></div>
 
       <Tabs>
         <Tab label="Exercise" style={{fontFamily: 'Julius Sans One', backgroundColor:'#52BFAB'}}>

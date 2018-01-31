@@ -281,7 +281,7 @@ function getData() {
            });
           },
           error: function() {
-            alert('boo!');
+            console.log("boo")
            },
           beforeSend: setHeader
         });
