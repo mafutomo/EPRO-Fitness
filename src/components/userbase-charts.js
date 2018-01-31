@@ -3,7 +3,12 @@ import $ from "jquery";
 
 document.addEventListener("DOMContentLoaded", function() {
 
+  //  Draw a chart that shows the user base by age
   function drawUsersByAge(data) {
+
+    // Set the height and width of the chart based on the width of the window.
+    // Maximum width is 600 just because that's where it looks best. Height is
+    // calculated as a percentage of the width so it has a pleasing ratio.
     var initialWidth;
     window.innerWidth > 600 ? initialWidth = 600 : initialWidth = window.innerWidth;
     var initialHeight = initialWidth * 0.7;   // best relative size for chart
@@ -17,9 +22,11 @@ document.addEventListener("DOMContentLoaded", function() {
     var  width = initialWidth - margin.left - margin.right,
       height = initialHeight - margin.top - margin.bottom;
 
+    //  Set the scales for the chart
     var x = d3.scaleBand().rangeRound([0, width]).padding(0.1),
       y = d3.scaleLinear().rangeRound([height, 0]);
 
+    //  append a
     var g = svg.append("g").attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
     // Define the div for the tooltip
@@ -49,7 +56,7 @@ document.addEventListener("DOMContentLoaded", function() {
         return height - y(d.frequency);
       });
 
-      g.append("text").attr("x", (width / 2)).attr("y", 0 - (margin.top / 4)).attr("text-anchor", "middle").style("font-size", "18px").style("text-decoration", "underline").text("Number of Users By Age");
+      g.append("text").attr("x", (width / 2)).attr("y", 0 - (margin.top / 4)).attr("text-anchor", "middle").style("font-size", "16px").style("text-decoration", "underline").text("Number of Users By Age");
 
       // text label for the x axis
       g.append("text").attr("x", (width / 2)).attr("y", height+40)
@@ -77,28 +84,28 @@ document.addEventListener("DOMContentLoaded", function() {
   }
 
   function drawContraceptionByAge(data) {
-    console.log("stacked data:");
-    console.log(data);
-    var initialWidth;
-    window.innerWidth > 600 ? initialWidth = 600 : initialWidth = window.innerWidth;
-    var initialHeight = initialWidth * 0.6;   // best relative size for chart
-    var svg = d3.select("#svg3"),
-      margin = {
-        top: 80,
-        right: 20,
-        bottom: 50,
-        left: 40
-      },
-      width = initialWidth - margin.left - margin.right - 80,
-      height = initialHeight - margin.top - margin.bottom,
-      g = svg.append("g").attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+    // set width and height based on window size.  600 is the largest good size
+    // for this chart, so use that as a max. The ratio for height is just for
+    // a pleasing shape.
+    let margin = {
+      top: 20,
+      right: 80,
+      bottom: 50,
+      left: 40
+    };
+    let svgElement = $("#svg3");
+    let width = svgElement.width() - margin.left - margin.right;
+    let height = svgElement.height() - margin.top - margin.bottom;
+    let svg = d3.select("#svg3");
+    let g = svg.append("g").attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
     // Define the div for the tooltip
     var div = d3.select("#userbase").append("div").attr("class", "tooltip").style("opacity", 0);
 
-    var x = d3.scaleBand().rangeRound([0, width]).paddingInner(0.05).align(0.1);
-
-    var y = d3.scaleLinear().rangeRound([height, 0]);
+    //  set the scales
+    var x = d3.scaleBand().range([0, width]).paddingInner(0.05).align(0.1);
+    var y = d3.scaleLinear().range([height, 0]);
 
     var z = d3.scaleOrdinal().range([
       "#ffa200",
@@ -115,19 +122,17 @@ document.addEventListener("DOMContentLoaded", function() {
       //  loop through the data for each age and save the total in data
       data.map(function(d) {
         let t, i;
-        for (i = 1, t = 0; i < keys.length; ++i) {
+        for (i = 0, t = 0; i < keys.length; ++i) {
           t += d[keys[i]] = +d[keys[i]];
         }
         d.total = t;
       })
 
-      console.log("after totaling, data is ");
-      console.log(data);
-
-
       x.domain(data.map(function(d) {
         return d.Age;
       }));
+      console.log("max total is: ", d3.max(data, function(d) { return d.total }));
+      console.log(data);
       y.domain([
         0,
         d3.max(data, function(d) {
@@ -146,9 +151,8 @@ document.addEventListener("DOMContentLoaded", function() {
         return y(d[1]);
       }).attr("height", function(d) {
         return y(d[0]) - y(d[1]);
-      }).attr("width", x.bandwidth()).attr("myval", function(d) {
-        return d.key;
-      }).on("mouseover", function(d) {
+      }).attr("width", x.bandwidth())
+      .on("mouseover", function(d) {
         div.transition().duration(200).style("opacity", .9);
         div.html("<br/>" + `${d[1] - d[0]}` + "<br/>").style("left", (d3.event.pageX) + "px").style("top", (d3.event.pageY - 28) + "px");
       }).on("mouseout", function(d) {
@@ -177,7 +181,7 @@ document.addEventListener("DOMContentLoaded", function() {
         return d;
       });
 
-      g.append("text").attr("x", (width / 2)).attr("y", 0 - (margin.top / 4)).attr("text-anchor", "middle").style("font-size", "14px").style("text-decoration", "underline").text("Contraceptives By Age");
+      g.append("text").attr("x", (width / 2)).attr("y", 0 - (margin.top / 4)).attr("text-anchor", "middle").style("font-size", "16px").style("text-decoration", "underline").text("Contraceptives By Age");
 
       // text label for the x axis
       g.append("text").attr("x", (width / 2)).attr("y", height+40)
@@ -461,7 +465,6 @@ document.addEventListener("DOMContentLoaded", function() {
                //        "Age":20,"Triphasic":11,"Monophasic":22,"Progestins":6, "Non-Hormonal": 230, "No Answer":55
                //      }
                //    ]
-                  console.log(data);
               drawContraceptionByAge(data);
             })
           })
@@ -520,8 +523,6 @@ document.addEventListener("DOMContentLoaded", function() {
       return element !== undefined;
     })
 
-    console.log("Returning from stacked prep: ");
-    console.log(results);
     return results;
   }
 
