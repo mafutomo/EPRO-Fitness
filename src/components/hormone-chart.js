@@ -31,7 +31,14 @@ function createChart(data, user){
   var actualLastDay = usersLastDay.replace(/-|\s/g,"");
 
   //users cycle length
-  var cycleLength = user.cycle_length;
+  var cycleLength;
+
+  if (user.triphasic === true || user.monophasic === true) {
+    cycleLength = 28;
+  } else {
+    cycleLength = user.cycle_length;
+  }
+
   var cycleLengthArr = [];
   for (let i = 1; i <= cycleLength; i++) {
     cycleLengthArr.push(i)
@@ -260,6 +267,7 @@ function getData() {
    var userId;
    var userContraceptive = "non_hormonal";
 
+
     //get the user_id
     $.ajax({
           url: 'https://epro-api.herokuapp.com/auth/status',
@@ -292,8 +300,11 @@ function getData() {
                rawContraceptiveData = result.data;
 
                //prepare the data and draw the charts
-               let data = prepDataForChart(rawContraceptiveData);
+               let data = prepDataForChart(rawContraceptiveData, user);
+               console.log("data after changes: ");
                console.log(data);
+               console.log("user after changes: ");
+               console.log(user);
                createChart(data, user);
              })
            });
@@ -305,15 +316,68 @@ function getData() {
         });
     }
 
- function prepDataForChart(rawData) {
-    return rawData.map(ele => {
-      return {
-        "day": ele.day,
-        "estrogen": ele.est,
-        "progesterone": (ele.prog/10)
+ function prepDataForChart(rawData, user) {
+   console.log('rawData');
+   console.log(rawData);
+   var intData = rawData.map(ele => {
+     return {
+       "day": ele.day,
+       "estrogen": ele.est,
+       "progesterone": (ele.prog/10)
+     }
+   })
+   console.log("user: ");
+   console.log(user);
+   console.log("intdata: ");
+   console.log(intData);
+   if (user.triphasic || user.monophasic){
+     return intData;
+   } else if (user.progestin) {
+      let newData = [];
+      for(let i = 1; i < user.cycle_length+1; i++){
+        newData.push({
+          "day": i,
+          "estrogen": 0,
+          "progesterone": .8
+        })
       }
-    })
-   }
+      return newData;
+    }
+    else {
+      if (user.cycle_length === 28) {
+        return rawData;
+      } else if (user.cycle_length > 28) {
+        let dupArr = [26, 25, 23, 22, 21, 19, 15, 11];
+        let loop = user.cycle_length - 28;
+        for (let i = 0; i < loop; i++){
+          let dupObj = rawData[dupArr[i]];
+          let copyObj = {
+            "day": dupObj.day,
+            "estrogen": dupObj.est,
+            "progesterone": dupObj.prog/10
+          }
+          intData.splice(dupArr[i], 0, copyObj);
+          console.log("data in loop: ");
+          console.log(intData);
+        }
+        for (let i = 0; i < intData.length; i++){
+          intData[i].day = i + 1;
+        }
+        return intData;
+      } else {
+        let delArr = [27, 15, 8, 3, 21, 1, 6];
+        let loop = 28 - user.cycle_length;
+        for (let i = 0; i < loop; i++) {
+          intData.splice(delArr[i], 1)
+        }
+        for (let i = 0; i < intData.length; i++){
+          intData[i].day = i + 1;
+        }
+        return intData;
+      }
+    }
+  }
+
 
  function setHeader(xhr) {
     xhr.setRequestHeader('Authorization', localStorage.getItem('token'));
