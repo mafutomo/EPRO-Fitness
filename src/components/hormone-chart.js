@@ -162,12 +162,13 @@ function createChart(data, user){
 
   //find today's date
   var today = moment().format('MMMM Do YYYY');
-  console.log(today);
-  var usersLastDay = "20180901";
-  console.log(usersLastDay);
-  // var usersLastDayCorrected = usersLastDay.split('/').reverse().join('');
-  // console.log(usersLastDayCorrected);
 
+  //reformat users first date of last period
+  var d = user.first_day;
+  var parts = d.split(' ');
+  var months = {Jan: "01",Feb: "02",Mar: "03",Apr: "04",May: "05",Jun: "06",Jul: "07",Aug: "08",Sep: "09",Oct: "10",Nov: "11",Dec: "12"};
+  var usersLastDay = parts[3]+"-"+months[parts[1]]+"-"+parts[2];
+  var actualLastDay = usersLastDay.replace(/-|\s/g,"");
 
   //users cycle length
   var cycleLength = 28;
@@ -177,7 +178,7 @@ function createChart(data, user){
   }
 
   //find how many days have elapsed since last period
-  var daysAgo = moment(usersLastDay, "YYYYMMDD").fromNow();
+  var daysAgo = moment(actualLastDay, "YYYYMMDD").fromNow();
   console.log(daysAgo);
   var daysAgoNum = Number(daysAgo.match(/\d+/g));
   var currentCycleDay = daysAgoNum%cycleLength;
@@ -255,6 +256,7 @@ function getData() {
    let user = {};
    let rawContraceptiveData = [];
    var userId;
+   var userContraceptive;
 
     //get the user_id
     $.ajax({
@@ -269,6 +271,13 @@ function getData() {
              $.getJSON(`https://epro-api.herokuapp.com/users/${userId}`, function(result){
                user = result;
                console.log(user);
+
+               for (var key in user) {
+                 if (user[key] === true) {
+                   userContraceptive === key
+                 }
+               }
+               console.log(userContraceptive);
              //get the hormone data
              $.getJSON("https://epro-api.herokuapp.com/hormones/non_hormonal", function(result){
                rawContraceptiveData = result.data;
@@ -285,10 +294,7 @@ function getData() {
            },
           beforeSend: setHeader
         });
-    // $.getJSON('https://epro-api.herokuapp.com/auth/status', function(result){
-    //   console.log(result);
-    // })
- }
+    }
 
  function prepDataForChart(rawData) {
     return rawData.map(ele => {
