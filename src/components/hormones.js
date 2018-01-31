@@ -52,37 +52,40 @@ class Hormones extends Component {
       }
     })
     const json = await response.json()
+    if (json.status === 'success') {
 
-    const x = await fetch(`https://epro-api.herokuapp.com/users/${json.data.user_id}`)
-    const user = await x.json()
-    const first_name = user.first_name
+      const x = await fetch(`https://epro-api.herokuapp.com/users/${json.data.user_id}`)
+      const user = await x.json()
+      const first_name = user.first_name
 
-    const cycleLength = user.cycle_length
-    const firstDay = user.first_day
+      const cycleLength = user.cycle_length
+      const firstDay = user.first_day
 
-    const diff = Math.floor(( Date.parse(new Date()) - Date.parse(firstDay)) / 86400000) % cycleLength;
-    let tipNumber
-    const phase = cycleLength / 4
+      const diff = Math.floor(( Date.parse(new Date()) - Date.parse(firstDay)) / 86400000) % cycleLength;
+      let tipNumber
+      const phase = cycleLength / 4
 
-    if (diff >= 0 && diff <= phase) {
-      tipNumber = 1
-    } else if (diff > phase && diff <= phase * 2) {
-      tipNumber = 2
-    } else if (diff > phase * 2 && diff <= phase * 3) {
-      tipNumber = 3
-    } else {
-      tipNumber = 4
+      if (diff >= 0 && diff <= phase) {
+        tipNumber = 1
+      } else if (diff > phase && diff <= phase * 2) {
+        tipNumber = 2
+      } else if (diff > phase * 2 && diff <= phase * 3) {
+        tipNumber = 3
+      } else {
+        tipNumber = 4
+      }
+
+      const getTip = await fetch(`https://epro-api.herokuapp.com/tips/${tipNumber}`)
+      const tipToDisplay = await getTip.json()
+      console.log(tipToDisplay);
+      this.setState({
+        'category': tipToDisplay.category,
+        'exercise': tipToDisplay.exercise_decription,
+        'nutrition': tipToDisplay.nutrition_info,
+        'username': first_name
+      })
     }
 
-    const getTip = await fetch(`https://epro-api.herokuapp.com/tips/${tipNumber}`)
-    const tipToDisplay = await getTip.json()
-    console.log(tipToDisplay);
-    this.setState({
-      'category': tipToDisplay.category,
-      'exercise': tipToDisplay.exercise_decription,
-      'nutrition': tipToDisplay.nutrition_info,
-      'username': first_name
-    })
   }
 
   render() {
