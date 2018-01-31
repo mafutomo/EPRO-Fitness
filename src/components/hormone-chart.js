@@ -162,9 +162,9 @@ function createChart(data, user){
 
   //find today's date
   var today = moment().format('MMMM Do YYYY');
-  console.log(today);
+  // console.log(today);
   var usersLastDay = "20180901";
-  console.log(usersLastDay);
+  // console.log(usersLastDay);
   // var usersLastDayCorrected = usersLastDay.split('/').reverse().join('');
   // console.log(usersLastDayCorrected);
 
@@ -178,7 +178,7 @@ function createChart(data, user){
 
   //find how many days have elapsed since last period
   var daysAgo = moment(usersLastDay, "YYYYMMDD").fromNow();
-  console.log(daysAgo);
+  // console.log(daysAgo);
   var daysAgoNum = Number(daysAgo.match(/\d+/g));
   var currentCycleDay = daysAgoNum%cycleLength;
 
@@ -262,26 +262,26 @@ function getData() {
           type: 'GET',
           dataType: 'json',
           success: function(result) {
-            console.log(result);
+            // console.log(result);
             userId = result.data.user_id
-            console.log(userId);
+            // console.log(userId);
             // get the user info
              $.getJSON(`https://epro-api.herokuapp.com/users/${userId}`, function(result){
                user = result;
-               console.log(user);
+               // console.log(user);
              //get the hormone data
              $.getJSON("https://epro-api.herokuapp.com/hormones/non_hormonal", function(result){
                rawContraceptiveData = result.data;
 
                //prepare the data and draw the charts
                let data = prepDataForChart(rawContraceptiveData);
-               console.log(data);
+               // console.log(data);
                createChart(data, user);
              })
            });
           },
           error: function() {
-            alert('boo!');
+            // alert('boo!');
            },
           beforeSend: setHeader
         });
