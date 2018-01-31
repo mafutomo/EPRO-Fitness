@@ -37,7 +37,8 @@ class Hormones extends Component {
     this.state = {
       category: '',
       exercise: '',
-      nutrition: ''
+      nutrition: '',
+      username: ''
     }
   }
 
@@ -54,6 +55,7 @@ class Hormones extends Component {
 
     const x = await fetch(`https://epro-api.herokuapp.com/users/${json.data.user_id}`)
     const user = await x.json()
+    const first_name = user.first_name
 
     const cycleLength = user.cycle_length
     const firstDay = user.first_day
@@ -78,7 +80,8 @@ class Hormones extends Component {
     this.setState({
       'category': tipToDisplay.category,
       'exercise': tipToDisplay.exercise_decription,
-      'nutrition': tipToDisplay.nutrition_info
+      'nutrition': tipToDisplay.nutrition_info,
+      'username': first_name
     })
   }
 
@@ -88,7 +91,7 @@ class Hormones extends Component {
       <div>
 
        <Paper style={styles.paper} zDepth={2}>
-        {`${userName}'s Current Fitness Phase: Performance`}
+        {`${this.state.username}'s Current Fitness Phase: Performance`}
        </Paper>
 
 
