@@ -80,19 +80,6 @@ function createChart(data, user){
       .append("g")
       .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-//fetch data
-// const getContraceptiveData = async() => {
-//   const response = await fetch('https://epro-api.herokuapp.com/hormones/non_hormonal', {
-//     method: 'GET',
-//     headers: {
-//       'Content-Type': 'application/json',
-//       'Accept': 'application/json'
-//     },
-//     mode: "cors"
-//   })
-//   const data = await response.json();
-//   console.log(data);
-
   x.domain(data.map(function(d) { return d.day; }));
   y0.domain([0, d3.max(data, function(d) { return d.estrogen; })]);
   y1.domain([0, d3.max(data, function(d) { return d.progesterone; })]);
@@ -192,28 +179,6 @@ function createChart(data, user){
     .attr("height", 100)
     .attr("width", width)
 
-  //find today's date
-  var today = moment().format('MMMM Do YYYY');
-  // console.log(today);
-  var usersLastDay = "20180901";
-  // console.log(usersLastDay);
-  // var usersLastDayCorrected = usersLastDay.split('/').reverse().join('');
-  // console.log(usersLastDayCorrected);
-
-
-  //users cycle length
-  var cycleLength = 28;
-  var cycleLengthArr = [];
-  for (let i = 1; i <= cycleLength; i++) {
-    cycleLengthArr.push(i)
-  }
-
-  //find how many days have elapsed since last period
-  var daysAgo = moment(usersLastDay, "YYYYMMDD").fromNow();
-  // console.log(daysAgo);
-  var daysAgoNum = Number(daysAgo.match(/\d+/g));
-  var currentCycleDay = daysAgoNum%cycleLength;
-
   //use users cycle length to determine length of progess bar
   var states = cycleLengthArr,
   segmentWidth = width,
@@ -296,7 +261,7 @@ function getData() {
           type: 'GET',
           dataType: 'json',
           success: function(result) {
-            // console.log(result);
+            console.log(result);
             userId = result.data.user_id
             console.log(userId);
 
