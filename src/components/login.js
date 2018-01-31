@@ -79,7 +79,7 @@ class Login extends Component {
       <div className="backgroundImage">
         <img src={require("./homepage.jpg")} className="bg" />
         <p className="title-app">E/Pro</p>
-        <form onSubmit={(e)=>{this.loginUser(e, this.state)}}>
+        <form onSubmit={(e)=>{this.loginUser(e, this.state)}} >
         <TextField
         hintText="example@email.com"
         floatingLabelText="Email Login"

@@ -94,6 +94,7 @@ class Account extends Component {
       body: JSON.stringify({
         first_name: fname,
         last_name: lname,
+
         email: email,
         password: password,
         age: age,
