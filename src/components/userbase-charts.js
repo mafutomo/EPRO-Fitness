@@ -154,7 +154,9 @@ document.addEventListener("DOMContentLoaded", function() {
       }).attr("width", x.bandwidth())
       .on("mouseover", function(d) {
         div.transition().duration(200).style("opacity", .9);
-        div.html("<br/>" + `${d[1] - d[0]}` + "<br/>").style("left", (d3.event.pageX) + "px").style("top", (d3.event.pageY - 28) + "px");
+        console.log("d is: ");
+        console.log(d);
+        div.html(`${d[1] - d[0]}` + "<br/>").style("left", (d3.event.pageX) + "px").style("top", (d3.event.pageY) + "px");
       }).on("mouseout", function(d) {
         div.transition().duration(500).style("opacity", 0);
       });
