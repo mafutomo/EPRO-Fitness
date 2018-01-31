@@ -2,13 +2,20 @@ import React, {Component} from 'react';
 import TextField from 'material-ui/TextField';
 import RaisedButton from 'material-ui/RaisedButton';
 import './login.css'
+
 import {
-  Link
+  Link,
+  Redirect
 } from 'react-router-dom'
 
+import Hormones from './hormones'
+
 const style = {
-  margin: 12,
-  };
+  margin: 12
+};
+
+
+
 
 class Login extends Component {
 
@@ -18,7 +25,8 @@ class Login extends Component {
       email: '',
       password: '',
       token: '',
-      message: ''
+      message: '',
+      loggedIn: false
     }
   }
 
@@ -39,7 +47,8 @@ class Login extends Component {
     if (logged.auth_token) {
       this.setState({
         token: logged.auth_token,
-        message: logged.message
+        message: logged.message,
+        loggedIn: true
       })
       localStorage.setItem('token', logged.auth_token)
     } else {
@@ -56,13 +65,21 @@ class Login extends Component {
   }
 
   render() {
+
+    const {loggedIn} = this.state
+    if (loggedIn) {
+      return (
+        <Redirect to='/hormones' render={()=> (
+          <Hormones/>
+        )}/>
+      )
+    }
+
     return (
-      <div>
+      <div className="backgroundImage">
+        <img src={require("./homepage.jpg")} className="bg" />
         <p className="title-app">E/Pro</p>
-        <br />
-        <form
-        className = "form-center"
-        onSubmit={(e)=>{this.loginUser(e, this.state)}}>
+        <form onSubmit={(e)=>{this.loginUser(e, this.state)}}>
         <TextField
         hintText="example@email.com"
         floatingLabelText="Email Login"
@@ -79,16 +96,21 @@ class Login extends Component {
           onChange={this.handleChange}
           name="password"
         /><br />
-         <br />
-          <br />
+        <br />
+        <br />
+        <br />
 
 
          <RaisedButton label="Login" backgroundColor='#52BFAB' labelColor='white' style={style} type="submit"/>
 
          <Link to={`/account`}>
-         <RaisedButton label="Register" backgroundColor='#52BFAB' labelColor='white'  style={style}/>
+         <RaisedButton label="Register" backgroundColor='#FF3E00' labelColor='white'  style={style}/>
        </Link>
+
+
        </form>
+
+
       </div>
     )
   }

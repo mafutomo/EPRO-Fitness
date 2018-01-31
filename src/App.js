@@ -7,6 +7,7 @@ import Login from './components/login.js'
 import Navbar from './components/navbar.js'
 import Userbase from './components/userbase.js'
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+
 import {
   BrowserRouter as Router,
   Route,
@@ -57,7 +58,7 @@ class App extends Component {
             <Route
               exact path="/"
               render= {() => (
-                <div>
+                <div className = "height-adjust">
                   <Navbar/>
                   <Hormones/>
                 </div>

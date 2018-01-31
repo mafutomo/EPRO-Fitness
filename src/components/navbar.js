@@ -18,24 +18,18 @@ class Navbar extends Component {
     super(props);
     this.state = {
       open: false,
-      token: '',
-      message: ''
+
     }
   }
 
   logout = async () => {
-    const r = await fetch(`https://epro-api.herokuapp.com/auth/logout`, {
+    await fetch(`https://epro-api.herokuapp.com/auth/logout`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
         'Accept': 'application/json',
         'Authorization': localStorage.getItem('token')
       }
-    })
-    const logged = await r.json()
-    this.setState({
-      token: logged.auth_token,
-      message: logged.message
     })
     localStorage.removeItem('token')
   }
