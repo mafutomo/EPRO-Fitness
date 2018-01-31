@@ -18,10 +18,7 @@ class Hormones extends Component {
 
   constructor(props) {
     super(props);
-
   }
-
-
   render() {
 
     return (
