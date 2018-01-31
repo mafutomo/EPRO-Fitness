@@ -36,7 +36,7 @@ const style = {
 };
 
 const items = [];
-for (let i = 21; i < 36; i++ ) {
+for (let i = 21; i < 37; i++ ) {
   items.push(<MenuItem value={i} key={i} primaryText={`${i} days`} />);
 }
 

@@ -281,7 +281,11 @@ function getData() {
            });
           },
           error: function() {
+<<<<<<< HEAD
             // alert('boo!');
+=======
+            console.log("boo")
+>>>>>>> b3d23a7ac570f8a1e171910bb55be04ec8860a3a
            },
           beforeSend: setHeader
         });
