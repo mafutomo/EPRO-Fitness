@@ -44,7 +44,7 @@ class App extends Component {
       }
     })
     const json = await response.json()
-    return json.status
+    return json.data
   }
 
 
