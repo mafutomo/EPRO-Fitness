@@ -73,7 +73,7 @@ Initial Project Plan:
 https://docs.google.com/document/d/1o_fJjAJjN6ap57sRY_2_UMNWrs7iiUU0Y1E5aeEWZMU/edit
 
 Initial Wireframe:  
-![Example](readme_files/wireframe.png)
+https://docs.google.com/document/d/1OGQ9UKRqdeVrRPJbaDhwO-tbq1UTneJuskO7GKNg9hM/edit
 
 Color Schema and Styling:  
 ![Example](readme_files/style.png)
@@ -94,3 +94,80 @@ Fitness Protocol Based on Hormonal Cycle
 https://docs.google.com/document/d/14xCMS-qfhZSCtEAC11yCUopZ_R9G9GNv20cKHnJo5kA/edit
 
 ### Contributions
+
+Galvanize Instructors:  
+Teddi Maull (Product Manager)  
+Jodie Rigali  
+Sean Helvey  
+
+Melissa Utomo:
+* Team Lead  
+* Operations Manager  
+* Color Code and Styling Schema
+* Test Data Seeding  
+* MaterialUI Development (React Framework)
+* MaterialUI Interface with Python Web Servers  
+* MaterialUI Interface with D3 Visualization  
+* Code Debugging and Troubleshooting
+
+Stephanie Marvez:  
+* Pharmaceutical Research  
+* Fitness Protocol Research  
+* Test Data Seeding  
+* D3 Visualization Client-Side Development
+* D3 Visualization Interface with Python Web Servers
+* D3 Visualization Interface with MaterialUI Frontend
+* Code Debugging and Troubleshooting
+
+Nigel Flippo:  
+* Entity Relationship Diagram  
+* Test Data Seeding  
+* Python Web Server Development (Flask Framework)
+* Python Web Server Interface with MaterialUI
+* Python Web Server Interface with D3 Visualization
+* Code Debugging and Troubleshooting
+
+Tracey Dolsen:
+* Color Code and Styling Schema
+* Adobe Photoshop Image Enhancement
+* Test Data Seeding
+* D3 Visualization User-Base Development
+* D3 Visualization Interface with Python Web Servers
+* D3 Visualization Interface with Material UI Frontend
+* Code Debugging and Troubleshooting
+
+Neal Balaoing:  
+* Initial Wireframing  
+* Test Data Seeding  
+* MaterialUI Development (React Framework)  
+* Python Web Server Routes Troubleshooting  
+* Readme Compilation  
+* Code Debugging and Troubleshooting  
+
+Built With
+* React Framework  
+* MaterialUI
+* D3 Visualization
+* Python
+* Flask Framework
+* Twilio - Mobile Messaging
+* Node-schedule
+* D3
+* Trello - Planning Purposes
+* PSQL
+* Express
+* HTML
+* CSS
+* JS
+* Path
+* Dotenv
+* Cors
+* PostgreSQL
+* NPM
+
+### Versioning
+We use SemVer for versioning. For the versions available, see the tags on this repository.
+
+
+### License
+This project is licensed under the MIT License
