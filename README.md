@@ -142,7 +142,7 @@ Neal Balaoing:
 * Initial Wireframing  
 * Test Data Seeding  
 * MaterialUI Development (React Framework)  
-* Python Web Server Routes Troubleshooting  
+* Python Web Server Routes Testing  
 * Readme Compilation  
 * Code Debugging and Troubleshooting  
 
