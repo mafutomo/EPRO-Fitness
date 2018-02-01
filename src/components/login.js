@@ -3,7 +3,12 @@ import TextField from 'material-ui/TextField';
 import RaisedButton from 'material-ui/RaisedButton';
 import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
+<<<<<<< HEAD
+import {fullWhite} from 'material-ui/styles/colors';
+
+=======
 import {reactLocalStorage} from 'reactjs-localstorage';
+>>>>>>> 7b1e3f7f501693d95008c9b8979b221213827215
 import './login.css'
 
 import {
@@ -14,7 +19,14 @@ import {
 import Hormones from './hormones'
 
 const style = {
-  margin: 12
+  margin: 12,
+  floatingLabelStyle: {
+    textAlign: 'center',
+    color: fullWhite,
+  },
+  inputStyle: {
+    color: fullWhite,
+  }
 };
 
 let deviceMemory = JSON.parse(localStorage.getItem('user')) || localStorage.setItem('user', JSON.stringify(1));;
@@ -113,7 +125,9 @@ class Login extends Component {
         <form onSubmit={(e)=>{this.loginUser(e, this.state)}} >
         <TextField
         hintText="example@email.com"
-        floatingLabelText="Email Login"
+        floatingLabelText="email login"
+        floatingLabelStyle={style.floatingLabelStyle}
+        inputStyle={{color: fullWhite, textAlign: 'center'}}
         value={this.state.email}
         onChange={this.handleChange}
         name="email"
@@ -150,7 +164,10 @@ class Login extends Component {
 
         <TextField
           hintText=""
-          floatingLabelText="Password"
+          floatingLabelText="password"
+          floatingLabelStyle={style.floatingLabelStyle}
+          inputStyle={{color: fullWhite, textAlign: 'center'}}
+          color="white"
           type="password"
           value={this.state.password}
           onChange={this.handleChange}
