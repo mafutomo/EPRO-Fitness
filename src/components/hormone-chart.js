@@ -287,6 +287,7 @@ function getData() {
 
                //prepare the data and draw the charts
                let data = prepDataForChart(rawContraceptiveData, user);
+               console.log(user);
                createChart(data, user);
              })
            });
@@ -325,14 +326,14 @@ function getData() {
       } else if (user.cycle_length > 28) {
         let dupArr = [26, 25, 23, 22, 21, 19, 15, 11];
         let loop = user.cycle_length - 28;
-        for (let i = 0; i < loop; i++){
+        for (let i = 1; i < loop; i++){
           let dupObj = rawData[dupArr[i]];
           let copyObj = {
             "day": dupObj.day,
             "estrogen": dupObj.est,
             "progesterone": dupObj.prog/10
           }
-          intData.splice(dupArr[i], 0, copyObj);  
+          intData.splice(dupArr[i], 0, copyObj);
         }
         for (let i = 0; i < intData.length; i++){
           intData[i].day = i + 1;
