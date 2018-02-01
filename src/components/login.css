@@ -56,7 +56,9 @@ img.bg {
 
     .backgroundImage {
       margin-top: -50px;
-      height: 670px;
+      margin-left: -50px;
+      margin-right: -50px;
+      height: 125vh;
       background-image: url('./workoutVertical.png');
     }
 }
