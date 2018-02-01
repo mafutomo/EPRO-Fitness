@@ -172,7 +172,7 @@ function createChart(data, user){
       var xPosition = d3.mouse(this)[0] - 15;
       var yPosition = d3.mouse(this)[1] - 25;
       tooltip.attr("transform", "translate(" + xPosition + "," + yPosition + ")");
-      tooltip.select("text").html(d.progesterone + "<br/>" + "ng/ml");
+      tooltip.select("text").html(d.progesterone + " ng/ml");
     });
 
   //progess bar based on user inputted days since last period
@@ -238,14 +238,16 @@ function createChart(data, user){
     .attr("width", 80)
     .attr("height", 28)
     .attr("fill", "white")
-    .style("opacity", 0.5)
+    .style("opacity", 0.7)
+    .attr("rx", 10)
+    .attr("ry", 10)
     .style("text-align", "center");
 
   tooltip.append("text")
     .attr("x", 40)
     .attr("dy", "1.2em")
     .style("text-anchor", "middle")
-    .attr("font-size", "12px")
+    .attr("font-size", "14px")
     .attr("font-weight", "bold")
     .style("text-align", "center");
   }

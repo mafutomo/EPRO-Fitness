@@ -92,7 +92,7 @@ class Login extends Component {
         hintText="example@email.com"
         floatingLabelText="email login"
         floatingLabelStyle={style.floatingLabelStyle}
-        inputStyle={style.inputStyle}
+        inputStyle={{color: fullWhite, textAlign: 'center'}}
         value={this.state.email}
         onChange={this.handleChange}
         name="email"
@@ -102,7 +102,7 @@ class Login extends Component {
           hintText=""
           floatingLabelText="password"
           floatingLabelStyle={style.floatingLabelStyle}
-          inputStyle={style.inputStyle}
+          inputStyle={{color: fullWhite, textAlign: 'center'}}
           color="white"
           type="password"
           value={this.state.password}
