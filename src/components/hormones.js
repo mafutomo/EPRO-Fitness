@@ -94,7 +94,7 @@ class Hormones extends Component {
       <div>
 
        <Paper style={styles.paper} zDepth={2}>
-        {`${this.state.username}'s Current Fitness Phase: Performance`}
+        {`${this.state.username}'s Current Fitness Regimen: ${this.state.category}`}
        </Paper>
 
 
