@@ -21,14 +21,13 @@ function createChart(data, user){
 
   //find today's date
   var today = moment().format('MMMM Do YYYY');
-  console.log(today);
 
   //reformat users first date of last period
   var d = user.first_day;
-  var parts = d.split(' ');
-  var months = {Jan: "01",Feb: "02",Mar: "03",Apr: "04",May: "05",Jun: "06",Jul: "07",Aug: "08",Sep: "09",Oct: "10",Nov: "11",Dec: "12"};
-  var usersLastDay = parts[3]+"-"+months[parts[1]]+"-"+parts[2];
-  var actualLastDay = usersLastDay.replace(/-|\s/g,"");
+  // var parts = d.split(' ');
+  // var months = {Jan: "01",Feb: "02",Mar: "03",Apr: "04",May: "05",Jun: "06",Jul: "07",Aug: "08",Sep: "09",Oct: "10",Nov: "11",Dec: "12"};
+  // var usersLastDay = parts[3]+"-"+months[parts[1]]+"-"+parts[2];
+  // var actualLastDay = usersLastDay.replace(/-|\s/g,"");
 
   //users cycle length
   var cycleLength;
@@ -45,11 +44,13 @@ function createChart(data, user){
   }
 
   //find how many days have elapsed since last period
-  var daysAgo = moment(actualLastDay, "YYYYMMDD").fromNow();
-  console.log(daysAgo);
-  var daysAgoNum = Number(daysAgo.match(/\d+/g));
-  var currentCycleDay = daysAgoNum%cycleLength;
+  // var daysAgo = moment(actualLastDay, "YYYYMMDD").fromNow();
+  // console.log(daysAgo);
+  // var daysAgoNum = Number(daysAgo.match(/\d+/g));
+  // var currentCycleDay = daysAgoNum%cycleLength;
 
+  const daysAgo = Math.floor(( Date.parse(new Date()) - Date.parse(d)) / 86400000) % cycleLength;
+  var currentCycleDay = daysAgo%cycleLength;
 
 //create scales
   var x = d3.scaleBand()
@@ -79,19 +80,6 @@ function createChart(data, user){
       .attr("height", height + margin.top + margin.bottom)
       .append("g")
       .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
-
-//fetch data
-// const getContraceptiveData = async() => {
-//   const response = await fetch('https://epro-api.herokuapp.com/hormones/non_hormonal', {
-//     method: 'GET',
-//     headers: {
-//       'Content-Type': 'application/json',
-//       'Accept': 'application/json'
-//     },
-//     mode: "cors"
-//   })
-//   const data = await response.json();
-//   console.log(data);
 
   x.domain(data.map(function(d) { return d.day; }));
   y0.domain([0, d3.max(data, function(d) { return d.estrogen; })]);
@@ -134,7 +122,8 @@ function createChart(data, user){
     .attr("y", 0)
     .style("text-anchor", "middle")
     .attr("transform", "translate(" + width/2 + ", 60)")
-    .text(`Day ${currentCycleDay}`);
+    .text(`Day ${currentCycleDay}`)
+    .attr("id", "day-tag");
 
   var bars = svg.selectAll(".bar")
     .data(data)
@@ -192,32 +181,10 @@ function createChart(data, user){
     .attr("height", 100)
     .attr("width", width)
 
-  //find today's date
-  var today = moment().format('MMMM Do YYYY');
-  // console.log(today);
-  var usersLastDay = "20180901";
-  // console.log(usersLastDay);
-  // var usersLastDayCorrected = usersLastDay.split('/').reverse().join('');
-  // console.log(usersLastDayCorrected);
-
-
-  //users cycle length
-  var cycleLength = 28;
-  var cycleLengthArr = [];
-  for (let i = 1; i <= cycleLength; i++) {
-    cycleLengthArr.push(i)
-  }
-
-  //find how many days have elapsed since last period
-  var daysAgo = moment(usersLastDay, "YYYYMMDD").fromNow();
-  // console.log(daysAgo);
-  var daysAgoNum = Number(daysAgo.match(/\d+/g));
-  var currentCycleDay = daysAgoNum%cycleLength;
-
   //use users cycle length to determine length of progess bar
   var states = cycleLengthArr,
   segmentWidth = width,
-  currentState = daysAgoNum;
+  currentState = daysAgo;
 
   var colorScale = d3.scaleOrdinal()
     .domain(states)
@@ -296,14 +263,11 @@ function getData() {
           type: 'GET',
           dataType: 'json',
           success: function(result) {
-            // console.log(result);
             userId = result.data.user_id
-            console.log(userId);
 
             // get the user info
              $.getJSON(`https://epro-api.herokuapp.com/users/${userId}`, function(result){
                user = result;
-               console.log(user);
 
                if (user.monophasic === true){
                  userContraceptive = "monophasic"
@@ -316,17 +280,13 @@ function getData() {
                } else {
                  userContraceptive = "non_hormonal"
                }
-               console.log(userContraceptive);
+
              //get the hormone data
              $.getJSON(`https://epro-api.herokuapp.com/hormones/${userContraceptive}`, function(result){
                rawContraceptiveData = result.data;
 
                //prepare the data and draw the charts
                let data = prepDataForChart(rawContraceptiveData, user);
-               console.log("data after changes: ");
-               console.log(data);
-               console.log("user after changes: ");
-               console.log(user);
                createChart(data, user);
              })
            });
@@ -339,8 +299,6 @@ function getData() {
     }
 
  function prepDataForChart(rawData, user) {
-   console.log('rawData');
-   console.log(rawData);
    var intData = rawData.map(ele => {
      return {
        "day": ele.day,
@@ -348,10 +306,6 @@ function getData() {
        "progesterone": (ele.prog/10)
      }
    })
-   console.log("user: ");
-   console.log(user);
-   console.log("intdata: ");
-   console.log(intData);
    if (user.triphasic || user.monophasic){
      return intData;
    } else if (user.progestin) {
@@ -378,9 +332,7 @@ function getData() {
             "estrogen": dupObj.est,
             "progesterone": dupObj.prog/10
           }
-          intData.splice(dupArr[i], 0, copyObj);
-          console.log("data in loop: ");
-          console.log(intData);
+          intData.splice(dupArr[i], 0, copyObj);  
         }
         for (let i = 0; i < intData.length; i++){
           intData[i].day = i + 1;
@@ -389,7 +341,7 @@ function getData() {
       } else {
         let delArr = [27, 15, 8, 3, 21, 1, 6];
         let loop = 28 - user.cycle_length;
-        for (let i = 0; i < loop; i++) {
+        for (let i = 0; i <= loop; i++) {
           intData.splice(delArr[i], 1)
         }
         for (let i = 0; i < intData.length; i++){
