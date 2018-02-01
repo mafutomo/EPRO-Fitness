@@ -3,6 +3,7 @@ import TextField from 'material-ui/TextField';
 import RaisedButton from 'material-ui/RaisedButton';
 import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
+import {reactLocalStorage} from 'reactjs-localstorage';
 import './login.css'
 
 import {
@@ -16,7 +17,19 @@ const style = {
   margin: 12
 };
 
+let deviceMemory = JSON.parse(localStorage.getItem('user')) || localStorage.setItem('user', JSON.stringify(1));;
 
+let showModal;
+
+if(deviceMemory == 1){
+   showModal = false;
+} else {
+   showModal = true;
+}
+
+console.log("showModal=",showModal);
+
+console.log("deviceMemory=", deviceMemory);
 
 
 class Login extends Component {
@@ -24,7 +37,7 @@ class Login extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      open: true,
+      open: showModal,
       email: '',
       password: '',
       token: '',
@@ -71,6 +84,7 @@ class Login extends Component {
 
   handleClose = () => {
     this.setState({open: false});
+    localStorage.setItem('user', JSON.stringify(2));
   };
 
   render() {
