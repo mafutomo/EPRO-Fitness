@@ -2,8 +2,8 @@ import React, {Component} from 'react';
 import RaisedButton from 'material-ui/RaisedButton';
 import {Tabs, Tab} from 'material-ui/Tabs';
 import Paper from 'material-ui/Paper';
-import '/src/components/hormone-chart.js';
-import '/src/components/hormone.css';
+import './hormone-chart.js';
+import './hormone.css';
 import '/src/index.css'
 const styles = {
   margin: 16,
