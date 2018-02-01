@@ -3,8 +3,7 @@ import TextField from 'material-ui/TextField';
 import RaisedButton from 'material-ui/RaisedButton';
 import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
-// import {reactLocalStorage} from 'reactjs-localstorage';
-import {fullWhite} from 'material-ui/styles/colors';
+import {fullWhite, grey400} from 'material-ui/styles/colors';
 import './login.css'
 
 import {
@@ -22,6 +21,9 @@ const style = {
   },
   inputStyle: {
     color: fullWhite,
+  },
+  hintStyle: {
+    color: grey400,
   }
 };
 
@@ -121,9 +123,10 @@ class Login extends Component {
         <form onSubmit={(e)=>{this.loginUser(e, this.state)}} >
         <TextField
         hintText="example@email.com"
+        hintStyle={style.hintStyle}
         floatingLabelText="email login"
         floatingLabelStyle={style.floatingLabelStyle}
-        inputStyle={{color: fullWhite, textAlign: 'center'}}
+        inputStyle={{color: fullWhite}}
         value={this.state.email}
         onChange={this.handleChange}
         name="email"
@@ -160,6 +163,7 @@ class Login extends Component {
 
         <TextField
           hintText=""
+          hintStyle={style.hintStyle}
           floatingLabelText="password"
           floatingLabelStyle={style.floatingLabelStyle}
           inputStyle={{color: fullWhite, textAlign: 'center'}}
