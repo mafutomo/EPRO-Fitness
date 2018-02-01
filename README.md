@@ -98,7 +98,9 @@ https://docs.google.com/document/d/14xCMS-qfhZSCtEAC11yCUopZ_R9G9GNv20cKHnJo5kA/
 Galvanize Instructors:  
 ##### Teddi Maull (Product Manager) #####
 ##### Jodie Rigali #####
-##### Sean Helvey ##### 
+##### Sean Helvey #####
+
+
 
 Melissa Utomo:
 * Team Lead  
