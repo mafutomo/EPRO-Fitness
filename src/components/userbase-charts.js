@@ -66,12 +66,21 @@ document.addEventListener("DOMContentLoaded", function() {
   }
 
   function drawContraceptionMethodsByFrequency(data) {
-    var initialWidth;
-    window.innerWidth > 800 ? initialWidth = 800 : initialWidth = window.innerWidth;
-    var initialHeight = initialWidth * 0.5;   // best relative size for chart
+    // var initialWidth;
+    // window.innerWidth > 800 ? initialWidth = 800 : initialWidth = window.innerWidth;
+    // var initialHeight = initialWidth * 0.5;   // best relative size for chart
+    let margin = {
+      top: 20,
+      right: 80,
+      bottom: 50,
+      left: 40
+    };
+    let svgElement = $("#svg2");
+    let width = svgElement.width() - margin.left - margin.right;
+    let height = svgElement.height() - margin.top - margin.bottom;
     var donut = donutChart()
-        .width(initialWidth)
-        .height(initialHeight)
+        .width(width)
+        .height(height)
         .cornerRadius(3) // sets how rounded the corners are on each slice
         .padAngle(0.015) // effectively dictates the gap between slices
         .variable('Users')
