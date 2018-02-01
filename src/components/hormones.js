@@ -85,7 +85,6 @@ class Hormones extends Component {
         'username': first_name + "'s "
       })
     }
-
   }
 
   render() {
