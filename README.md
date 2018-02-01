@@ -96,10 +96,10 @@ https://docs.google.com/document/d/14xCMS-qfhZSCtEAC11yCUopZ_R9G9GNv20cKHnJo5kA/
 ### Contributions
 
 Galvanize Instructors:  
-**Teddi Maull (Product Manager)**  
-**Jodie Rigali**
-**Sean Helvey**
-  
+Teddi Maull (Product Manager)  
+Jodie Rigali  
+Sean Helvey
+
 App Authors:  
 
 Melissa Utomo:
