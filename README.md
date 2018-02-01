@@ -82,6 +82,8 @@ Color Schema and Styling:
 ![Example](readme_files/style.png)
 
 Entity Relationship Diagram:
+```
+```
 ![Example](readme_files/erd.png)
 
 Server Routes and Seed Data:
