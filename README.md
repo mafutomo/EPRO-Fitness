@@ -61,6 +61,33 @@ The top navigation bar houses both the E/Pro title and a triple bar that trigger
 
 ### App Development
 
+E/PRO is the culmination of an intensive one-week production to demonstrate skillsets gained during the third quarter of the Galvanize Web Immersive program.  The ultimate goal is to deploy a production-ready mobile-friendly app that aids women in scheduling fitness and diet in accordance to hormonal cycles.
 
+Real-Time Task Management:
+https://trello.com/b/2UcMtrMG/e-pro
+
+Stand-Up and Stand-Down Meeting Notes:
+https://docs.google.com/document/d/123UeQj5rZcWYBSZZsAOeV2khFpfh0_z_9trXmqKEo6I/edit
+
+Initial Project Plan:
+https://docs.google.com/document/d/1o_fJjAJjN6ap57sRY_2_UMNWrs7iiUU0Y1E5aeEWZMU/edit
+
+Initial Wireframe:
+![Example](readme_files/wireframe.png)
+
+Color Schema and Styling:
+![Example](readme_files/style.png)
+
+Entity Relationship Diagram:
+![Example](readme_files/erd.png)
+
+Server Routes and Seed Data:
+https://github.com/nigelflippo/epro_api
+
+Hormonal Levels Based on Contraceptive Methods:
+https://docs.google.com/spreadsheets/d/17uY40CoRoSx7AAcXc91DV6eTvk4X754zQd8T7hDT0B8/edit#gid=0
+https://docs.google.com/spreadsheets/d/1fN_7pFMh2C1Yx7xcXeRv8iJ3hEe1eAxonzAaxh74ss8/edit
+https://docs.google.com/spreadsheets/d/17Gv6IzMj6D9YJojoLrjegNdZcDRyF5To_AU45wZFfZY/edit#gid=0
+https://docs.google.com/spreadsheets/d/1ce1bsJh7oe0OPq6K_WDZiABzS_OK8Qv0m-7E5hUTImk/edit#gid=0
 
 ### Contributions
