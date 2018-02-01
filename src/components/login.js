@@ -14,8 +14,12 @@ import Hormones from './hormones'
 const style = {
   margin: 12,
   floatingLabelStyle: {
+    textAlign: 'center',
     color: fullWhite,
   },
+  inputStyle: {
+    color: fullWhite,
+  }
 };
 
 
@@ -88,6 +92,7 @@ class Login extends Component {
         hintText="example@email.com"
         floatingLabelText="email login"
         floatingLabelStyle={style.floatingLabelStyle}
+        inputStyle={style.inputStyle}
         value={this.state.email}
         onChange={this.handleChange}
         name="email"
@@ -97,6 +102,7 @@ class Login extends Component {
           hintText=""
           floatingLabelText="password"
           floatingLabelStyle={style.floatingLabelStyle}
+          inputStyle={style.inputStyle}
           color="white"
           type="password"
           value={this.state.password}
