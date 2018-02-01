@@ -1,6 +1,14 @@
 import React, {Component} from 'react';
 import TextField from 'material-ui/TextField';
 import RaisedButton from 'material-ui/RaisedButton';
+import Dialog from 'material-ui/Dialog';
+import FlatButton from 'material-ui/FlatButton';
+<<<<<<< HEAD
+import {fullWhite} from 'material-ui/styles/colors';
+
+=======
+import {reactLocalStorage} from 'reactjs-localstorage';
+>>>>>>> 7b1e3f7f501693d95008c9b8979b221213827215
 import './login.css'
 
 import {
@@ -11,10 +19,29 @@ import {
 import Hormones from './hormones'
 
 const style = {
-  margin: 12
+  margin: 12,
+  floatingLabelStyle: {
+    textAlign: 'center',
+    color: fullWhite,
+  },
+  inputStyle: {
+    color: fullWhite,
+  }
 };
 
+let deviceMemory = JSON.parse(localStorage.getItem('user')) || localStorage.setItem('user', JSON.stringify(1));;
 
+let showModal;
+
+if(deviceMemory == 1){
+   showModal = false;
+} else {
+   showModal = true;
+}
+
+console.log("showModal=",showModal);
+
+console.log("deviceMemory=", deviceMemory);
 
 
 class Login extends Component {
@@ -22,6 +49,7 @@ class Login extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      open: showModal,
       email: '',
       password: '',
       token: '',
@@ -43,6 +71,7 @@ class Login extends Component {
         'Accept': 'application/json'
       }
     })
+
     const logged = await response.json()
     if (logged.auth_token) {
       this.setState({
@@ -56,6 +85,7 @@ class Login extends Component {
         message: logged.message
       })
     }
+    window.location.reload()
   }
 
   handleChange = (e) => {
@@ -64,7 +94,20 @@ class Login extends Component {
     })
   }
 
+  handleClose = () => {
+    this.setState({open: false});
+    localStorage.setItem('user', JSON.stringify(2));
+  };
+
   render() {
+
+    const actions = [
+        <FlatButton
+          label="Get Started"
+          primary={true}
+          onClick={this.handleClose}
+        />
+      ];
 
     const {loggedIn} = this.state
     if (loggedIn) {
@@ -82,15 +125,49 @@ class Login extends Component {
         <form onSubmit={(e)=>{this.loginUser(e, this.state)}} >
         <TextField
         hintText="example@email.com"
-        floatingLabelText="Email Login"
+        floatingLabelText="email login"
+        floatingLabelStyle={style.floatingLabelStyle}
+        inputStyle={{color: fullWhite, textAlign: 'center'}}
         value={this.state.email}
         onChange={this.handleChange}
         name="email"
         /><br />
 
+        <Dialog
+         modal={false}
+         open={this.state.open}
+         onRequestClose={this.handleClose}
+         className="dialog-box"
+         autoScrollBodyContent={true}
+         >
+         <h2 className = "modalHead"> Women Are Not Small Men</h2>
+
+         <img className = "screen-shot" src={require('./screens.png')}/>
+
+         <div className = "modal-group">
+         <p className = "modal-body">
+         Stop eating and training like one.</p>
+
+         <p className = "modal-body">E / Pro  <span className="pronounce"> /ēprō/ </span> is a training app specifically designed for active women. We analyze your unique menstrual cycle and birth control method to provide a training and nutrition guide each week.</p>
+
+         <p className="modal-body">No matter what your sport is―running, lifting, field sports, climbing―work with, rather than against, your female physiology.</p>
+
+         <FlatButton
+         label="Get Started"
+         secondary={true}
+         onClick={this.handleClose}/>
+
+         <p className="disclaimer">DISCLAIMER: The information on this site is not intended or implied to be a substitute for professional medical advice, diagnosis or treatment. All content, including text, graphics, images and information, contained on or available through this web site is for general information purposes only. </p>
+         </div>
+
+     </Dialog>
+
         <TextField
           hintText=""
-          floatingLabelText="Password"
+          floatingLabelText="password"
+          floatingLabelStyle={style.floatingLabelStyle}
+          inputStyle={{color: fullWhite, textAlign: 'center'}}
+          color="white"
           type="password"
           value={this.state.password}
           onChange={this.handleChange}
@@ -99,7 +176,6 @@ class Login extends Component {
         <br />
         <br />
         <br />
-
 
          <RaisedButton label="Login" backgroundColor='#52BFAB' labelColor='white' style={style} type="submit"/>
 
