@@ -31,9 +31,9 @@ let deviceMemory = JSON.parse(localStorage.getItem('user')) || localStorage.setI
 let showModal;
 
 if(deviceMemory == 1){
-   showModal = false;
-} else {
    showModal = true;
+} else {
+   showModal = false;
 }
 
 console.log("showModal=",showModal);
