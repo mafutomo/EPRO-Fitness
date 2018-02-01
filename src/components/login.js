@@ -3,12 +3,8 @@ import TextField from 'material-ui/TextField';
 import RaisedButton from 'material-ui/RaisedButton';
 import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
-<<<<<<< HEAD
 import {fullWhite} from 'material-ui/styles/colors';
 
-=======
-import {reactLocalStorage} from 'reactjs-localstorage';
->>>>>>> 7b1e3f7f501693d95008c9b8979b221213827215
 import './login.css'
 
 import {
