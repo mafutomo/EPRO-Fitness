@@ -18,6 +18,12 @@
   fill: #484043;
   /*font-size: 12px;*/
 }
+
+.x-axis text {
+  fill: none;
+  font-size: 14px;
+}
+
 .axis path,
 .axis line {
   fill: none;
@@ -36,8 +42,8 @@
   display: none;
 }
 
-.x-axis text {
-  font-size: 14px;
+#day-tag {
+  fill: #484043;
 }
 
 .tooltip {
@@ -64,7 +70,10 @@
   #chart{
     width: 100vw;
     height: 400px;
+  }
 
+  .x-axis text {
+    fill: #484043;
   }
 }
 

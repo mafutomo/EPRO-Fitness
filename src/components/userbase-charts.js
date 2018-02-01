@@ -1,8 +1,14 @@
 import * as d3 from 'd3';
+import $ from "jquery";
 
 document.addEventListener("DOMContentLoaded", function() {
 
-  function drawUsersByAge() {
+  //  Draw a chart that shows the user base by age
+  function drawUsersByAge(data) {
+
+    // Set the height and width of the chart based on the width of the window.
+    // Maximum width is 600 just because that's where it looks best. Height is
+    // calculated as a percentage of the width so it has a pleasing ratio.
     var initialWidth;
     window.innerWidth > 600 ? initialWidth = 600 : initialWidth = window.innerWidth;
     var initialHeight = initialWidth * 0.7;   // best relative size for chart
@@ -16,32 +22,15 @@ document.addEventListener("DOMContentLoaded", function() {
     var  width = initialWidth - margin.left - margin.right,
       height = initialHeight - margin.top - margin.bottom;
 
+    //  Set the scales for the chart
     var x = d3.scaleBand().rangeRound([0, width]).padding(0.1),
       y = d3.scaleLinear().rangeRound([height, 0]);
 
+    //  append a
     var g = svg.append("g").attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
     // Define the div for the tooltip
     var div = d3.select("#userbase").append("div").attr("class", "tooltip").style("opacity", 0);
-
-    var data = [
-      {
-          "age": 18,
-          "frequency": 120
-      },
-      {
-          "age": 19,
-          "frequency": 260
-      },
-      {
-          "age": 20,
-          "frequency": 360
-      },
-      {
-          "age": 21,
-          "frequency": 445
-      }
-    ];
 
       x.domain(data.map(function(d) {
         return d.age;
@@ -67,7 +56,7 @@ document.addEventListener("DOMContentLoaded", function() {
         return height - y(d.frequency);
       });
 
-      g.append("text").attr("x", (width / 2)).attr("y", 0 - (margin.top / 4)).attr("text-anchor", "middle").style("font-size", "18px").style("text-decoration", "underline").text("Number of Users By Age");
+      g.append("text").attr("x", (width / 2)).attr("y", 0 - (margin.top / 4)).attr("text-anchor", "middle").style("font-size", "16px").style("text-decoration", "underline").text("Number of Users By Age");
 
       // text label for the x axis
       g.append("text").attr("x", (width / 2)).attr("y", height+40)
@@ -76,7 +65,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
   }
 
-  function drawContraceptionMethodsByFrequency() {
+  function drawContraceptionMethodsByFrequency(data) {
     var initialWidth;
     window.innerWidth > 800 ? initialWidth = 800 : initialWidth = window.innerWidth;
     var initialHeight = initialWidth * 0.5;   // best relative size for chart
@@ -88,43 +77,37 @@ document.addEventListener("DOMContentLoaded", function() {
         .variable('Users')
         .category('Type');
 
-    var data = [
-      {"Type":"Non-Hormonal","Users":1002,"Details":"None, Condoms","More":"Paraguard, Copper IUD"},
-      {"Type":"Triphasic","Users":2415,"Details":"The Pill - varied amount","More":"Ortho Tricyclen"},
-      {"Type":"Monophasic","Users":687,"Details":"The Pill - constant amount","More":"Levora"},
-      {"Type":"Progestins","Users":1234,"Details":"Mirena IUD, Skyla, Mini Pill","More":"Depo Shot, The Ring"},
-    ]
-
     d3.select('#svg2')
             .datum(data) // bind data to the div
             .call(donut); // draw chart in div
 
   }
 
-  function drawContraceptionByAge() {
-    var initialWidth;
-    window.innerWidth > 600 ? initialWidth = 600 : initialWidth = window.innerWidth;
-    var initialHeight = initialWidth * 0.7;   // best relative size for chart
-    var svg = d3.select("#svg3"),
-      margin = {
-        top: 20,
-        right: 20,
-        bottom: 50,
-        left: 40
-      },
-      width = initialWidth - margin.left - margin.right - 80,
-      height = initialHeight - margin.top - margin.bottom,
-      g = svg.append("g").attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+  function drawContraceptionByAge(data) {
+
+    // set width and height based on window size.  600 is the largest good size
+    // for this chart, so use that as a max. The ratio for height is just for
+    // a pleasing shape.
+    let margin = {
+      top: 20,
+      right: 80,
+      bottom: 50,
+      left: 40
+    };
+    let svgElement = $("#svg3");
+    let width = svgElement.width() - margin.left - margin.right;
+    let height = svgElement.height() - margin.top - margin.bottom;
+    let svg = d3.select("#svg3");
+    let g = svg.append("g").attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
     // Define the div for the tooltip
     var div = d3.select("#userbase").append("div").attr("class", "tooltip").style("opacity", 0);
 
-    var x = d3.scaleBand().rangeRound([0, width]).paddingInner(0.05).align(0.1);
-
-    var y = d3.scaleLinear().rangeRound([height, 0]);
+    //  set the scales
+    var x = d3.scaleBand().range([0, width]).paddingInner(0.05).align(0.1);
+    var y = d3.scaleLinear().range([height, 0]);
 
     var z = d3.scaleOrdinal().range([
-      "wheat",
       "#ffa200",
       "#FF3E00",
       "#70608e",
@@ -134,35 +117,22 @@ document.addEventListener("DOMContentLoaded", function() {
       "#52BFAB"
     ]);
 
-    var data = [
-      {
-        "Age":18,"Triphasic":3,"Monophasic":30,"Progestins":6, "Non-Hormonal": 160, "No Answer":32
-      },
-      {
-        "Age":19,"Triphasic":16,"Monophasic":40,"Progestins":76, "Non-Hormonal": 270, "No Answer":65
-      },
-      {
-        "Age":20,"Triphasic":11,"Monophasic":22,"Progestins":6, "Non-Hormonal": 230, "No Answer":55
-      }
-    ]
-
-
-      // var keys = data.columns.slice(1);
-      var keys = ["Age", "Triphasic", "Monophasic", "Progestins", "Non-Hormonal", "No Answer"];
+      var keys = ["Triphasic", "Monophasic", "Progestins", "Non-Hormonal", "No Answer"];
 
       //  loop through the data for each age and save the total in data
       data.map(function(d) {
         let t, i;
-        for (i = 1, t = 0; i < keys.length; ++i) {
+        for (i = 0, t = 0; i < keys.length; ++i) {
           t += d[keys[i]] = +d[keys[i]];
         }
         d.total = t;
       })
 
-
       x.domain(data.map(function(d) {
         return d.Age;
       }));
+      console.log("max total is: ", d3.max(data, function(d) { return d.total }));
+      console.log(data);
       y.domain([
         0,
         d3.max(data, function(d) {
@@ -181,11 +151,12 @@ document.addEventListener("DOMContentLoaded", function() {
         return y(d[1]);
       }).attr("height", function(d) {
         return y(d[0]) - y(d[1]);
-      }).attr("width", x.bandwidth()).attr("myval", function(d) {
-        return d.key;
-      }).on("mouseover", function(d) {
+      }).attr("width", x.bandwidth())
+      .on("mouseover", function(d) {
         div.transition().duration(200).style("opacity", .9);
-        div.html("<br/>" + `${d[1] - d[0]}` + "<br/>").style("left", (d3.event.pageX) + "px").style("top", (d3.event.pageY - 28) + "px");
+        console.log("d is: ");
+        console.log(d);
+        div.html(`${d[1] - d[0]}` + "<br/>").style("left", (d3.event.pageX) + "px").style("top", (d3.event.pageY) + "px");
       }).on("mouseout", function(d) {
         div.transition().duration(500).style("opacity", 0);
       });
@@ -212,7 +183,7 @@ document.addEventListener("DOMContentLoaded", function() {
         return d;
       });
 
-      g.append("text").attr("x", (width / 2)).attr("y", 0 - (margin.top / 4)).attr("text-anchor", "middle").style("font-size", "18px").style("text-decoration", "underline").text("Contraception By Age");
+      g.append("text").attr("x", (width / 2)).attr("y", 0 - (margin.top / 4)).attr("text-anchor", "middle").style("font-size", "16px").style("text-decoration", "underline").text("Contraceptives By Age");
 
       // text label for the x axis
       g.append("text").attr("x", (width / 2)).attr("y", height+40)
@@ -243,7 +214,7 @@ document.addEventListener("DOMContentLoaded", function() {
         // generate chart
 
         // Add title
-        selection.append("text").attr("x", (width / 2)).attr("y", 20).attr("text-anchor", "middle").style("font-size", "18px").style("text-decoration", "underline").text("Contraceptive Methods By Users");
+        selection.append("text").attr("x", (width / 2)).attr("y", 20).attr("text-anchor", "middle").style("font-size", "16px").style("text-decoration", "underline").text("Contraceptive Methods By Users");
 
         // ======================================================================================
 
@@ -459,10 +430,106 @@ document.addEventListener("DOMContentLoaded", function() {
     return chart;
   }
 
+  function getData() {
+    let users = [];
+    let triphasic = [];
+    let monophasic = [];
+    let non_hormonal = [];
+    let progestin = [];
+
+    // get the users first
+    $.getJSON("https://epro-api.herokuapp.com/users/all", function(result){
+      users = result.data;
+      $.getJSON("https://epro-api.herokuapp.com/users/triphasic", function(result){
+        triphasic = result.data;
+        $.getJSON("https://epro-api.herokuapp.com/users/monophasic", function(result){
+          monophasic = result.data;
+          $.getJSON("https://epro-api.herokuapp.com/users/progestin", function(result){
+            progestin = result.data;
+            $.getJSON("https://epro-api.herokuapp.com/users/non_hormonal", function(result){
+              non_hormonal = result.data;
+
+              // all results should be set now, so prepare the data and draw the charts
+              let data = prepDataForUsersByAge(users);
+              drawUsersByAge(data);
+              data = prepDataForContraceptionMethodsByFrequency(progestin.length,
+                non_hormonal.length, triphasic.length, monophasic.length);
+              drawContraceptionMethodsByFrequency(data);
+              data = prepDataForContraceptionMethodsByAge(users);
+               // data = [
+               //      {
+               //        "Age":12,"Triphasic":1,"Monophasic":2,"Progestins":0, "Non-Hormonal": 0, "No Answer":0
+               //      },
+               //      {
+               //        "Age":19,"Triphasic":16,"Monophasic":40,"Progestins":76, "Non-Hormonal": 270, "No Answer":65
+               //      },
+               //      {
+               //        "Age":20,"Triphasic":11,"Monophasic":22,"Progestins":6, "Non-Hormonal": 230, "No Answer":55
+               //      }
+               //    ]
+              drawContraceptionByAge(data);
+            })
+          })
+        })
+      })
+    });
+  }
+
+  function prepDataForUsersByAge(users) {
+    let array = [];
+    let data =  users.reduce((array, user) => {
+      array[user.age] === undefined ?
+        array[user.age] = {"age": user.age, "frequency": 1} :
+        array[user.age].frequency++;
+      return array;
+    }, []);
+    let results = data.filter(element => {
+      return element !== undefined;
+    })
+
+    return results;
+  }
+
+
+  function prepDataForContraceptionMethodsByFrequency(progestin, non_hormonal,
+      triphasic, monophasic) {
+        return [
+          {"Type":"Non-Hormonal","Users":non_hormonal,"Details":"None, Condoms","More":"Paraguard, Copper IUD"},
+          {"Type":"Triphasic","Users":triphasic,"Details":"The Pill - varied amount","More":"Ortho Tricyclen"},
+          {"Type":"Monophasic","Users":monophasic,"Details":"The Pill - constant amount","More":"Levora"},
+          {"Type":"Progestins","Users":progestin,"Details":"Mirena IUD, Skyla, Mini Pill","More":"Depo Shot, The Ring"}
+        ]
+      }
+
+  function prepDataForContraceptionMethodsByAge(users) {
+    let array = [];
+    let data =  users.reduce((array, user) => {
+      if (array[user.age] === undefined) {
+        array[user.age] = {"Age": user.age, "Triphasic":0, "Monophasic":0,
+                            "Progestins":0, "Non-Hormonal":0, "No Answer":0};
+      }
+      if (user.triphasic) {
+        array[user.age].Triphasic++;
+      } else if (user.progestin) {
+        array[user.age].Progestins++;
+      } else if (user.monophasic) {
+        array[user.age].Monophasic++;
+      } else if (user.non_hormonal) {
+        array[user.age]["Non-Hormonal"]++;
+      } else {
+        array[user.age]["No Answer"]++;
+      }
+      return array;
+    }, []);
+    let results = data.filter(element => {
+      return element !== undefined;
+    })
+
+    return results;
+  }
+
   function drawCharts() {
-    drawUsersByAge();
-    drawContraceptionMethodsByFrequency();
-    drawContraceptionByAge();
+    getData();
   }
 
   window.addEventListener('resize', function(){window.location.reload(true);});
