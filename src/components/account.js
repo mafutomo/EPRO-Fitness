@@ -63,9 +63,9 @@ class Account extends Component {
         email: "",
         password: "",
         retypePassword:"",
-        cycleLength: 21,
+        cycleLength: 28,
         dayOfLastPeriod: "",
-        age: 12,
+        age: 25,
         nonhormonal: false,
         triphasic: false,
         monophasic: false,
@@ -127,6 +127,7 @@ class Account extends Component {
         message: logged.message
       })
     }
+    window.location.reload()
   }
 
   handleChange = (e, index) => {
@@ -149,13 +150,15 @@ class Account extends Component {
 
   handleDate = (event, date) => {
     let newDate = date.toString()
+
     this.setState({dayOfLastPeriod: newDate})
+
   }
 
   validatorListener(result) {
-    console.log("RESULT ==", result)
 
-      if(result === true && this.state.email != "" && this.state.retypePassword != "" && this.state.fname != "" && this.state.lname != "" && this.state.dayOfLastPeriod != ""){
+      if(result === true && this.state.email !== "" && this.state.retypePassword !== "" && this.state.fname !== "" && this.state.lname !== ""){
+
           this.setState({ disabled: !result });
       } else {
           this.setState({ disabled: true });
@@ -239,9 +242,10 @@ class Account extends Component {
       <br />
       <br />
 
-    <div>
-      <DatePicker hintText="First Day of Last Period" name="dayOfLastPeriod" onChange={this.handleDate}/>
-    </div>
+
+      <DatePicker hintText="First Day of Last Period" name="dayOfLastPeriod" onChange={this.handleDate}
+      validatorListener={this.validatorListener}/>
+
 
       <p>
         <span>{'Your Cycle Length: '}</span>

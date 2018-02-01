@@ -36,14 +36,18 @@ class Navbar extends Component {
 
   handleToggle = () => this.setState({open: !this.state.open});
 
-  handleClose = () => this.setState({open: false});
+  handleClose = () => {
+    this.setState({open: false})
+    window.location.reload()
+  };
 
   render() {
     return (
           <div>
 
               <AppBar
-                  style={{backgroundColor:'#484043'}}
+                title="E/PRO"
+                  style={{backgroundColor:'#484043', fontFamily: 'Julius Sans One', textAlign:'right'}}
                   onClick={this.handleToggle}
                   iconClassNameRight="muidocs-icon-navigation-expand-more"
                   className="navbar-style"
