@@ -1,13 +1,10 @@
 import React, {Component} from 'react';
 import TextField from 'material-ui/TextField';
 import RaisedButton from 'material-ui/RaisedButton';
-<<<<<<< HEAD
-import {fullWhite} from 'material-ui/styles/colors';
-=======
 import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
-import {reactLocalStorage} from 'reactjs-localstorage';
->>>>>>> 7b1e3f7f501693d95008c9b8979b221213827215
+// import {reactLocalStorage} from 'reactjs-localstorage';
+import {fullWhite} from 'material-ui/styles/colors';
 import './login.css'
 
 import {
