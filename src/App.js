@@ -58,7 +58,7 @@ class App extends Component {
           <MuiThemeProvider>
             <Switch>
             <Route
-              exact path="/"
+              exact path="/hormones"
               render= {() => (
                 <div className = "height-adjust">
                   <Navbar/>
@@ -72,7 +72,7 @@ class App extends Component {
           <MuiThemeProvider>
             <Switch>
             <Route
-              exact path="/login"
+              exact path="/"
               render= {() => (
                 <div>
                   <Login/>
