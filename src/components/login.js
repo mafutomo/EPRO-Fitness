@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import TextField from 'material-ui/TextField';
 import RaisedButton from 'material-ui/RaisedButton';
+import {fullWhite} from 'material-ui/styles/colors';
 import './login.css'
 
 import {
@@ -11,7 +12,10 @@ import {
 import Hormones from './hormones'
 
 const style = {
-  margin: 12
+  margin: 12,
+  floatingLabelStyle: {
+    color: fullWhite,
+  },
 };
 
 
@@ -82,7 +86,8 @@ class Login extends Component {
         <form onSubmit={(e)=>{this.loginUser(e, this.state)}} >
         <TextField
         hintText="example@email.com"
-        floatingLabelText="Email Login"
+        floatingLabelText="email login"
+        floatingLabelStyle={style.floatingLabelStyle}
         value={this.state.email}
         onChange={this.handleChange}
         name="email"
@@ -90,7 +95,9 @@ class Login extends Component {
 
         <TextField
           hintText=""
-          floatingLabelText="Password"
+          floatingLabelText="password"
+          floatingLabelStyle={style.floatingLabelStyle}
+          color="white"
           type="password"
           value={this.state.password}
           onChange={this.handleChange}
