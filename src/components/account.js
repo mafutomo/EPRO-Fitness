@@ -6,6 +6,11 @@ import RaisedButton from 'material-ui/RaisedButton';
 import {RadioButton, RadioButtonGroup} from 'material-ui/RadioButton';
 import DropDownMenu from 'material-ui/DropDownMenu';
 import MenuItem from 'material-ui/MenuItem';
+
+//validator
+import { ValidatorForm } from 'react-form-validator-core';
+import { TextValidator} from 'react-material-ui-form-validator';
+
 import './account.css'
 
 import {
@@ -45,30 +50,33 @@ for (let i = 12; i < 99; i++ ) {
   itemsAge.push(<MenuItem value={i} key={i} primaryText={`${i} years old`} />);
 }
 
+
 class Account extends Component {
 
   constructor(props) {
     super(props);
-    this.state = {
-      checked: false,
-      thirdSlider: 12,
-      fname: "",
-      lname: "",
-      email: "",
-      password: "",
-      cycleLength: 21,
-      dayOfLastPeriod: "",
-      age: 12,
-      nonhormonal: false,
-      triphasic: false,
-      monophasic: false,
-      progestin: false,
-      retypePassword:"",
-      token: '',
-      message: '',
-      loggedIn: false,
-      canSubmit: false,
-    }
+      this.state = {
+        checked: false,
+        thirdSlider: 12,
+        fname: "",
+        lname: "",
+        email: "",
+        password: "",
+        retypePassword:"",
+        cycleLength: 28,
+        dayOfLastPeriod: "",
+        age: 25,
+        nonhormonal: false,
+        triphasic: false,
+        monophasic: false,
+        progestin: false,
+        token: '',
+        message: '',
+        loggedIn: false,
+        canSubmit: false,
+        disabled: true,
+      }
+     this.validatorListener = this.validatorListener.bind(this);
   }
 
   updateCheck() {
@@ -82,10 +90,6 @@ class Account extends Component {
   handleCycleChange = (event, index, cycleLength) => this.setState({cycleLength});
   //for age dropdown
   handleAgeChange = (event, index, age) => this.setState({age});
-
-  toggleSelect = () => {
-
-  }
 
   createUser = async (e, {fname, lname, email, password, cycleLength, dayOfLastPeriod, age, nonhormonal, triphasic, monophasic, progestin}) => {
     e.preventDefault()
@@ -130,6 +134,7 @@ class Account extends Component {
       [e.target.name]: e.target.value
     })
   }
+
   booleanChange = (e) => {
     this.setState(
         {
@@ -143,13 +148,33 @@ class Account extends Component {
   }
 
   handleDate = (event, date) => {
-  let newDate = date.toString()
-  this.setState({dayOfLastPeriod: newDate})
+    let newDate = date.toString()
+
+    this.setState({dayOfLastPeriod: newDate})
+
   }
 
+  validatorListener(result) {
+
+      if(result === true && this.state.email !== "" && this.state.retypePassword !== "" && this.state.fname !== "" && this.state.lname !== ""){
+
+          this.setState({ disabled: !result });
+      } else {
+          this.setState({ disabled: true });
+      }
+   }
+
+   componentWillMount() {
+       // custom rule will have name 'isPasswordMatch'
+       ValidatorForm.addValidationRule('isPasswordMatch', (value) => {
+           if (value !== this.state.password) {
+               return false;
+           }
+           return true;
+       });
+   }
 
   render() {
-
     const { loggedIn } = this.state
     if (loggedIn) {
       return (
@@ -162,7 +187,11 @@ class Account extends Component {
       <div style={styles.block}>
       <p className="account-title">Account</p>
 
-      <form onSubmit={(e)=>{this.createUser(e, this.state)}}>
+      <ValidatorForm
+        ref="form"
+        onSubmit={(e)=>{this.createUser(e, this.state)}}
+        onError={errors => console.log(errors)}
+      >
 
       <TextField
        floatingLabelText="First Name"
@@ -171,26 +200,51 @@ class Account extends Component {
       <TextField
        floatingLabelText="Last Name"
        name="lname" value={this.state.lname} onChange={this.handleChange}
+
       /><br />
-      <TextField
-       floatingLabelText="Email"
-       hintText="example@email.com"
-       name="email" value={this.state.email} onChange={this.handleChange}
-      /><br />
-      <TextField
-        type="password"
-       floatingLabelText="Password"
-       name="password" value={this.state.password} onChange={this.handleChange}
-      /><br />
-      <TextField
-        type="password"
-       floatingLabelText="Re-type Password" name="retypePassword" value={this.state.retypePassword} onChange={this.handleChange}
-      /><br />
+
+      <TextValidator
+          floatingLabelText="Email"
+          hintText="example@email.com"
+          onChange={this.handleChange}
+          name="email"
+          value={this.state.email}
+          validators={['required', 'isEmail']}
+          errorMessages={['this field is required', 'email is not valid']}
+          validatorListener={this.validatorListener}
+      />
+
       <br />
 
-    <div>
-      <DatePicker hintText="First Day of Last Period" name="dayOfLastPeriod" onChange={this.handleDate}/>
-    </div>
+      <TextValidator
+        type="password"
+       floatingLabelText="Password"
+       name="password"
+       validators={['required']}
+       errorMessages={['this field is required']}
+       value={this.state.password}
+       onChange={this.handleChange}
+
+      /><br />
+
+      <TextValidator
+      type="password"
+       floatingLabelText="Re-type Password"
+       name="retypePassword"
+       value={this.state.retypePassword}
+       validators={['isPasswordMatch', 'required']}
+       errorMessages={['password mismatch', 'this field is required']}
+       onChange={this.handleChange}
+       validatorListener={this.validatorListener}
+      />
+
+      <br />
+      <br />
+
+
+      <DatePicker hintText="First Day of Last Period" name="dayOfLastPeriod" onChange={this.handleDate}
+      validatorListener={this.validatorListener}/>
+
 
       <p>
         <span>{'Your Cycle Length: '}</span>
@@ -208,7 +262,7 @@ class Account extends Component {
 
       <DropDownMenu maxHeight={300} value={this.state.age} onChange={this.handleAgeChange}>
        {itemsAge}
-       </DropDownMenu>
+      </DropDownMenu>
 
       <br />
       <br />
@@ -243,9 +297,15 @@ class Account extends Component {
           style={radioStyles.radioButton}
         />
         </RadioButtonGroup>
-        <RaisedButton label="Submit" backgroundColor='#52BFAB' labelColor='white' style={style} type='submit'/>
 
-        </form>
+        <RaisedButton label="Submit"
+        backgroundColor='#52BFAB'
+        labelColor='white'
+        style={style}
+        type='submit'
+        disabled={this.state.disabled}/>
+
+        </ValidatorForm>
 
 
       </div>

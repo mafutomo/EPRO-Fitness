@@ -4,67 +4,102 @@ import $ from "jquery";
 document.addEventListener("DOMContentLoaded", function() {
 
   function drawUsersByAge(data) {
-    var initialWidth;
-    window.innerWidth > 600 ? initialWidth = 600 : initialWidth = window.innerWidth;
-    var initialHeight = initialWidth * 0.7;   // best relative size for chart
-    var svg = d3.select("#svg1");
-    var  margin = {
-        top: 40,
-        right: 20,
-        bottom: 50,
-        left: 40
-      };
-    var  width = initialWidth - margin.left - margin.right,
-      height = initialHeight - margin.top - margin.bottom;
+      var initialWidth;
+      window.innerWidth > 600 ? initialWidth = 600 : initialWidth = window.innerWidth;
+      var initialHeight = initialWidth * 0.7;   // best relative size for chart
+      var svg = d3.select("#svg1");
+      var  margin = {
+          top: 40,
+          right: 20,
+          bottom: 60,
+          left: 40
+        };
+      let svgElement = $("#svg2");
+      var  width = initialWidth - margin.left - margin.right,
+        height = initialHeight - margin.top - margin.bottom;
 
-    var x = d3.scaleBand().rangeRound([0, width]).padding(0.1),
-      y = d3.scaleLinear().rangeRound([height, 0]);
+      var x = d3.scaleBand().rangeRound([0, width]).padding(0.1),
+        y = d3.scaleLinear().rangeRound([height, 0]);
 
-    var g = svg.append("g").attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+      var g = svg.append("g").attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-    // Define the div for the tooltip
-    var div = d3.select("#userbase").append("div").attr("class", "tooltip").style("opacity", 0);
+      // Define the div for the tooltip
+      var div = d3.select("#userbase").append("div").attr("class", "tooltip").style("opacity", 0);
 
-      x.domain(data.map(function(d) {
-        return d.age;
-      }));
-      y.domain([
-        0,
-        d3.max(data, function(d) {
-          return d.frequency;
-        })
-      ]);
+        x.domain(data.map(function(d) {
+          return d.age;
+        }));
+        y.domain([
+          0,
+          d3.max(data, function(d) {
+            return d.frequency;
+          })
+        ]);
 
-      g.append("g").attr("class", "axis axis--x").attr("transform", "translate(0," + height + ")").call(d3.axisBottom(x));
+        //  Create the x axis.  Space out the ticks on mobile.
+        if (svgElement.width() > 600) {
+          g.append("g").attr("class", "axis axis--x")
+          .attr("transform", "translate(0," + height + ")")
+          .call(d3.axisBottom(x));
+        } else {
+          var xAxis = d3.axisBottom(x)
+            .tickValues(x.domain().filter(function(d, i) { return !(i % 2); }));
+          g.append("g")
+              .attr("class", "x axis")
+              .attr("transform", "translate(0," + height + ")")
+              .call(xAxis);
+        }
 
-      g.append("g").attr("class", "axis")
-        .call(d3.axisLeft(y)).append("text").attr("x", 2).attr("y", y(y.ticks().pop()) + 0.5)
-        .attr("fill", "#000").attr("font-weight", "bold").attr("text-anchor", "start").text("Number of Users");
+        //  Remove the y label on mobile
+        if (svgElement.width() > 600){
+          g.append("g").attr("class", "axis")
+          .call(d3.axisLeft(y)).append("text").attr("x", 2).attr("y", y(y.ticks().pop()) + 0.5)
+          .attr("fill", "#000").attr("text-anchor", "start").text("Number of Users");
+        } else {
+          g.append("g").attr("class", "axis")
+          .call(d3.axisLeft(y)).append("text").attr("x", 2).attr("y", y(y.ticks().pop()) + 0.5)
+          .attr("fill", "#000");
+        }
 
-      g.selectAll(".bar").data(data).enter().append("rect").attr("class", "bar").attr("x", function(d) {
-        return x(d.age);
-      }).attr("y", function(d) {
-        return y(d.frequency);
-      }).attr("width", x.bandwidth()).attr("height", function(d) {
-        return height - y(d.frequency);
-      });
+        g.selectAll(".bar").data(data).enter().append("rect").attr("class", "bar").attr("x", function(d) {
+          return x(d.age);
+        }).attr("y", function(d) {
+          return y(d.frequency);
+        }).attr("width", x.bandwidth()).attr("height", function(d) {
+          return height - y(d.frequency);
+        });
 
-      g.append("text").attr("x", (width / 2)).attr("y", 0 - (margin.top / 4)).attr("text-anchor", "middle").style("font-size", "18px").style("text-decoration", "underline").text("Number of Users By Age");
+        let centerX;
+        if (window.innerWidth > 600) {
+          centerX = 530;
+        } else {
+          centerX = 310;
+        }
+        g.append("text").attr("x", centerX / 2).attr("y", 0 - (margin.top / 4)).attr("text-anchor", "middle").style("font-size", "16px").style("text-decoration", "underline").text("Number of Users By Age");
 
-      // text label for the x axis
-      g.append("text").attr("x", (width / 2)).attr("y", height+40)
-          .style("text-anchor", "middle")
-          .text("Age");
+        // text label for the x axis
+        g.append("text").attr("x", centerX / 2).attr("y", height+40)
+            .style("text-anchor", "middle")
+            .text("Age");
 
-  }
+    }
 
-  function drawContraceptionMethodsByFrequency(data) {
-    var initialWidth;
-    window.innerWidth > 800 ? initialWidth = 800 : initialWidth = window.innerWidth;
-    var initialHeight = initialWidth * 0.5;   // best relative size for chart
+    function drawContraceptionMethodsByFrequency(data) {
+    // var initialWidth;
+    // window.innerWidth > 800 ? initialWidth = 800 : initialWidth = window.innerWidth;
+    // var initialHeight = initialWidth * 0.5;   // best relative size for chart
+    let margin = {
+      top: 20,
+      right: 20,
+      bottom: 20,
+      left: 30
+    };
+    let svgElement = $("#svg2");
+    let width = svgElement.width() - margin.left - margin.right;
+    let height = svgElement.height();
     var donut = donutChart()
-        .width(initialWidth)
-        .height(initialHeight)
+        .width(width)
+        .height(height)
         .cornerRadius(3) // sets how rounded the corners are on each slice
         .padAngle(0.015) // effectively dictates the gap between slices
         .variable('Users')
@@ -77,28 +112,28 @@ document.addEventListener("DOMContentLoaded", function() {
   }
 
   function drawContraceptionByAge(data) {
-    console.log("stacked data:");
-    console.log(data);
-    var initialWidth;
-    window.innerWidth > 600 ? initialWidth = 600 : initialWidth = window.innerWidth;
-    var initialHeight = initialWidth * 0.6;   // best relative size for chart
-    var svg = d3.select("#svg3"),
-      margin = {
-        top: 80,
-        right: 20,
-        bottom: 50,
-        left: 40
-      },
-      width = initialWidth - margin.left - margin.right - 80,
-      height = initialHeight - margin.top - margin.bottom,
-      g = svg.append("g").attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+    // set width and height based on window size.  600 is the largest good size
+    // for this chart, so use that as a max. The ratio for height is just for
+    // a pleasing shape.
+    let margin = {
+      top: 20,
+      right: 80,
+      bottom: 50,
+      left: 40
+    };
+    let svgElement = $("#svg3");
+    let width = svgElement.width() - margin.left - margin.right;
+    let height = svgElement.height() - margin.top - margin.bottom;
+    let svg = d3.select("#svg3");
+    let g = svg.append("g").attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
     // Define the div for the tooltip
     var div = d3.select("#userbase").append("div").attr("class", "tooltip").style("opacity", 0);
 
-    var x = d3.scaleBand().rangeRound([0, width]).paddingInner(0.05).align(0.1);
-
-    var y = d3.scaleLinear().rangeRound([height, 0]);
+    //  set the scales
+    var x = d3.scaleBand().range([0, width]).paddingInner(0.05).align(0.1);
+    var y = d3.scaleLinear().range([height, 0]);
 
     var z = d3.scaleOrdinal().range([
       "#ffa200",
@@ -115,19 +150,18 @@ document.addEventListener("DOMContentLoaded", function() {
       //  loop through the data for each age and save the total in data
       data.map(function(d) {
         let t, i;
-        for (i = 1, t = 0; i < keys.length; ++i) {
+        for (i = 0, t = 0; i < keys.length; ++i) {
           t += d[keys[i]] = +d[keys[i]];
         }
         d.total = t;
+        return t;
       })
-
-      console.log("after totaling, data is ");
-      console.log(data);
-
 
       x.domain(data.map(function(d) {
         return d.Age;
       }));
+      console.log("max total is: ", d3.max(data, function(d) { return d.total }));
+      console.log(data);
       y.domain([
         0,
         d3.max(data, function(d) {
@@ -146,18 +180,32 @@ document.addEventListener("DOMContentLoaded", function() {
         return y(d[1]);
       }).attr("height", function(d) {
         return y(d[0]) - y(d[1]);
-      }).attr("width", x.bandwidth()).attr("myval", function(d) {
-        return d.key;
-      }).on("mouseover", function(d) {
+      }).attr("width", x.bandwidth())
+      .on("mouseover", function(d) {
         div.transition().duration(200).style("opacity", .9);
-        div.html("<br/>" + `${d[1] - d[0]}` + "<br/>").style("left", (d3.event.pageX) + "px").style("top", (d3.event.pageY - 28) + "px");
+        console.log("d is: ");
+        console.log(d);
+        div.html(`${d[1] - d[0]}` + "<br/>").style("left", (d3.event.pageX) + "px").style("top", (d3.event.pageY) + "px");
       }).on("mouseout", function(d) {
         div.transition().duration(500).style("opacity", 0);
       });
 
-      g.append("g").attr("class", "axis").attr("transform", "translate(0," + height + ")").call(d3.axisBottom(x));
+      //  Create the x axis.  Space out the ticks on mobile.
+      if (svgElement.width() > 600) {
+        g.append("g").attr("class", "axis axis--x")
+        .attr("transform", "translate(0," + height + ")")
+        .call(d3.axisBottom(x));
+      } else {
+        var xAxis = d3.axisBottom(x)
+          .tickValues(x.domain().filter(function(d, i) { return !(i % 2); }));
+        g.append("g")
+            .attr("class", "x axis")
+            .attr("transform", "translate(0," + height + ")")
+            .call(xAxis);
+      }
 
-      if (width > 700) {
+
+      if (svgElement.width() > 700) {
         g.append("g").attr("class", "axis")
         .call(d3.axisLeft(y)).append("text").attr("x", 2).attr("y", y(y.ticks().pop()) + 0.5)
         .attr("fill", "#000").attr("font-weight", "bold").attr("text-anchor", "start").text("Number Reported");
@@ -177,7 +225,7 @@ document.addEventListener("DOMContentLoaded", function() {
         return d;
       });
 
-      g.append("text").attr("x", (width / 2)).attr("y", 0 - (margin.top / 4)).attr("text-anchor", "middle").style("font-size", "14px").style("text-decoration", "underline").text("Contraceptives By Age");
+      g.append("text").attr("x", (width / 2)).attr("y", 0 - (margin.top / 4)).attr("text-anchor", "middle").style("font-size", "16px").style("text-decoration", "underline").text("Contraceptives By Age");
 
       // text label for the x axis
       g.append("text").attr("x", (width / 2)).attr("y", height+40)
@@ -193,7 +241,7 @@ document.addEventListener("DOMContentLoaded", function() {
         top: 10,
         right: 10,
         bottom: 10,
-        left: 10
+        left: 30
       },
       colour = d3.scaleOrdinal(d3.schemeCategory20c), // colour scheme
       variable, // value in data that will dictate proportions on chart
@@ -201,24 +249,27 @@ document.addEventListener("DOMContentLoaded", function() {
       padAngle, // effectively dictates the gap between slices
       floatFormat = d3.format('.4r'),
       cornerRadius, // sets how rounded the corners are on each slice
-      percentFormat = d3.format('');
+      commaFormat = d3.format(',');
 
     function chart(selection) {
       selection.each(function(data) {
         // generate chart
 
         // Add title
-        selection.append("text").attr("x", (width / 2)).attr("y", 20).attr("text-anchor", "middle").style("font-size", "16px").style("text-decoration", "underline").text("Contraceptive Methods By Users");
+        if (window.innerWidth > 600) {
+          selection.append("text").attr("x", width/2).attr("y", 20).attr("text-anchor", "middle").style("font-size", "16px").style("text-decoration", "underline").text("Contraceptive Methods By Users");
+        } else {
+          selection.append("text").attr("x", 175).attr("y", 20).attr("text-anchor", "middle").style("font-size", "16px").style("text-decoration", "underline").text("Contraceptive Methods By Users");
+        }
 
         // ======================================================================================
 
         // ===========================================================================================
         // Set up constructors for making donut. See https://github.com/d3/d3-shape/blob/master/README.md
+
         var radius;
-        if (width < 400) {
-          radius = Math.min(width, height) / 7;
-        } else if (width < 800) {
-          radius = Math.min(width, height) / 4;
+        if (width < 600) {
+          radius = Math.min(width, height) / 5;
         } else {
           radius = Math.min(width, height) / 2;
         }
@@ -259,7 +310,7 @@ document.addEventListener("DOMContentLoaded", function() {
         // add text labels
         var label = svg.select('.labelName').selectAll('text').data(pie).enter().append('text').attr('dy', '.35em').html(function(d) {
           // add "key: value" for given category. Number inside tspan is bolded in stylesheet.
-          return d.data[category] + ': <tspan>' + percentFormat(d.data[variable]) + '</tspan>';
+          return d.data[category] + ': <tspan>' + commaFormat(d.data[variable]) + '</tspan>';
         }).attr('transform', function(d) {
 
           // effectively computes the centre of the slice.
@@ -276,7 +327,8 @@ document.addEventListener("DOMContentLoaded", function() {
           return (midAngle(d)) < Math.PI
             ? 'start'
             : 'end';
-        });
+        })
+        .style('font-family', 'sans-serif');
         // ======================================================================================
 
 
@@ -294,7 +346,9 @@ document.addEventListener("DOMContentLoaded", function() {
 
         // ===========================================================================================
         // add tooltip to mouse events on slices and labels
-        // d3.selectAll('.labelName text, .slices path').call(toolTip);
+        if (width > 700) {
+          d3.selectAll('.labelName text, .slices path').call(toolTip);
+        }
         // ===========================================================================================
 
         // ===========================================================================================
@@ -311,12 +365,12 @@ document.addEventListener("DOMContentLoaded", function() {
           // add tooltip (svg circle element) when mouse enters label or slice
           selection.on('mouseenter', function(data) {
 
-            svg.append('text').attr('class', 'toolCircle').attr('dy', -15). // hard-coded. can adjust this to adjust text vertical alignment in tooltip
-            html(toolTipHTML(data)). // add text to the circle.
-            style('font-size', '.9em').style('text-anchor', 'middle'); // centres text in tooltip
-
-            svg.append('circle').attr('class', 'toolCircle').attr('r', radius * 0.55). // radius of tooltip circle
-            style('fill', colour(data.data[category])). // colour based on category mouse is over
+            svg.append('text').attr('class', 'toolCircle').attr('dy', -20) // hard-coded. can adjust this to adjust text vertical alignment in tooltip
+            .html(toolTipHTML(data)) // add text to the circle.
+            .style('font-size', '.8em').style('text-anchor', 'middle') // centres text in tooltip
+            .style('font-family', 'sans-serif');
+            svg.append('circle').attr('class', 'toolCircle').attr('r', radius * 0.55) // radius of tooltip circle
+            .style('fill', colour(data.data[category])). // colour based on category mouse is over
             style('fill-opacity', 0.35);
 
           });
@@ -336,9 +390,9 @@ document.addEventListener("DOMContentLoaded", function() {
 
           for (var key in data.data) {
 
-            // if value is a number, format it as a percentage
+            // if value is a number, format it using commas
             var value = (!isNaN(parseFloat(data.data[key])))
-              ? percentFormat(data.data[key])
+              ? commaFormat(data.data[key])
               : data.data[key];
 
             // leave off 'dy' attr for first tspan so the 'dy' attr on text element works. The 'dy' attr on
@@ -461,7 +515,6 @@ document.addEventListener("DOMContentLoaded", function() {
                //        "Age":20,"Triphasic":11,"Monophasic":22,"Progestins":6, "Non-Hormonal": 230, "No Answer":55
                //      }
                //    ]
-                  console.log(data);
               drawContraceptionByAge(data);
             })
           })
@@ -520,8 +573,6 @@ document.addEventListener("DOMContentLoaded", function() {
       return element !== undefined;
     })
 
-    console.log("Returning from stacked prep: ");
-    console.log(results);
     return results;
   }
 
