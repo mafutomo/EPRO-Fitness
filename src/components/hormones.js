@@ -4,6 +4,7 @@ import {Tabs, Tab} from 'material-ui/Tabs';
 import Paper from 'material-ui/Paper';
 import './hormone-chart.js';
 import './hormone.css';
+import './index.css'
 
 const styles = {
   margin: 16,
