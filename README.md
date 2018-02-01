@@ -64,12 +64,15 @@ The top navigation bar houses both the E/Pro title and a triple bar that trigger
 E/PRO is the culmination of an intensive one-week production to demonstrate skillsets gained during the third quarter of the Galvanize Web Immersive program.  The ultimate goal is to deploy a production-ready mobile-friendly app that aids women in scheduling fitness and diet in accordance to hormonal cycles.
 
 Real-Time Task Management:
+
 https://trello.com/b/2UcMtrMG/e-pro
 
 Stand-Up and Stand-Down Meeting Notes:
+
 https://docs.google.com/document/d/123UeQj5rZcWYBSZZsAOeV2khFpfh0_z_9trXmqKEo6I/edit
 
 Initial Project Plan:
+
 https://docs.google.com/document/d/1o_fJjAJjN6ap57sRY_2_UMNWrs7iiUU0Y1E5aeEWZMU/edit
 
 Initial Wireframe:
