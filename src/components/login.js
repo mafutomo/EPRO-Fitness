@@ -4,11 +4,6 @@ import RaisedButton from 'material-ui/RaisedButton';
 import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
 import {fullWhite} from 'material-ui/styles/colors';
-
-<<<<<<< HEAD
-=======
-import {reactLocalStorage} from 'reactjs-localstorage';
->>>>>>> 94bc7cdd46c8b55345b3529443b4523a8106a342
 import './login.css'
 
 import {
@@ -33,15 +28,11 @@ let deviceMemory = JSON.parse(localStorage.getItem('user')) || localStorage.setI
 
 let showModal;
 
-if(deviceMemory == 1){
+if(deviceMemory > 0){
    showModal = false;
 } else {
    showModal = true;
 }
-
-console.log("showModal=",showModal);
-
-console.log("deviceMemory=", deviceMemory);
 
 
 class Login extends Component {
