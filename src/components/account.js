@@ -127,6 +127,7 @@ class Account extends Component {
         message: logged.message
       })
     }
+    window.location.reload()
   }
 
   handleChange = (e, index) => {

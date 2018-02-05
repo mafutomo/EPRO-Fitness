@@ -5,6 +5,10 @@ import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
 import {fullWhite} from 'material-ui/styles/colors';
 
+<<<<<<< HEAD
+=======
+import {reactLocalStorage} from 'reactjs-localstorage';
+>>>>>>> 94bc7cdd46c8b55345b3529443b4523a8106a342
 import './login.css'
 
 import {
