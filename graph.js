@@ -5,11 +5,11 @@ var margin = {top: 80, right: 80, bottom: 80, left: 80},
 
 //find today's date
 var today = moment().format('MMMM Do YYYY');
-console.log(today);
+
 
 //find how many days have elapsed since last period
 var daysAgo = moment("20180109", "YYYYMMDD").fromNow();
-console.log(daysAgo);
+
 
 //create scales
 var x = d3.scaleBand()

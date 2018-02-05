@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
 import TextField from 'material-ui/TextField';
-import Slider from 'material-ui/Slider';
 import DatePicker from 'material-ui/DatePicker';
 import RaisedButton from 'material-ui/RaisedButton';
 import {RadioButton, RadioButtonGroup} from 'material-ui/RadioButton';
@@ -14,12 +13,8 @@ import { TextValidator} from 'react-material-ui-form-validator';
 import './account.css'
 
 import {
-  Link,
   Redirect
 } from 'react-router-dom'
-
-import Login from './login'
-import Hormones from './hormones'
 
 const styles = {
   customWidth: {

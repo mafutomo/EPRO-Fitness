@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
 import './App.css';
 import Account from './components/account.js'
 import Hormones from './components/hormones.js'
@@ -11,9 +10,7 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import {
   BrowserRouter as Router,
   Route,
-  Link,
-  Switch,
-  Redirect
+  Switch
 } from 'react-router-dom'
 
 class App extends Component {

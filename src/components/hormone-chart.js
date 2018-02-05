@@ -1,4 +1,4 @@
-import * as moment from 'moment';
+// import * as moment from 'moment';
 import * as d3 from 'd3';
 import $ from "jquery";
 
@@ -20,7 +20,7 @@ function createChart(data, user){
   var height = initialHeight - margin.top - margin.bottom;
 
   //find today's date
-  var today = moment().format('MMMM Do YYYY');
+  // var today = moment().format('MMMM Do YYYY');
 
   //reformat users first date of last period
   var d = user.first_day;
@@ -43,23 +43,20 @@ function createChart(data, user){
     cycleLengthArr.push(i)
   }
 
-  //find how many days have elapsed since last period
-  // var daysAgo = moment(actualLastDay, "YYYYMMDD").fromNow();
-  // console.log(daysAgo);
-  // var daysAgoNum = Number(daysAgo.match(/\d+/g));
-  // var currentCycleDay = daysAgoNum%cycleLength;
-
   const daysAgo = Math.floor(( Date.parse(new Date()) - Date.parse(d)) / 86400000) % cycleLength;
   var currentCycleDay = daysAgo%cycleLength;
 
 //create scales
   var x = d3.scaleBand()
       .range([0, width], .1);
+    console.log("x === ", x)
 
   var y0 = d3.scaleLinear()
     .range([height, 0]),
   y1 = d3.scaleLinear()
     .range([height, 0]);
+
+        console.log("y0 === ", y0)
 
   var xAxis = d3.axisBottom()
       .scale(x)
@@ -186,9 +183,9 @@ function createChart(data, user){
   segmentWidth = width,
   currentState = daysAgo;
 
-  var colorScale = d3.scaleOrdinal()
-    .domain(states)
-    .range((['yellow', 'orange', 'green']))
+  // var colorScale = d3.scaleOrdinal()
+  //   .domain(states)
+  //   .range((['yellow', 'orange', 'green']))
 
   svg.append('rect')
     .attr('class', 'bg-rect')
@@ -217,17 +214,17 @@ function createChart(data, user){
       return segmentWidth * ((index + 1)/states.length);
     })
 
-  function moveProgressBar(state){
-    progress.transition()
-      .duration(1000)
-      .attr('fill', function(){
-        return colorScale(state);
-      })
-      .attr('width', function(){
-        var index = states.indexOf(state);
-        return (index + 1) * segmentWidth;
-      });
-    }
+  // function moveProgressBar(state){
+  //   progress.transition()
+  //     .duration(1000)
+  //     .attr('fill', function(){
+  //       return colorScale(state);
+  //     })
+  //     .attr('width', function(){
+  //       var index = states.indexOf(state);
+  //       return (index + 1) * segmentWidth;
+  //     });
+  //   }
 
   // Prep the tooltip bits, initial display is hidden
   var tooltip = svg.append("g")
@@ -289,13 +286,13 @@ function getData() {
 
                //prepare the data and draw the charts
                let data = prepDataForChart(rawContraceptiveData, user);
-               console.log(user);
+
                createChart(data, user);
              })
            });
           },
           error: function() {
-            console.log('boo!');
+
            },
           beforeSend: setHeader
         });

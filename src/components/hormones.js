@@ -1,5 +1,4 @@
 import React, {Component} from 'react';
-import RaisedButton from 'material-ui/RaisedButton';
 import {Tabs, Tab} from 'material-ui/Tabs';
 import Paper from 'material-ui/Paper';
 import './hormone-chart.js';
@@ -77,7 +76,6 @@ class Hormones extends Component {
 
       const getTip = await fetch(`https://epro-api.herokuapp.com/tips/${tipNumber}`)
       const tipToDisplay = await getTip.json()
-      console.log(tipToDisplay);
       this.setState({
         'category': tipToDisplay.category,
         'exercise': tipToDisplay.exercise_decription,

@@ -160,8 +160,8 @@ document.addEventListener("DOMContentLoaded", function() {
       x.domain(data.map(function(d) {
         return d.Age;
       }));
-      console.log("max total is: ", d3.max(data, function(d) { return d.total }));
-      console.log(data);
+
+
       y.domain([
         0,
         d3.max(data, function(d) {
@@ -183,8 +183,7 @@ document.addEventListener("DOMContentLoaded", function() {
       }).attr("width", x.bandwidth())
       .on("mouseover", function(d) {
         div.transition().duration(200).style("opacity", .9);
-        console.log("d is: ");
-        console.log(d);
+
         div.html(`${d[1] - d[0]}` + "<br/>").style("left", (d3.event.pageX) + "px").style("top", (d3.event.pageY) + "px");
       }).on("mouseout", function(d) {
         div.transition().duration(500).style("opacity", 0);
@@ -231,7 +230,6 @@ document.addEventListener("DOMContentLoaded", function() {
       g.append("text").attr("x", (width / 2)).attr("y", height+40)
           .style("text-anchor", "middle")
           .text("Age");
-
   }
 
   function donutChart() {

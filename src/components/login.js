@@ -4,8 +4,6 @@ import RaisedButton from 'material-ui/RaisedButton';
 import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
 import {fullWhite} from 'material-ui/styles/colors';
-
-import {reactLocalStorage} from 'reactjs-localstorage';
 import './login.css'
 
 import {
@@ -93,14 +91,6 @@ class Login extends Component {
 
   render() {
 
-    const actions = [
-        <FlatButton
-          label="Get Started"
-          primary={true}
-          onClick={this.handleClose}
-        />
-      ];
-
     const {loggedIn} = this.state
     if (loggedIn) {
       return (
@@ -112,7 +102,7 @@ class Login extends Component {
 
     return (
       <div className="backgroundImage">
-        <img src={require("./homepage.jpg")} className="bg" />
+        <img src={require("./homepage.jpg")} className="bg" alt="woman lifting" />
         <p className="title-app">E/Pro</p>
         <form onSubmit={(e)=>{this.loginUser(e, this.state)}} >
         <TextField
@@ -134,7 +124,7 @@ class Login extends Component {
          >
          <h2 className = "modalHead"> Women Are Not Small Men</h2>
 
-         <img className = "screen-shot" src={require('./screens.png')}/>
+         <img className = "screen-shot" src={require('./screens.png')} alt="mobile view"/>
 
          <div className = "modal-group">
          <p className = "modal-body">

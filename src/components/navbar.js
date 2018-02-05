@@ -4,13 +4,8 @@ import Drawer from 'material-ui/Drawer';
 import MenuItem from 'material-ui/MenuItem';
 import '../index.css';
 import {
-  BrowserRouter as Router,
-  Route,
-  Link,
-  Switch,
+  Link
 } from 'react-router-dom'
-
-import Hormones from './hormones'
 
 class Navbar extends Component {
 
