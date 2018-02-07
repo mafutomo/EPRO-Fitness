@@ -4,6 +4,12 @@ import Paper from 'material-ui/Paper';
 import './hormone-chart.js';
 import './hormone.css';
 
+import Login from './login'
+
+import {
+  Redirect
+} from 'react-router-dom'
+
 const styles = {
   margin: 16,
   headline: {
@@ -25,7 +31,6 @@ const styles = {
     paddingLeft: 20,
     paddingRight: 20,
     color: 'black',
-
   }
 };
 
@@ -87,13 +92,22 @@ class Hormones extends Component {
 
   render() {
 
+    // const token = localStorage.getItem('token');
+    // console.log("TOKEN = ",token)
+    //
+    // if(token === null){
+    //   return (
+    //      <Redirect to='/login' render={()=> (
+    //        <Login/>
+    //      )}/>
+    //    )
+    // }
+
     return (
       <div>
-
        <Paper style={styles.paper} zDepth={2}>
         {`${this.state.username} ${this.state.category}`}
        </Paper>
-
 
       <div id="chart"></div>
 

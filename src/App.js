@@ -11,7 +11,6 @@ import {
   BrowserRouter as Router,
   Route,
   Switch,
-  Redirect,
 } from 'react-router-dom'
 
 class App extends Component {
@@ -23,7 +22,6 @@ class App extends Component {
       'user': ''
     }
   }
-
 
   async componentDidMount() {
     const logged = await this.getAuth()
@@ -37,6 +35,7 @@ class App extends Component {
       localStorage.removeItem('token')
     }
   }
+
   async getAuth() {
     const response = await fetch('https://epro-api.herokuapp.com/auth/status', {
       method: 'GET',
@@ -54,30 +53,10 @@ class App extends Component {
 
   render() {
 
-    let token = localStorage.getItem('token')
-
-    if(token == null){
-
-      console.log("token is null!");
-      // return (
-
-        // <Redirect to='/hormones' render={()=> (
-        //   <Hormones/>
-        // )}/>
-      // )
-
-    } else {
-      console.log("Token is not null!");
-      // return (
-      //   <Redirect to='/login' render={()=> (
-      //     <Login/>
-      //   )}/>
-      // )
-    }
-
     return (
       <Router>
         <div className="App">
+        
           <MuiThemeProvider>
             <Switch>
             <Route
@@ -85,7 +64,9 @@ class App extends Component {
               render= {() => (
                 <div className = "height-adjust">
                   <Navbar/>
-                  <Hormones/>
+                  <Hormones
+                  user={this.state.user}
+                  />
                 </div>
                 )
               }/>
