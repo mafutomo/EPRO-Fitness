@@ -62,7 +62,7 @@ class Login extends Component {
       }
     })
 
-    const logged = await response.json()
+  const logged = await response.json()
     if (logged.auth_token) {
       this.setState({
         token: logged.auth_token,
@@ -91,7 +91,7 @@ class Login extends Component {
 
   render() {
 
-    const {loggedIn} = this.state
+  const {loggedIn} = this.state
     if (loggedIn) {
       return (
         <Redirect to='/hormones' render={()=> (

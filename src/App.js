@@ -10,7 +10,8 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import {
   BrowserRouter as Router,
   Route,
-  Switch
+  Switch,
+  Redirect,
 } from 'react-router-dom'
 
 class App extends Component {
@@ -23,8 +24,10 @@ class App extends Component {
     }
   }
 
+
   async componentDidMount() {
     const logged = await this.getAuth()
+    console.log(logged);
     if (logged.status === 'success') {
       this.setState({
         loggedIn: true,
@@ -48,7 +51,30 @@ class App extends Component {
   }
 
 
+
   render() {
+
+    let token = localStorage.getItem('token')
+
+    if(token == null){
+
+      console.log("token is null!");
+      // return (
+
+        // <Redirect to='/hormones' render={()=> (
+        //   <Hormones/>
+        // )}/>
+      // )
+
+    } else {
+      console.log("Token is not null!");
+      // return (
+      //   <Redirect to='/login' render={()=> (
+      //     <Login/>
+      //   )}/>
+      // )
+    }
+
     return (
       <Router>
         <div className="App">
