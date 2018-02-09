@@ -3,11 +3,7 @@ import TextField from 'material-ui/TextField';
 import RaisedButton from 'material-ui/RaisedButton';
 import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
-<<<<<<< HEAD
-import {fullWhite} from 'material-ui/styles/colors';
-=======
 import {fullWhite, grey400} from 'material-ui/styles/colors';
->>>>>>> 9ea5d201477caba76ed36ba514fb214d2a9ba81b
 import './login.css'
 
 import {
