@@ -3,7 +3,11 @@ import TextField from 'material-ui/TextField';
 import RaisedButton from 'material-ui/RaisedButton';
 import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
+<<<<<<< HEAD
 import {fullWhite, grey400} from 'material-ui/styles/colors';
+=======
+import {fullWhite} from 'material-ui/styles/colors';
+>>>>>>> 105d8381a531f8268059a7632051be4a2decb773
 import './login.css'
 
 import {
@@ -31,15 +35,11 @@ let deviceMemory = JSON.parse(localStorage.getItem('user')) || localStorage.setI
 
 let showModal;
 
-if(deviceMemory == 1){
+if(deviceMemory > 0){
    showModal = false;
 } else {
    showModal = true;
 }
-
-console.log("showModal=",showModal);
-
-console.log("deviceMemory=", deviceMemory);
 
 
 class Login extends Component {
