@@ -42,7 +42,8 @@ class Hormones extends Component {
       category: '',
       exercise: '',
       nutrition: '',
-      username: ''
+      username: '',
+      loggedIn: false
     }
   }
 
@@ -82,26 +83,30 @@ class Hormones extends Component {
       const getTip = await fetch(`https://epro-api.herokuapp.com/tips/${tipNumber}`)
       const tipToDisplay = await getTip.json()
       this.setState({
+        'loggedIn': true,
         'category': tipToDisplay.category,
         'exercise': tipToDisplay.exercise_decription,
         'nutrition': tipToDisplay.nutrition_info,
         'username': first_name + "'s "
       })
+
     }
   }
 
+
+
   render() {
 
-    // const token = localStorage.getItem('token');
-    // console.log("TOKEN = ",token)
-    //
-    // if(token === null){
-    //   return (
-    //      <Redirect to='/login' render={()=> (
-    //        <Login/>
-    //      )}/>
-    //    )
-    // }
+    const token = localStorage.getItem('token');
+    console.log("TOKEN = ",token)
+
+    if(token == null){
+      return (
+         <Redirect to='/login' render={()=> (
+           <Login/>
+         )}/>
+       )
+    }
 
     return (
       <div>

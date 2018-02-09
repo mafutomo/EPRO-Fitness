@@ -19,7 +19,7 @@ class App extends Component {
     super(props)
     this.state = {
       'loggedIn': false,
-      'user': ''
+      'user': 0
     }
   }
 
@@ -56,7 +56,7 @@ class App extends Component {
     return (
       <Router>
         <div className="App">
-        
+
           <MuiThemeProvider>
             <Switch>
             <Route

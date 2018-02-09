@@ -76,7 +76,6 @@ class Login extends Component {
       })
     }
     window.location.reload()
-
   }
 
   handleChange = (e) => {
@@ -94,9 +93,12 @@ class Login extends Component {
 
     const {loggedIn} = this.state
     if (loggedIn) {
+
       return (
+
         <Redirect to='/hormones' render={()=> (
-          <Hormones/>
+          <Hormones
+          user={3033}/>
         )}/>
       )
     }
@@ -105,6 +107,7 @@ class Login extends Component {
       <div className="backgroundImage">
         <img src={require("./homepage.jpg")} className="bg" alt="woman lifting" />
         <p className="title-app">E/Pro</p>
+
         <form onSubmit={(e)=>{this.loginUser(e, this.state)}} >
         <TextField
         hintText="example@email.com"
@@ -116,7 +119,7 @@ class Login extends Component {
         name="email"
         /><br />
 
-        <Dialog
+      <Dialog
          modal={false}
          open={this.state.open}
          onRequestClose={this.handleClose}
