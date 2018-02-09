@@ -9,6 +9,7 @@ function createChart(data, user){
   var initialWidth = window.innerWidth;
   var initialHeight = window.innerWidth < 600 ? initialWidth * 0.7 : initialWidth * 0.4;
 
+  console.log("initialWidth = ", initialWidth, "initialHeight = ", initialHeight);
   var margin = {
     top: 40,
     right: 80,
