@@ -9,7 +9,6 @@ function createChart(data, user){
   var initialWidth = window.innerWidth;
   var initialHeight = window.innerWidth < 600 ? initialWidth * 0.7 : initialWidth * 0.4;
 
-  console.log("initialWidth = ", initialWidth, "initialHeight = ", initialHeight);
   var margin = {
     top: 40,
     right: 80,
@@ -25,10 +24,6 @@ function createChart(data, user){
 
   //reformat users first date of last period
   var d = user.first_day;
-  // var parts = d.split(' ');
-  // var months = {Jan: "01",Feb: "02",Mar: "03",Apr: "04",May: "05",Jun: "06",Jul: "07",Aug: "08",Sep: "09",Oct: "10",Nov: "11",Dec: "12"};
-  // var usersLastDay = parts[3]+"-"+months[parts[1]]+"-"+parts[2];
-  // var actualLastDay = usersLastDay.replace(/-|\s/g,"");
 
   //users cycle length
   var cycleLength;
@@ -45,10 +40,6 @@ function createChart(data, user){
   }
 
   //find how many days have elapsed since last period
-  // var daysAgo = moment(actualLastDay, "YYYYMMDD").fromNow();
-  // console.log(daysAgo);
-  // var daysAgoNum = Number(daysAgo.match(/\d+/g));
-  // var currentCycleDay = daysAgoNum%cycleLength;
 
   const daysAgo = Math.floor(( Date.parse(new Date()) - Date.parse(d)) / 86400000) % cycleLength;
   var currentCycleDay = daysAgo%cycleLength;
@@ -287,10 +278,9 @@ function getData() {
              //get the hormone data
              $.getJSON(`https://epro-api.herokuapp.com/hormones/${userContraceptive}`, function(result){
                rawContraceptiveData = result.data;
-
+               
                //prepare the data and draw the charts
                let data = prepDataForChart(rawContraceptiveData, user);
-               console.log(user);
                createChart(data, user);
              })
            });
@@ -325,7 +315,15 @@ function getData() {
     }
     else {
       if (user.cycle_length === 28) {
-        return rawData;
+        var intData = rawData.map(ele => {
+          return {
+            "day": ele.day,
+            "estrogen": ele.est,
+            "progesterone": (ele.prog/10)
+          }
+        })
+        intData.pop();
+        return intData;
       } else if (user.cycle_length > 28) {
         let dupArr = [26, 25, 23, 22, 21, 19, 15, 11];
         let loop = user.cycle_length - 28;
