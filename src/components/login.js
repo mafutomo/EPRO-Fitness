@@ -30,16 +30,11 @@ let deviceMemory = JSON.parse(localStorage.getItem('user')) || localStorage.setI
 
 let showModal;
 
-if(deviceMemory == 2){
+if(deviceMemory > 0){
    showModal = false;
 } else {
    showModal = true;
 }
-
-console.log("showModal=",showModal);
-
-console.log("deviceMemory=", deviceMemory);
-
 
 class Login extends Component {
 
