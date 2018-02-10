@@ -31,7 +31,7 @@ let deviceMemory = JSON.parse(localStorage.getItem('user')) || localStorage.setI
 
 let showModal;
 
-if(deviceMemory > 0){
+if(deviceMemory > 1){
    showModal = false;
 } else {
    showModal = true;
@@ -48,7 +48,7 @@ class Login extends Component {
       password: '',
       token: '',
       message: '',
-      loggedIn: false
+      loggedIn: localStorage.getItem('token') ? true : false
     }
   }
 
@@ -95,11 +95,9 @@ class Login extends Component {
 
   render() {
 
-    const {loggedIn} = this.state
+    const {loggedIn} = this.state;
     if (loggedIn) {
-
       return (
-
         <Redirect to='/hormones' render={()=> (
           <Hormones
           user={3033}/>

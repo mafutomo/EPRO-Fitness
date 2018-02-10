@@ -30,15 +30,20 @@ A local browser should automatically open the site:
 
 http://localhost:3000/
 
-Change the site on the address bar to:
-
-http://localhost:3000/log-in
-
 ![Example](readme_files/lead-in.png)
 
 The lead-in page provides potential users 'call-to-action' in registering for the app through fitness and time-saving incentives.  The lead-in page summarizes the app functionality and brings users to a log-in and registration module.
 
-### Site Navigation
+### Site Navigation for a Sample User
+On the lead-in page, click on 'GET STARTED' to access the log-in and registration module.
+
+Log in with the following credentials:
+* username : user@test.com
+* password : password
+
+Click "Login"
+
+### Site Navigation for a New User
 
 On the lead-in page, click on 'GET STARTED' to access the log-in and registration module.
 
@@ -147,25 +152,19 @@ Neal Balaoing:
 * Code Debugging and Troubleshooting  
 
 Built With
-* React Framework  
+* React.js
 * MaterialUI
 * D3 Visualization
+* Moment.js
 * Python
-* Flask Framework
-* Twilio - Mobile Messaging
-* Node-schedule
-* D3
-* Trello - Planning Purposes
-* PSQL
-* Express
+* Flask
+* PostgreSQL
+* Node.js
 * HTML
 * CSS
-* JS
-* Path
-* Dotenv
-* Cors
-* PostgreSQL
+* JavaScript
 * NPM
+* Trello - Planning Purposes
 
 ### Versioning
 We use SemVer for versioning. For the versions available, see the tags on this repository.

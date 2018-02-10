@@ -43,11 +43,11 @@ class Hormones extends Component {
       exercise: '',
       nutrition: '',
       username: '',
-      loggedIn: false
+      loggedIn: localStorage.getItem('token') ? true : false
     }
   }
 
-  async componentDidMount() {
+  async componentWillMount() {
     const response = await fetch('https://epro-api.herokuapp.com/auth/status', {
       method: 'GET',
       headers: {
@@ -93,14 +93,8 @@ class Hormones extends Component {
     }
   }
 
-
-
   render() {
-
-    const token = localStorage.getItem('token');
-    console.log("TOKEN = ",token)
-
-    if(token == null){
+    if(!this.state.loggedIn){
       return (
          <Redirect to='/login' render={()=> (
            <Login/>
