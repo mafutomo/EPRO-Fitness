@@ -26,6 +26,7 @@ class Navbar extends Component {
       }
     })
     localStorage.removeItem('token')
+    window.location.reload()
   }
 
   handleToggle = () => this.setState({open: !this.state.open});

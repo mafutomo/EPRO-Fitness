@@ -284,10 +284,6 @@ function getData() {
 
                //prepare the data and draw the charts
                let data = prepDataForChart(rawContraceptiveData, user);
-<<<<<<< HEAD
-
-=======
->>>>>>> c7c9f87006cc851afc4a7db3c259cbfd781d34c9
                createChart(data, user);
              })
            });
