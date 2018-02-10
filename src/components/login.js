@@ -114,8 +114,7 @@ class Login extends Component {
     if (loggedIn) {
       return (
         <Redirect to='/hormones' render={()=> (
-          <Hormones
-          user={3033}/>
+          <Hormones/>
         )}/>
       )
     }

@@ -25,7 +25,6 @@ class App extends Component {
 
   async componentDidMount() {
     const logged = await this.getAuth()
-    console.log(logged);
     if (logged.status === 'success') {
       this.setState({
         loggedIn: true,
