@@ -4,7 +4,8 @@ import Paper from 'material-ui/Paper';
 import './hormone-chart.js';
 import './hormone.css';
 
-import Login from './login'
+import Login from './login';
+import Spinner from './spinner';
 
 import {
   Redirect
@@ -94,6 +95,15 @@ class Hormones extends Component {
   }
 
   render() {
+    console.log("username === ",this.state.username);
+    console.log("loggedIn === ",this.state.loggedIn);
+
+    if(this.state.username == "" && this.state.loggedIn == true){
+      return (
+        <Spinner/>
+      )
+    }
+
     if(!this.state.loggedIn){
       return (
          <Redirect to='/login' render={()=> (

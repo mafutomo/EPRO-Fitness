@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import Spinner from './spinner.js'
 import './userbase-charts.js';
 import './userbase.css';
 
@@ -9,13 +10,15 @@ class Userbase extends Component {
     }
 
     render() {
-      return (
-        <div id='userbase'>
-          <svg id="svg1"></svg>
-          <svg id="svg2"></svg>
-          <svg id="svg3"></svg>
-        </div>
-      )
+        return (
+          <div id='userbase'>
+            <svg id="svg1"></svg>
+            <svg id="svg2"></svg>
+            <svg id="svg3"></svg>
+          </div>
+        )
+
+
     }
 
 }
