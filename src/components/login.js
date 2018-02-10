@@ -3,6 +3,7 @@ import TextField from 'material-ui/TextField';
 import RaisedButton from 'material-ui/RaisedButton';
 import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
+import Snackbar from 'material-ui/Snackbar';
 import {fullWhite, grey400} from 'material-ui/styles/colors';
 import './login.css'
 
@@ -37,13 +38,13 @@ if(deviceMemory > 1){
    showModal = true;
 }
 
-
 class Login extends Component {
 
   constructor(props) {
     super(props);
     this.state = {
       open: showModal,
+      alertOpen: false,
       email: '',
       password: '',
       token: '',
@@ -51,6 +52,26 @@ class Login extends Component {
       loggedIn: localStorage.getItem('token') ? true : false
     }
   }
+
+  handleChange = (e) => {
+    this.setState({
+      [e.target.name]: e.target.value
+    })
+  }
+
+  handleClose = () => {
+    this.setState({open: false});
+    localStorage.setItem('user', JSON.stringify(2));
+  };
+
+  handleAlertOpen = () => {
+    this.setState({alertOpen: true});
+  };
+
+  handleAlertClose = () => {
+    this.setState({alertOpen: false});
+  };
+
 
   loginUser = async (e, {email, password}) => {
     e.preventDefault()
@@ -70,28 +91,22 @@ class Login extends Component {
     if (logged.auth_token) {
       this.setState({
         token: logged.auth_token,
-        message: logged.message,
         loggedIn: true
       })
       localStorage.setItem('token', logged.auth_token)
+      window.location.reload()
+
     } else {
+
       this.setState({
         message: logged.message
       })
+
+      this.handleAlertOpen()
+
     }
-    window.location.reload()
-  }
 
-  handleChange = (e) => {
-    this.setState({
-      [e.target.name]: e.target.value
-    })
   }
-
-  handleClose = () => {
-    this.setState({open: false});
-    localStorage.setItem('user', JSON.stringify(2));
-  };
 
   render() {
 
@@ -104,6 +119,14 @@ class Login extends Component {
         )}/>
       )
     }
+
+    const action = [
+     <FlatButton
+       label="Ok"
+       primary={true}
+       onClick={this.handleAlertClose}
+     />
+   ]
 
     return (
       <div className="backgroundImage">
@@ -172,17 +195,23 @@ class Login extends Component {
         </Link>
 
          <RaisedButton label="Login" backgroundColor='#52BFAB' labelColor='white' style={style} type="submit"/>
-
-
-
-
        </form>
 
-
+       <Dialog
+          actions={action}
+          modal={false}
+          open={this.state.alertOpen}
+          onRequestClose={this.handleClose}
+        >
+        <div className="invalid-password-text">
+          Invalid username / password! Please try again.
+        </div>
+        </Dialog>
       </div>
     )
   }
 }
+
 
 
 export default Login;

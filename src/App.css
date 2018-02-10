@@ -1,6 +1,12 @@
 .spinner-spacer{
   padding-bottom: 250px;
 }
+
+.invalid-password-text{
+  padding-top: 6.5%;
+  text-align: center;
+}
+
 .App {
   text-align: center;
 }

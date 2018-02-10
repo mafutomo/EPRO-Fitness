@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import Spinner from './spinner.js'
 import './userbase-charts.js';
 import './userbase.css';
 

@@ -95,10 +95,7 @@ class Hormones extends Component {
   }
 
   render() {
-    console.log("username === ",this.state.username);
-    console.log("loggedIn === ",this.state.loggedIn);
-
-    if(this.state.username == "" && this.state.loggedIn == true){
+    if(this.state.username === "" && this.state.loggedIn === true){
       return (
         <Spinner/>
       )
