@@ -57,7 +57,7 @@ class Navbar extends Component {
                 <Link to={`/hormones`} style={{textDecoration: 'none'}}>
                   <MenuItem
                   style={{fontFamily: 'Julius Sans One'}}
-                  onClick={this.handleClose}>Your Cycle</MenuItem>
+                  onClick={this.handleClose}>My Cycle</MenuItem>
                 </Link>
 
                 {/* <Link to={`/account`} style={{textDecoration: 'none'}}>
