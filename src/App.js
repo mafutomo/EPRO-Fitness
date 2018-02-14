@@ -51,10 +51,20 @@ class App extends Component {
 
 
   render() {
-
+//catch all route that sends you to appropriate place
     return (
       <Router>
         <div className="App">
+
+          <MuiThemeProvider>
+
+          <Route
+            path ="/"
+            render = {()=> (
+              <Login/>
+            )}/>
+      
+          </MuiThemeProvider>
 
           <MuiThemeProvider>
             <Switch>
