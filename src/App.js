@@ -58,16 +58,6 @@ class App extends Component {
 
           <MuiThemeProvider>
 
-          <Route
-            path ="/"
-            render = {()=> (
-              <Login/>
-            )}/>
-      
-          </MuiThemeProvider>
-
-          <MuiThemeProvider>
-            <Switch>
             <Route
               exact path="/"
               render= {() => (
@@ -79,11 +69,11 @@ class App extends Component {
                 </div>
                 )
               }/>
-            </Switch>
+
           </MuiThemeProvider>
 
           <MuiThemeProvider>
-            <Switch>
+
             <Route
               exact path="/login"
               render= {() => (
@@ -92,11 +82,11 @@ class App extends Component {
                 </div>
                 )
               }/>
-            </Switch>
+
           </MuiThemeProvider>
 
           <MuiThemeProvider>
-            <Switch>
+
               <Route
               exact path="/account"
               render= {() => (
@@ -105,11 +95,11 @@ class App extends Component {
                 </div>
               )}
             />
-            </Switch>
+
           </MuiThemeProvider>
 
           <MuiThemeProvider>
-            <Switch>
+
             <Route
             exact path="/hormones"
             render= {() => (
@@ -119,11 +109,11 @@ class App extends Component {
               </div>
             )}
             />
-          </Switch>
+
           </MuiThemeProvider>
 
           <MuiThemeProvider>
-            <Switch>
+
             <Route
             exact path="/userbase"
             render= {() => (
@@ -134,7 +124,7 @@ class App extends Component {
             )}
             />
 
-          </Switch>
+    
           </MuiThemeProvider>
 
         </div>
