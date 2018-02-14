@@ -60,7 +60,7 @@ class App extends Component {
 
           <MuiThemeProvider>
             <Route
-              path="/"
+              exact path="/"
               render= {() => (
                 <div className = "height-adjust">
                   <Navbar/>
@@ -70,50 +70,42 @@ class App extends Component {
                 </div>
                 )
               }/>
-          </MuiThemeProvider>
 
-          <MuiThemeProvider>
             <Route
-              path="/login"
+              exact path="/login"
               render= {() => (
                 <div>
                   <Login/>
                 </div>
                 )
               }/>
-          </MuiThemeProvider>
 
-          <MuiThemeProvider>
               <Route
-              path="/account"
+              exact path="/account"
               render= {() => (
                 <div>
                   <Account/>
                 </div>
               )}
             />
-          </MuiThemeProvider>
 
-          <MuiThemeProvider>
             <Route
-            path="/hormones"
+            exact path="/hormones"
             render= {() => (
               <div>
                 <Navbar/>
                 <Hormones user={this.state.user}/>
               </div>
-            )}
+              )}
             />
-          </MuiThemeProvider>
-
-          <MuiThemeProvider>
             <Route
-            path="/userbase"
+            exact path="/userbase"
             render= {() => (
               <div>
                 <Navbar/>
                 <Userbase/>
-            )}
+              </div>
+              )}
             />
           </MuiThemeProvider>
 
