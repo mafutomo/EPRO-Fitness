@@ -56,10 +56,11 @@ class App extends Component {
       <Router>
         <div className="App">
 
+        <Switch>
+
           <MuiThemeProvider>
-            <Switch>
             <Route
-              exact path="/"
+              path="/"
               render= {() => (
                 <div className = "height-adjust">
                   <Navbar/>
@@ -69,39 +70,33 @@ class App extends Component {
                 </div>
                 )
               }/>
-            </Switch>
           </MuiThemeProvider>
 
           <MuiThemeProvider>
-            <Switch>
             <Route
-              exact path="/login"
+              path="/login"
               render= {() => (
                 <div>
                   <Login/>
                 </div>
                 )
               }/>
-            </Switch>
           </MuiThemeProvider>
 
           <MuiThemeProvider>
-            <Switch>
               <Route
-              exact path="/account"
+              path="/account"
               render= {() => (
                 <div>
                   <Account/>
                 </div>
               )}
             />
-            </Switch>
           </MuiThemeProvider>
 
           <MuiThemeProvider>
-            <Switch>
             <Route
-            exact path="/hormones"
+            path="/hormones"
             render= {() => (
               <div>
                 <Navbar/>
@@ -109,23 +104,20 @@ class App extends Component {
               </div>
             )}
             />
-          </Switch>
           </MuiThemeProvider>
 
           <MuiThemeProvider>
-            <Switch>
             <Route
-            exact path="/userbase"
+            path="/userbase"
             render= {() => (
               <div>
                 <Navbar/>
                 <Userbase/>
-              </div>
             )}
             />
+          </MuiThemeProvider>
 
           </Switch>
-          </MuiThemeProvider>
 
         </div>
       </Router>
